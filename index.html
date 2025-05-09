@@ -72,6 +72,8 @@
       transform: translateY(-10px);
       transition: opacity 0.4s ease, transform 0.4s ease;
       flex-wrap: wrap;
+      box-sizing: border-box;
+      overflow-x: hidden; /* ← 삐져나오는 것 방지 */
     }
 
     header.expanded .dropdown-panel {
@@ -87,6 +89,8 @@
       align-items: center;
       padding: 10px;
       min-width: 100px;
+      max-width: 120px; /* ← 내부 항목이 너무 커지지 않도록 */
+      box-sizing: border-box;
     }
 
     .dropdown-group span {
@@ -127,10 +131,12 @@
         flex-wrap: wrap;
         justify-content: center;
         gap: 30px;
+        overflow-x: hidden; /* 모바일에서도 명시적으로 숨김 */
       }
 
       .dropdown-group {
         min-width: 100px;
+        max-width: 120px;
         align-items: center;
       }
     }
