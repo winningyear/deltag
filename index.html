@@ -13,11 +13,10 @@
     header {
       background-color: #2c3e50;
       transition: all 0.3s ease;
-      overflow: hidden;
       position: fixed;
       top: 0;
       width: 100%;
-      z-index: 10;
+      z-index: 1000;
       height: 70px;
     }
 
@@ -74,8 +73,8 @@
     }
 
     .dropdown-panel {
-      position: absolute;
-      top: 100%; /* 헤더 바로 아래에 붙도록 */
+      position: fixed;
+      top: 70px;
       left: 0;
       width: 100%;
       background-color: rgba(44, 62, 80, 0.95);
@@ -86,9 +85,10 @@
       transform: translateY(-10px);
       transition: opacity 0.4s ease, transform 0.4s ease;
       pointer-events: none;
+      z-index: 999;
     }
 
-    header.expanded .dropdown-panel {
+    header.expanded + .dropdown-panel {
       opacity: 1;
       transform: translateY(0);
       pointer-events: auto;
@@ -134,24 +134,26 @@
         <a href="#">CONTACT</a>
       </div>
     </div>
-    <div class="dropdown-panel">
-      <div class="dropdown-group">
-        <span>PORTFOLIO</span>
-        <a href="#">test menu</a>
-        <a href="#">test menu 2</a>
-      </div>
-      <div class="dropdown-group">
-        <span>ABOUT</span>
-        <a href="#">test menu</a>
-        <a href="#">test menu 2</a>
-      </div>
-      <div class="dropdown-group">
-        <span>CONTACT</span>
-        <a href="#">test menu</a>
-        <a href="#">test menu 2</a>
-      </div>
-    </div>
   </header>
+
+  <!-- 드롭다운은 header 바로 아래에 위치 -->
+  <div class="dropdown-panel" id="dropdown-panel">
+    <div class="dropdown-group">
+      <span>PORTFOLIO</span>
+      <a href="#">test menu</a>
+      <a href="#">test menu 2</a>
+    </div>
+    <div class="dropdown-group">
+      <span>ABOUT</span>
+      <a href="#">test menu</a>
+      <a href="#">test menu 2</a>
+    </div>
+    <div class="dropdown-group">
+      <span>CONTACT</span>
+      <a href="#">test menu</a>
+      <a href="#">test menu 2</a>
+    </div>
+  </div>
 
   <main>
     <h1>Welcome to Delta_G</h1>
@@ -162,6 +164,7 @@
   <script>
     const header = document.getElementById('main-header');
     const navMenu = document.getElementById('nav-menu');
+    const dropdown = document.getElementById('dropdown-panel');
 
     // 스크롤 시 shrink 적용
     window.addEventListener('scroll', () => {
@@ -172,13 +175,21 @@
       }
     });
 
-    // 메뉴 위에 마우스를 올리면 드롭다운 확장
+    // 메뉴 hover 시 드롭다운 확장
     navMenu.addEventListener('mouseenter', () => {
       header.classList.add('expanded');
     });
 
-    // 메뉴 밖으로 나가면 닫힘
     navMenu.addEventListener('mouseleave', () => {
+      header.classList.remove('expanded');
+    });
+
+    // 드롭다운에 마우스가 올라가도 유지
+    dropdown.addEventListener('mouseenter', () => {
+      header.classList.add('expanded');
+    });
+
+    dropdown.addEventListener('mouseleave', () => {
       header.classList.remove('expanded');
     });
   </script>
