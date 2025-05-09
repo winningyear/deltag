@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delta_G - Profile & Skills</title>
+  <script src="https://cdn.jsdelivr.net/npm/ngl@latest/dist/ngl.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f7f9;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: #2c3e50;
+      transition: height 0.4s ease, background-color 0.3s ease;
+      overflow: hidden;
+      height: 70px;
+      position: relative;
+      z-index: 10;
+    }
+
+    header.expanded {
+      height: 160px;
+      background-color: rgba(44, 62, 80, 0.9);
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+    }
+
+    .site-name {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px;
+    }
+
+    .dropdown-panel {
+      position: absolute;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      background-color: rgba(44, 62, 80, 0.95);
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 9;
+    }
+
+    header.expanded .dropdown-panel {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .dropdown-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .dropdown-group span {
+      color: #ddd;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+
+    .dropdown-group a {
+      color: white;
+      text-decoration: none;
+      padding: 4px 0;
+      font-size: 0.95rem;
+    }
+
+    main {
+      padding: 100px 20px;
+    }
+
+    .card {
+      max-width: 800px;
+      margin: 0 auto 100px;
+      padding: 40px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .card.hidden {
+      opacity: 0;
+      transform: translateY(60px);
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 120px auto;
+      row-gap: 12px;
+      column-gap: 10px;
+      font-size: 1rem;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    hr {
+      margin: 1.5rem 0;
+      border: none;
+      border-top: 1px solid #ccc;
+    }
+
+    .personality ul, .skills-section ul {
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    .skills-section li {
+      margin-bottom: 12px;
+    }
+
+    .note {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 30px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <header id="main-header">
+    <div class="header-inner">
+      <div class="site-name">Delta_G</div>
+      <div class="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="#">Column</a>
+        <a href="#">Contct</a>
+      </div>
+    </div>
+    <div class="dropdown-panel">
+      <div class="dropdown-group">
+        <span>Portpolio</span>
+        <a href="project1.html">프로젝트1</a>
+        <a href="#">프로젝트2</a>
+      </div>
+      <div class="dropdown-group">
+        <span>Column</span>
+        <a href="#">칼럼1</a>
+        <a href="#">칼럼2</a>
+      </div>
+      <div class="dropdown-group">
+        <span>Contct</span>
+        <a href="#">이메일</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="card visible" id="profileCard">
+      <h1>Profile</h1>
+      <hr>
+      <div class="info-grid">
+        <strong>이름</strong><span>유승연 (Seong Yeon Yu)</span>
+        <strong>학위</strong><span>대전대학교 바이오응용화학과 학사<br>충남대학교 신약전문대학원 신약개발학과 석사</span>
+        <strong>관심분야</strong><span>Computer Aided Drug Design</span>
+        <strong>연락처</strong><span>010-2941-0729</span>
+        <strong>이메일</strong><span>ysysmart@naver.com</span>
+      </div>
+      <h2 class="section-title">Personality - ENFJ</h2>
+      <hr>
+      <div class="personality">
+        <ul>
+          <li>Leadership and Dedication to Others</li>
+          <li>Empathy and Interpersonal Strength</li>
+          <li>Passion and Motivational Skills</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card hidden" id="skillsCard">
+      <h2>Skills Overview</h2>
+      <hr>
+      <div class="skills-section">
+        <ul>
+          <li><strong>Docking</strong><br>
+            - Program: Schrodinger, Discovery Studio, Open-source tools<br>
+            - Algorithm: Glide (HTVS, SP, XP), Libdock, GOLD, CDOCKER, <b>AutoDock Vina</b>
+          </li>
+          <li><strong>Pharmacophore</strong><br>
+            - Program: <b>Schrodinger</b>, Discovery Studio<br>
+            - Algorithm: PHASE, HIPHOP
+          </li>
+          <li><strong>Molecular Dynamics</strong><br>
+            - Program: <b>GROMACS</b>, NAMD
+          </li>
+          <li><strong>QSAR</strong><br>
+            - Program: Discovery Studio, Python (PyTorch, Scikit-learn)<br>
+            - Algorithm: ML (Bayesian, SVM, Random Forest, PCA, t-SNE, CNN)
+          </li>
+          <li><strong>Homology Modeling</strong><br>
+            - Program: SWISS, Modeller, <b>AlphaFold3</b>
+          </li>
+        </ul>
+        <div class="note">
+          ••• Proficient in theory and capable of applying the skill in research<br>
+          •• Knowledgeable in theory with practical experience<br>
+          • Basic understanding with some hands-on experience
+        </div>
+      </div>
+    </div>
+
+    <div class="card hidden" id="viewerCard">
+      <h2>3D Structure Viewer - 4YUR</h2>
+      <hr>
+      <div id="ngl_viewer" style="width:100%; height:500px;"></div>
+    </div>
+  </main>
+
+  <script>
+    const header = document.getElementById('main-header');
+    header.addEventListener('mouseenter', () => header.classList.add('expanded'));
+    header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
+
+    const profileCard = document.getElementById('profileCard');
+    const skillsCard = document.getElementById('skillsCard');
+    const viewerCard = document.getElementById('viewerCard');
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+
+      if (scrollY > 100) {
+        profileCard.style.opacity = Math.max(1 - (scrollY - 100) / 300, 0);
+        profileCard.style.transform = `translateY(${Math.min((scrollY - 100) * -0.2, -60)}px)`;
+      } else {
+        profileCard.style.opacity = 1;
+        profileCard.style.transform = 'translateY(0)';
+      }
+
+      const skillsTop = skillsCard.getBoundingClientRect().top;
+      const skillsBottom = skillsCard.getBoundingClientRect().bottom;
+      const viewerTop = viewerCard.getBoundingClientRect().top;
+      const viewerBottom = viewerCard.getBoundingClientRect().bottom;
+      const viewportHeight = window.innerHeight;
+
+      if (skillsTop < viewportHeight * 0.85 && skillsBottom > 0) {
+        skillsCard.classList.add('visible');
+        skillsCard.classList.remove('hidden');
+      } else {
+        skillsCard.classList.add('hidden');
+        skillsCard.classList.remove('visible');
+      }
+
+      if (viewerTop < viewportHeight * 0.85 && viewerBottom > 0) {
+        viewerCard.classList.add('visible');
+        viewerCard.classList.remove('hidden');
+      } else {
+        viewerCard.classList.add('hidden');
+        viewerCard.classList.remove('visible');
+      }
+    });
+
+    window.addEventListener('load', () => {
+      const stage = new NGL.Stage("ngl_viewer");
+      stage.loadFile("images/4yur.pdb", { defaultRepresentation: true });
+    });
+  </script>
+</body>
+</html>
