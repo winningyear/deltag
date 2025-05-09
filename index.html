@@ -75,7 +75,7 @@
 
     .dropdown-panel {
       position: absolute;
-      top: 70px;
+      top: 100%; /* header 바로 아래 */
       left: 0;
       width: 100%;
       background-color: rgba(44, 62, 80, 0.95);
@@ -119,7 +119,7 @@
     }
 
     main {
-      padding: 150px 20px;
+      padding: 180px 20px;
     }
   </style>
 </head>
@@ -156,12 +156,13 @@
   <main>
     <h1>Welcome to Delta_G</h1>
     <p>This is your homepage content.</p>
-    <div style="height: 2000px;"></div>
+    <div style="height: 1500px;"></div>
   </main>
 
   <script>
     const header = document.getElementById('main-header');
 
+    // 마우스 hover 시 드롭다운 메뉴 열기
     header.addEventListener('mouseenter', () => {
       header.classList.add('expanded');
     });
@@ -170,6 +171,7 @@
       header.classList.remove('expanded');
     });
 
+    // 스크롤 시 shrink 모드 적용
     window.addEventListener('scroll', () => {
       if (window.scrollY > 30) {
         header.classList.add('shrink');
