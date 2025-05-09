@@ -24,7 +24,6 @@
       height: 160px;
       background-color: rgba(44, 62, 80, 0.9);
       backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
     }
 
     .header-inner {
@@ -170,8 +169,14 @@
 
     .slider-track {
       display: flex;
-      transition: transform 0.6s ease;
       height: 100%;
+      transform: translateX(0%);
+      opacity: 0;
+      transition: transform 0.8s ease, opacity 1s ease;
+    }
+
+    .slider-track.visible {
+      opacity: 1;
     }
 
     .slider-track img {
@@ -210,22 +215,20 @@
     }
 
     .slider-buttons {
-      position: absolute;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
+      margin-top: 20px;
       display: flex;
       gap: 10px;
     }
 
     .slider-buttons button {
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(255, 255, 255, 0.2);
       border: none;
       color: white;
       padding: 6px 12px;
       border-radius: 6px;
       cursor: pointer;
     }
+
   </style>
 </head>
 <body>
@@ -267,15 +270,11 @@
 
   <main>
     <section class="section-container">
-      <div class="slider-wrapper" id="sliderWrapper">
+      <div class="slider-wrapper">
         <div class="slider-track" id="sliderTrack">
           <img src="assets/images/sample1.jpg" />
           <img src="assets/images/sample2.jpg" />
           <img src="assets/images/sample3.jpg" />
-        </div>
-        <div class="slider-buttons">
-          <button onclick="prevSlide()">◀</button>
-          <button onclick="nextSlide()">▶</button>
         </div>
       </div>
       <div class="slide-box right" id="slideTextBox">
@@ -285,6 +284,10 @@
           <li>3D 결합구조 시각화</li>
           <li>웹에서 바로 접근 가능</li>
         </ul>
+        <div class="slider-buttons">
+          <button onclick="prevSlide()">◀ Prev</button>
+          <button onclick="nextSlide()">Next ▶</button>
+        </div>
       </div>
     </section>
   </main>
@@ -295,7 +298,6 @@
     header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
 
     const track = document.getElementById('sliderTrack');
-    const wrapper = document.getElementById('sliderWrapper');
     const slides = track.children;
     const textBox = document.getElementById('slideTextBox');
     const title = document.getElementById('slideTitle');
@@ -329,15 +331,19 @@
     ];
 
     let index = 0;
-    let isDragging = false;
-    let startX = 0;
 
     function updateSlider() {
-      track.style.transform = `translateX(-${index * 100}%)`;
-      title.textContent = descriptions[index].title;
-      description.innerHTML = descriptions[index].lines.map(line => `<li>${line}</li>`).join('');
+      track.style.opacity = 0;
+      track.classList.remove('visible');
       textBox.classList.remove('visible');
-      setTimeout(() => textBox.classList.add('visible'), 10);
+
+      setTimeout(() => {
+        track.style.transform = `translateX(-${index * 100}%)`;
+        title.textContent = descriptions[index].title;
+        description.innerHTML = descriptions[index].lines.map(line => `<li>${line}</li>`).join('');
+        track.classList.add('visible');
+        textBox.classList.add('visible');
+      }, 100);
     }
 
     function nextSlide() {
@@ -350,37 +356,7 @@
       updateSlider();
     }
 
-    setInterval(nextSlide, 3000);
-
-    wrapper.addEventListener('pointerdown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-      wrapper.style.cursor = 'grabbing';
-    });
-
-    wrapper.addEventListener('pointermove', (e) => {
-      if (!isDragging) return;
-      const deltaX = e.clientX - startX;
-      track.style.transform = `translateX(${-index * 100 + deltaX / wrapper.offsetWidth * 100}%)`;
-    });
-
-    wrapper.addEventListener('pointerup', (e) => {
-      isDragging = false;
-      wrapper.style.cursor = 'grab';
-      const deltaX = e.clientX - startX;
-      if (deltaX > 50 && index > 0) index--;
-      else if (deltaX < -50 && index < slides.length - 1) index++;
-      updateSlider();
-    });
-
-    wrapper.addEventListener('pointerleave', () => {
-      if (isDragging) {
-        isDragging = false;
-        wrapper.style.cursor = 'grab';
-        updateSlider();
-      }
-    });
-
+    // 최초 1회 실행
     updateSlider();
   </script>
 </body>
