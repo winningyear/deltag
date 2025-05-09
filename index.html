@@ -171,12 +171,7 @@
       display: flex;
       height: 100%;
       transform: translateX(0%);
-      opacity: 1; /* 초기값 변경 */
-      transition: transform 0.8s ease, opacity 1s ease;
-    }
-
-    .slider-track.visible {
-      opacity: 1;
+      transition: transform 0.8s ease;
     }
 
     .slider-track img {
@@ -276,11 +271,7 @@
       </div>
       <div class="slide-box right" id="slideTextBox">
         <h2 id="slideTitle">Docking</h2>
-        <ul id="slideDescription">
-          <li>정확한 약물-단백질 상호작용 예측</li>
-          <li>3D 결합구조 시각화</li>
-          <li>웹에서 바로 접근 가능</li>
-        </ul>
+        <ul id="slideDescription"></ul>
         <div class="slider-buttons">
           <button onclick="prevSlide()">◀ Prev</button>
           <button onclick="nextSlide()">Next ▶</button>
@@ -303,58 +294,54 @@
     const descriptions = [
       {
         title: "Docking",
-        lines: [
-          "정확한 약물-단백질 상호작용 예측",
-          "3D 결합구조 시각화",
-          "웹에서 바로 접근 가능"
-        ]
+        lines: ["정확한 약물-단백질 상호작용 예측", "3D 결합구조 시각화", "웹에서 바로 접근 가능"]
       },
       {
         title: "QSAR",
-        lines: [
-          "수백만 화합물 가상 스크리닝",
-          "AI 기반 독성 필터링",
-          "빠른 후보물질 발굴"
-        ]
+        lines: ["수백만 화합물 가상 스크리닝", "AI 기반 독성 필터링", "빠른 후보물질 발굴"]
       },
       {
         title: "Pharmacophore",
-        lines: [
-          "실험 데이터 자동 통합",
-          "모델 기반 실험 설계",
-          "AI-driven 실험 최적화"
-        ]
+        lines: ["실험 데이터 자동 통합", "모델 기반 실험 설계", "AI-driven 실험 최적화"]
       }
     ];
 
     let index = 0;
+    let autoSlideInterval;
 
     function updateSlider() {
-      track.style.opacity = 0;
-      track.classList.remove('visible');
+      track.style.transform = `translateX(-${index * 100}%)`;
+      title.textContent = descriptions[index].title;
+      description.innerHTML = descriptions[index].lines.map(line => `<li>${line}</li>`).join('');
       textBox.classList.remove('visible');
-
-      setTimeout(() => {
-        track.style.transform = `translateX(-${index * 100}%)`;
-        title.textContent = descriptions[index].title;
-        description.innerHTML = descriptions[index].lines.map(line => `<li>${line}</li>`).join('');
-        track.classList.add('visible');
-        textBox.classList.add('visible');
-      }, 200); // 시간 100 → 200ms 로 늘림
+      setTimeout(() => textBox.classList.add('visible'), 100);
     }
 
     function nextSlide() {
       index = (index + 1) % slides.length;
       updateSlider();
+      resetAutoSlide();
     }
 
     function prevSlide() {
       index = (index - 1 + slides.length) % slides.length;
       updateSlider();
+      resetAutoSlide();
     }
 
-    // 최초 1회 실행
+    function startAutoSlide() {
+      autoSlideInterval = setInterval(() => {
+        nextSlide();
+      }, 3000);
+    }
+
+    function resetAutoSlide() {
+      clearInterval(autoSlideInterval);
+      startAutoSlide();
+    }
+
     updateSlider();
+    startAutoSlide();
   </script>
 </body>
 </html>
