@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Delta_G</title>
   <style>
+    /* Consider moving large inline styles to an external CSS file for better caching */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -159,13 +160,21 @@
       background-color: #f5f7fa;
     }
 
-    .slider-wrapper {
+    /* Left card animation */
+    #sliderWrapper {
       width: 50%;
       height: 400px;
       overflow: hidden;
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       position: relative;
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: all 1s ease;
+    }
+    #sliderWrapper.visible {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     .slider-track {
@@ -183,9 +192,9 @@
       pointer-events: none;
     }
 
+    /* Right card */
     .slide-box.right {
       width: 50%;
-      height: 400px;
       background-color: #121212;
       color: white;
       border-radius: 20px;
@@ -209,16 +218,13 @@
       line-height: 1.6;
     }
 
-    .slider-buttons {
-      position: absolute;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
+    /* Buttons in right card */
+    .card-buttons {
+      margin-top: 20px;
       display: flex;
       gap: 10px;
     }
-
-    .slider-buttons button {
+    .card-buttons button {
       background-color: rgba(0, 0, 0, 0.5);
       border: none;
       color: white;
@@ -233,155 +239,12 @@
     <div class="header-inner">
       <div class="site-name">Delta_G</div>
       <div class="nav-menu" id="nav-menu">
-        <a href="#">Portpolio</a>
+        <a href="#">Portfolio</a>
         <a href="#">Column</a>
-        <a href="#">Contct</a>
+        <a href="#">Contact</a>
       </div>
     </div>
     <div class="dropdown-panel" id="dropdownPanel">
       <div class="dropdown-group">
-        <span>Portpolio</span>
+        <span>Portfolio</span>
         <a href="#">프로젝트1</a>
-        <a href="#">프로젝트2</a>
-        <a href="#">프로젝트3</a>
-      </div>
-      <div class="dropdown-group">
-        <span>Column</span>
-        <a href="#">칼럼1</a>
-        <a href="#">칼럼2</a>
-      </div>
-      <div class="dropdown-group">
-        <span>Contct</span>
-        <a href="#">이메일</a>
-        <a href="#">문의폼</a>
-      </div>
-    </div>
-  </header>
-
-  <section class="hero-section">
-    <h1>신약개발의 미래, 지금 여기에</h1>
-    <p>AI로 신약개발을 혁신합니다.</p>
-    <button>Explore Hyper Lab</button>
-    <div class="scroll-indicator">SCROLL</div>
-  </section>
-
-  <main>
-    <section class="section-container">
-      <div class="slider-wrapper" id="sliderWrapper">
-        <div class="slider-track" id="sliderTrack">
-          <img src="assets/images/sample1.jpg" />
-          <img src="assets/images/sample2.jpg" />
-          <img src="assets/images/sample3.jpg" />
-        </div>
-        <div class="slider-buttons">
-          <button onclick="prevSlide()">◀</button>
-          <button onclick="nextSlide()">▶</button>
-        </div>
-      </div>
-      <div class="slide-box right" id="slideTextBox">
-        <h2 id="slideTitle">Hyper Binding</h2>
-        <ul id="slideDescription">
-          <li>정확한 약물-단백질 상호작용 예측</li>
-          <li>3D 결합구조 시각화</li>
-          <li>웹에서 바로 접근 가능</li>
-        </ul>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    const header = document.getElementById('main-header');
-    header.addEventListener('mouseenter', () => header.classList.add('expanded'));
-    header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
-
-    const track = document.getElementById('sliderTrack');
-    const wrapper = document.getElementById('sliderWrapper');
-    const slides = track.children;
-    const textBox = document.getElementById('slideTextBox');
-    const title = document.getElementById('slideTitle');
-    const description = document.getElementById('slideDescription');
-
-    const descriptions = [
-      {
-        title: "Hyper Binding",
-        lines: [
-          "정확한 약물-단백질 상호작용 예측",
-          "3D 결합구조 시각화",
-          "웹에서 바로 접근 가능"
-        ]
-      },
-      {
-        title: "Hyper Screening",
-        lines: [
-          "수백만 화합물 가상 스크리닝",
-          "AI 기반 독성 필터링",
-          "빠른 후보물질 발굴"
-        ]
-      },
-      {
-        title: "Hyper Lab",
-        lines: [
-          "실험 데이터 자동 통합",
-          "모델 기반 실험 설계",
-          "AI-driven 실험 최적화"
-        ]
-      }
-    ];
-
-    let index = 0;
-    let isDragging = false;
-    let startX = 0;
-
-    function updateSlider() {
-      track.style.transform = `translateX(-${index * 100}%)`;
-      title.textContent = descriptions[index].title;
-      description.innerHTML = descriptions[index].lines.map(line => `<li>${line}</li>`).join('');
-      textBox.classList.remove('visible');
-      setTimeout(() => textBox.classList.add('visible'), 10);
-    }
-
-    function nextSlide() {
-      index = (index + 1) % slides.length;
-      updateSlider();
-    }
-
-    function prevSlide() {
-      index = (index - 1 + slides.length) % slides.length;
-      updateSlider();
-    }
-
-    setInterval(nextSlide, 3000);
-
-    wrapper.addEventListener('pointerdown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-      wrapper.style.cursor = 'grabbing';
-    });
-
-    wrapper.addEventListener('pointermove', (e) => {
-      if (!isDragging) return;
-      const deltaX = e.clientX - startX;
-      track.style.transform = `translateX(${-index * 100 + deltaX / wrapper.offsetWidth * 100}%)`;
-    });
-
-    wrapper.addEventListener('pointerup', (e) => {
-      isDragging = false;
-      wrapper.style.cursor = 'grab';
-      const deltaX = e.clientX - startX;
-      if (deltaX > 50 && index > 0) index--;
-      else if (deltaX < -50 && index < slides.length - 1) index++;
-      updateSlider();
-    });
-
-    wrapper.addEventListener('pointerleave', () => {
-      if (isDragging) {
-        isDragging = false;
-        wrapper.style.cursor = 'grab';
-        updateSlider();
-      }
-    });
-
-    updateSlider();
-  </script>
-</body>
-</html>
