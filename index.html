@@ -96,67 +96,62 @@
       text-decoration: underline;
     }
 
-    main {
-      padding: 0;
-    }
-
-    .section-container {
+    .hero-section {
+      height: 100vh;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      padding: 100px 10%;
-      gap: 50px;
-      background-color: #f5f7fa;
+      justify-content: center;
+      background: linear-gradient(to bottom right, #ffffff, #eafffc);
+      text-align: center;
     }
 
-    .slider-wrapper {
-      width: 50%;
-      height: 400px;
-      overflow: hidden;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      position: relative;
-      cursor: grab;
+    .hero-section h1 {
+      font-size: 2.5rem;
+      color: #1e1e1e;
     }
 
-    .slider-track {
-      display: flex;
-      transition: transform 0.6s ease;
-      height: 100%;
+    .hero-section p {
+      font-size: 1.2rem;
+      color: #555;
+      margin: 10px 0 30px;
     }
 
-    .slider-track img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      flex-shrink: 0;
-      user-select: none;
-      pointer-events: none;
-    }
-
-    .slide-box.right {
-      width: 50%;
-      height: 400px;
-      background-color: #121212;
+    .hero-section button {
+      background-color: #00e7e7;
       color: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      padding: 30px;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 231, 231, 0.3);
     }
 
-    .slide-box.right h2 {
-      color: white;
-      margin-bottom: 1rem;
+    .scroll-indicator {
+      margin-top: 60px;
+      color: #aaa;
+      font-size: 0.9rem;
     }
 
-    .slide-box.right ul li {
-      color: white;
-      line-height: 1.6;
+    .scroll-indicator::after {
+      content: "";
+      display: block;
+      width: 10px;
+      height: 10px;
+      background-color: #00e7e7;
+      border-radius: 50%;
+      margin: 10px auto 0;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(10px); }
     }
   </style>
 </head>
 <body>
-
   <header id="main-header">
     <div class="header-inner">
       <div class="site-name">Delta_G</div>
@@ -166,7 +161,6 @@
         <a href="#">Contct</a>
       </div>
     </div>
-    <!-- 완전한 드롭다운 메뉴 -->
     <div class="dropdown-panel" id="dropdownPanel">
       <div class="dropdown-group">
         <span>Portpolio</span>
@@ -187,87 +181,11 @@
     </div>
   </header>
 
-  <main>
-    <section class="section-container">
-      <!-- 왼쪽 슬라이드 이미지 -->
-      <div class="slider-wrapper" id="sliderWrapper">
-        <div class="slider-track" id="sliderTrack">
-          <img src="assets/images/sample1.jpg" />
-          <img src="assets/images/sample2.jpg" />
-          <img src="assets/images/sample3.jpg" />
-        </div>
-      </div>
-
-      <!-- 오른쪽 설명 박스 -->
-      <div class="slide-box right">
-        <h2>Hyper Binding</h2>
-        <ul>
-          <li>정확한 약물-단백질 상호작용 예측</li>
-          <li>3D 결합구조 시각화</li>
-          <li>웹에서 바로 접근 가능</li>
-        </ul>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    // 헤더 확장 이벤트
-    const header = document.getElementById('main-header');
-    const dropdownPanel = document.getElementById('dropdownPanel');
-
-    header.addEventListener('mouseenter', () => {
-      header.classList.add('expanded');
-    });
-    header.addEventListener('mouseleave', () => {
-      header.classList.remove('expanded');
-    });
-
-    // 슬라이더 자동 및 드래그 기능
-    const track = document.getElementById('sliderTrack');
-    const wrapper = document.getElementById('sliderWrapper');
-    const slides = track.children;
-    let index = 0;
-    let startX = 0;
-    let isDragging = false;
-
-    function updateSlider() {
-      track.style.transform = `translateX(-${index * 100}%)`;
-    }
-
-    setInterval(() => {
-      index = (index + 1) % slides.length;
-      updateSlider();
-    }, 3000);
-
-    wrapper.addEventListener('pointerdown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-      wrapper.style.cursor = 'grabbing';
-    });
-
-    wrapper.addEventListener('pointermove', (e) => {
-      if (!isDragging) return;
-      const deltaX = e.clientX - startX;
-      track.style.transform = `translateX(${-index * 100 + deltaX / wrapper.offsetWidth * 100}%)`;
-    });
-
-    wrapper.addEventListener('pointerup', (e) => {
-      isDragging = false;
-      wrapper.style.cursor = 'grab';
-      const deltaX = e.clientX - startX;
-      if (deltaX > 50 && index > 0) index--;
-      if (deltaX < -50 && index < slides.length - 1) index++;
-      updateSlider();
-    });
-
-    wrapper.addEventListener('pointerleave', () => {
-      if (isDragging) {
-        isDragging = false;
-        wrapper.style.cursor = 'grab';
-        updateSlider();
-      }
-    });
-  </script>
-
+  <section class="hero-section">
+    <h1>신약개발의 미래, 지금 여기에</h1>
+    <p>AI로 신약개발을 혁신합니다.</p>
+    <button>Explore Hyper Lab</button>
+    <div class="scroll-indicator">SCROLL</div>
+  </section>
 </body>
 </html>
