@@ -2,15 +2,91 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>승연짱의 포트폴리오</title>
-  <style>
-    body { font-family: sans-serif; padding: 40px; background-color: #f9f9f9; }
-    h1 { color: #333; }
-  </style>
+  <title>BLOSUM62 입력</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-  <h1>안녕하세요, 승연짱입니다!</h1>
-  <p>이곳은 저의 개인 포트폴리오 사이트입니다.</p>
-  <p>🧪 인공지능 신약설계, 💻 파이썬, 🧬 항체 연구를 하고 있습니다.</p>
+  <div class="container">
+
+    <div class="border-bottom pt-5 pb-2 mt-2 mb-4">
+      <h1 class="mt-lg-4 pt-5">BLOSUM62</h1>
+
+      <div class="d-flex flex-wrap flex-md-nowrap justify-content-between mt-3 border-bottom ">
+        <p class="text-muted">Select Sequence Type, Mutation Type and Input Sequence.</p>
+      </div>
+
+      <form>
+        <!-- Sequence Type -->
+        <div class="my-3">
+          <p class="form-label mb-2">Sequence Type</p>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" id="sequence_type_1" name="sequenceType" value="genetic_code" checked>
+            <label class="form-check-label" for="sequence_type_1">Genetic Code</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" id="sequence_type_2" name="sequenceType" value="amino_acid">
+            <label class="form-check-label" for="sequence_type_2">Amino Acid</label>
+          </div>
+        </div>
+
+        <!-- Mutation Type -->
+        <div class="mb-3">
+          <p class="form-label mb-2">Mutation Type</p>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" id="mutation_type_1" name="mutationType" value="single_mutation" checked>
+            <label class="form-check-label" for="mutation_type_1">Single Mutation</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" id="mutation_type_2" name="mutationType" value="double_mutation">
+            <label class="form-check-label" for="mutation_type_2">Double Mutation</label>
+          </div>
+        </div>
+
+        <!-- Sequence Input -->
+        <div class="mb-3">
+          <div class="d-flex justify-content-between mb-2">
+            <label for="sequence" class="form-label align-self-end mb-0">Input Sequence</label>
+            <button class="btn btn-primary btn-sm" type="button" id="loadSampleData">Load Example</button>
+          </div>
+          <textarea class="form-control" id="sequence" name="sequence" rows="5" placeholder="'A','C','G','T'로 구성된 시퀀스를 입력"></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button class="btn btn-primary w-100" type="submit">Submit</button>
+      </form>
+
+      <!-- 이미지 예시 (images/example.png) -->
+      <div class="mt-4">
+        <h5>예시 이미지:</h5>
+        <img src="images/example.png" alt="예시 이미지" style="max-width: 100%;">
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    $("form").on("change", function () {
+      let sequenceType = $("input[name='sequenceType']:checked").val();
+      let sequenceTextArea = $("#sequence");
+
+      if (sequenceType === "genetic_code") {
+        sequenceTextArea.attr('placeholder', "'A','C','G','T'로 구성된 시퀀스를 입력");
+      } else {
+        sequenceTextArea.attr('placeholder', '20개의 알파벳(G,L,V,A 등)으로 구성된 아미노산 시퀀스 입력');
+      }
+    });
+
+    $("#loadSampleData").on("click", function () {
+      let sequenceType = $("input[name='sequenceType']:checked").val();
+      let sequenceTextArea = $("#sequence");
+
+      if (sequenceType === "genetic_code") {
+        sequenceTextArea.val('ACGTGATACAGT');
+      } else {
+        sequenceTextArea.val('YVSYTTYRYPGNDTTTEGIPQL');
+      }
+    });
+  </script>
 </body>
 </html>
