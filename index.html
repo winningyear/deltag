@@ -11,26 +11,36 @@
     }
 
     header {
-      background-color: #2c3e50;
-      padding: 20px 40px;
+      background-color: rgba(44, 62, 80, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: height 0.4s ease, background-color 0.3s ease;
+      overflow: hidden;
+      height: 70px;
+    }
+
+    header.expanded {
+      height: 180px;
+      background-color: rgba(62, 80, 100, 0.9);
+    }
+
+    .header-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: background-color 0.3s;
+      padding: 20px 40px;
+      transition: padding 0.3s ease;
     }
 
-    header.hovered {
-      background-color: #3e5066; /* 연해진 색상 */
+    .site-name {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
     }
 
     .nav-menu {
       display: flex;
       gap: 30px;
-      position: relative;
-    }
-
-    .nav-item {
-      position: relative;
     }
 
     .nav-menu a {
@@ -40,89 +50,88 @@
       padding: 8px;
     }
 
-    .nav-menu a:hover {
-      cursor: pointer;
+    .dropdown-panel {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
-    .site-name {
+    header.expanded .dropdown-panel {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .dropdown-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .dropdown-group span {
+      color: #ddd;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+
+    .dropdown-group a {
       color: white;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background-color: #34495e;
-      min-width: 160px;
-      z-index: 1;
-      border-radius: 4px;
-    }
-
-    .dropdown-content a {
-      color: white;
-      padding: 10px 16px;
       text-decoration: none;
-      display: block;
+      padding: 4px 0;
+      font-size: 0.95rem;
     }
 
-    .dropdown-content a:hover {
-      background-color: #3e5770;
-    }
-
-    .nav-item:hover .dropdown-content {
-      display: block;
-    }
-
-    .nav-item:hover ~ header {
-      background-color: #3e5066;
+    .dropdown-group a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
 
   <header id="main-header">
-    <div class="site-name">Delta_G</div>
-    <div class="nav-menu">
-      <div class="nav-item">
-        <a href="#portfolio">PORTFOLIO</a>
-        <div class="dropdown-content">
-          <a href="#">test menu</a>
-        </div>
+    <div class="header-inner">
+      <div class="site-name">Delta_G</div>
+      <div class="nav-menu" id="nav-menu">
+        <a href="#">PORTFOLIO</a>
+        <a href="#">ABOUT</a>
+        <a href="#">CONTACT</a>
       </div>
-      <div class="nav-item">
-        <a href="#about">ABOUT</a>
-        <div class="dropdown-content">
-          <a href="#">test menu</a>
-        </div>
+    </div>
+    <div class="dropdown-panel">
+      <div class="dropdown-group">
+        <span>PORTFOLIO</span>
+        <a href="#">test menu</a>
+        <a href="#">test menu 2</a>
       </div>
-      <div class="nav-item">
-        <a href="#contact">CONTACT</a>
-        <div class="dropdown-content">
-          <a href="#">test menu</a>
-        </div>
+      <div class="dropdown-group">
+        <span>ABOUT</span>
+        <a href="#">test menu</a>
+        <a href="#">test menu 2</a>
+      </div>
+      <div class="dropdown-group">
+        <span>CONTACT</span>
+        <a href="#">test menu</a>
+        <a href="#">test menu 2</a>
       </div>
     </div>
   </header>
 
-  <main>
-    <section id="portfolio"></section>
-    <section id="about"></section>
-    <section id="contact"></section>
+  <main style="padding: 100px;">
+    <h1>Welcome to Delta_G</h1>
+    <p>This is the homepage content.</p>
   </main>
 
   <script>
     const header = document.getElementById('main-header');
-    const navMenu = document.querySelector('.nav-menu');
 
-    navMenu.addEventListener('mouseenter', () => {
-      header.classList.add('hovered');
+    header.addEventListener('mouseenter', () => {
+      header.classList.add('expanded');
     });
 
-    navMenu.addEventListener('mouseleave', () => {
-      header.classList.remove('hovered');
+    header.addEventListener('mouseleave', () => {
+      header.classList.remove('expanded');
     });
   </script>
 
