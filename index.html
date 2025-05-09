@@ -16,17 +16,32 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: background-color 0.3s;
+    }
+
+    header.hovered {
+      background-color: #3e5066; /* 연해진 색상 */
     }
 
     .nav-menu {
       display: flex;
       gap: 30px;
+      position: relative;
+    }
+
+    .nav-item {
+      position: relative;
     }
 
     .nav-menu a {
       color: white;
       text-decoration: none;
       font-weight: bold;
+      padding: 8px;
+    }
+
+    .nav-menu a:hover {
+      cursor: pointer;
     }
 
     .site-name {
@@ -35,31 +50,81 @@
       font-weight: bold;
     }
 
-    .nav-container {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      align-items: center;
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #34495e;
+      min-width: 160px;
+      z-index: 1;
+      border-radius: 4px;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 10px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #3e5770;
+    }
+
+    .nav-item:hover .dropdown-content {
+      display: block;
+    }
+
+    .nav-item:hover ~ header {
+      background-color: #3e5066;
     }
   </style>
 </head>
 <body>
 
-  <header>
+  <header id="main-header">
     <div class="site-name">Delta_G</div>
     <div class="nav-menu">
-      <a href="#portfolio">PORTFOLIO</a>
-      <a href="#about">ABOUT</a>
-      <a href="#contact">CONTACT</a>
+      <div class="nav-item">
+        <a href="#portfolio">PORTFOLIO</a>
+        <div class="dropdown-content">
+          <a href="#">test menu</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#about">ABOUT</a>
+        <div class="dropdown-content">
+          <a href="#">test menu</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#contact">CONTACT</a>
+        <div class="dropdown-content">
+          <a href="#">test menu</a>
+        </div>
+      </div>
     </div>
   </header>
 
-  <!-- 아래에 본문 작성 -->
   <main>
     <section id="portfolio"></section>
     <section id="about"></section>
     <section id="contact"></section>
   </main>
+
+  <script>
+    const header = document.getElementById('main-header');
+    const navMenu = document.querySelector('.nav-menu');
+
+    navMenu.addEventListener('mouseenter', () => {
+      header.classList.add('hovered');
+    });
+
+    navMenu.addEventListener('mouseleave', () => {
+      header.classList.remove('hovered');
+    });
+  </script>
 
 </body>
 </html>
