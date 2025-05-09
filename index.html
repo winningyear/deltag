@@ -166,7 +166,6 @@
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       position: relative;
-      cursor: grab;
     }
 
     .slider-track {
@@ -192,16 +191,40 @@
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       padding: 30px;
+      opacity: 0;
+      transform: translateX(50px);
+      transition: all 1s ease;
+    }
+
+    .slide-box.right.visible {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     .slide-box.right h2 {
-      color: white;
       margin-bottom: 1rem;
     }
 
     .slide-box.right ul li {
-      color: white;
       line-height: 1.6;
+    }
+
+    .slider-buttons {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+
+    .slider-buttons button {
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -244,19 +267,20 @@
 
   <main>
     <section class="section-container">
-      <!-- 왼쪽 슬라이드 이미지 -->
       <div class="slider-wrapper" id="sliderWrapper">
         <div class="slider-track" id="sliderTrack">
           <img src="assets/images/sample1.jpg" />
           <img src="assets/images/sample2.jpg" />
           <img src="assets/images/sample3.jpg" />
         </div>
+        <div class="slider-buttons">
+          <button onclick="prevSlide()">◀</button>
+          <button onclick="nextSlide()">▶</button>
+        </div>
       </div>
-
-      <!-- 오른쪽 설명 박스 -->
-      <div class="slide-box right">
-        <h2>Hyper Binding</h2>
-        <ul>
+      <div class="slide-box right" id="slideTextBox">
+        <h2 id="slideTitle">Hyper Binding</h2>
+        <ul id="slideDescription">
           <li>정확한 약물-단백질 상호작용 예측</li>
           <li>3D 결합구조 시각화</li>
           <li>웹에서 바로 접근 가능</li>
@@ -264,5 +288,100 @@
       </div>
     </section>
   </main>
+
+  <script>
+    const header = document.getElementById('main-header');
+    header.addEventListener('mouseenter', () => header.classList.add('expanded'));
+    header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
+
+    const track = document.getElementById('sliderTrack');
+    const wrapper = document.getElementById('sliderWrapper');
+    const slides = track.children;
+    const textBox = document.getElementById('slideTextBox');
+    const title = document.getElementById('slideTitle');
+    const description = document.getElementById('slideDescription');
+
+    const descriptions = [
+      {
+        title: "Hyper Binding",
+        lines: [
+          "정확한 약물-단백질 상호작용 예측",
+          "3D 결합구조 시각화",
+          "웹에서 바로 접근 가능"
+        ]
+      },
+      {
+        title: "Hyper Screening",
+        lines: [
+          "수백만 화합물 가상 스크리닝",
+          "AI 기반 독성 필터링",
+          "빠른 후보물질 발굴"
+        ]
+      },
+      {
+        title: "Hyper Lab",
+        lines: [
+          "실험 데이터 자동 통합",
+          "모델 기반 실험 설계",
+          "AI-driven 실험 최적화"
+        ]
+      }
+    ];
+
+    let index = 0;
+    let isDragging = false;
+    let startX = 0;
+
+    function updateSlider() {
+      track.style.transform = `translateX(-${index * 100}%)`;
+      title.textContent = descriptions[index].title;
+      description.innerHTML = descriptions[index].lines.map(line => `<li>${line}</li>`).join('');
+      textBox.classList.remove('visible');
+      setTimeout(() => textBox.classList.add('visible'), 10);
+    }
+
+    function nextSlide() {
+      index = (index + 1) % slides.length;
+      updateSlider();
+    }
+
+    function prevSlide() {
+      index = (index - 1 + slides.length) % slides.length;
+      updateSlider();
+    }
+
+    setInterval(nextSlide, 3000);
+
+    wrapper.addEventListener('pointerdown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+      wrapper.style.cursor = 'grabbing';
+    });
+
+    wrapper.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - startX;
+      track.style.transform = `translateX(${-index * 100 + deltaX / wrapper.offsetWidth * 100}%)`;
+    });
+
+    wrapper.addEventListener('pointerup', (e) => {
+      isDragging = false;
+      wrapper.style.cursor = 'grab';
+      const deltaX = e.clientX - startX;
+      if (deltaX > 50 && index > 0) index--;
+      else if (deltaX < -50 && index < slides.length - 1) index++;
+      updateSlider();
+    });
+
+    wrapper.addEventListener('pointerleave', () => {
+      if (isDragging) {
+        isDragging = false;
+        wrapper.style.cursor = 'grab';
+        updateSlider();
+      }
+    });
+
+    updateSlider();
+  </script>
 </body>
 </html>
