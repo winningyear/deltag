@@ -103,43 +103,23 @@
       margin-top: 200px;
       width: 100%;
       height: 600px;
-      overflow: hidden;
       position: relative;
-    }
-
-    .image-track {
+      overflow: hidden;
       display: flex;
-      height: 100%;
-      transition: transform 0.1s linear;
+      justify-content: center;
+      align-items: center;
     }
 
-    .image-track img {
+    .fade-slide-image {
       height: 100%;
-      width: auto;
-      flex-shrink: 0;
-    }
-
-    .slide-in {
       opacity: 0;
       transform: translateX(100px);
-      transition: all 1s ease;
+      transition: all 1.5s ease;
     }
 
-    .slide-in.visible {
+    .fade-slide-image.visible {
       opacity: 1;
       transform: translateX(0);
-    }
-
-    .slide-text {
-      position: absolute;
-      top: 50%;
-      right: 10%;
-      transform: translateY(-50%);
-      background: rgba(255,255,255,0.85);
-      padding: 20px;
-      font-size: 1.2rem;
-      border-radius: 10px;
-      z-index: 2;
     }
   </style>
 </head>
@@ -181,39 +161,28 @@
   </main>
 
   <section class="long-image-section">
-    <div class="image-track">
-      <img src="assets/images/sample.jpg" alt="background"/>
-      <img src="assets/images/sample.jpg" alt="background"/>
-      <img src="assets/images/sample.jpg" alt="background"/>
-    </div>
+    <img src="assets/images/sample.jpg" class="fade-slide-image" alt="background image" />
   </section>
 
   <script>
-    // Header hover logic
+    // 메뉴 확장
     const header = document.getElementById('main-header');
     header.addEventListener('mouseenter', () => header.classList.add('expanded'));
     header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
 
-    // Slide-in animation
-    const observer = new IntersectionObserver((entries) => {
+    // 이미지 페이드+슬라이드 인 애니메이션
+    const img = document.querySelector('.fade-slide-image');
+
+    const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+          img.classList.add('visible');
+          obs.unobserve(entry.target); // 한 번만 실행되도록 관찰 종료
         }
       });
     }, { threshold: 0.5 });
 
-    document.querySelectorAll('.slide-in').forEach(el => observer.observe(el));
-
-    // Scroll-based image movement
-    window.addEventListener('scroll', () => {
-      const track = document.querySelector('.image-track');
-      const scrollY = window.scrollY;
-      const maxScroll = document.body.scrollHeight - window.innerHeight;
-      const scrollPercent = scrollY / maxScroll;
-
-      track.style.transform = `translateX(${-scrollPercent * 50}%)`;
-    });
+    observer.observe(img);
   </script>
 
 </body>
