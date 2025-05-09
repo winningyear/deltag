@@ -100,7 +100,7 @@
     }
 
     .long-image-section {
-      margin-top: 200px;
+      margin-top: 400px; /* 더 내려가야 보이도록 조정 */
       width: 100%;
       height: 600px;
       position: relative;
@@ -113,8 +113,8 @@
     .fade-slide-image {
       height: 100%;
       opacity: 0;
-      transform: translateX(100px);
-      transition: all 1.5s ease;
+      transform: translateX(150px);
+      transition: all 2.5s ease; /* 느리게 */
     }
 
     .fade-slide-image.visible {
@@ -165,22 +165,24 @@
   </section>
 
   <script>
-    // 메뉴 확장
+    // Header hover logic
     const header = document.getElementById('main-header');
     header.addEventListener('mouseenter', () => header.classList.add('expanded'));
     header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
 
-    // 이미지 페이드+슬라이드 인 애니메이션
+    // Fade + slide image logic
     const img = document.querySelector('.fade-slide-image');
 
     const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           img.classList.add('visible');
-          obs.unobserve(entry.target); // 한 번만 실행되도록 관찰 종료
+          obs.unobserve(entry.target); // 한 번만 실행
         }
       });
-    }, { threshold: 0.5 });
+    }, {
+      threshold: 0.2 // 스크롤이 더 내려왔을 때 실행되도록
+    });
 
     observer.observe(img);
   </script>
