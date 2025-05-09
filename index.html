@@ -171,7 +171,7 @@
       display: flex;
       height: 100%;
       transform: translateX(0%);
-      opacity: 0;
+      opacity: 1; /* 초기값 변경 */
       transition: transform 0.8s ease, opacity 1s ease;
     }
 
@@ -228,7 +228,6 @@
       border-radius: 6px;
       cursor: pointer;
     }
-
   </style>
 </head>
 <body>
@@ -246,118 +245,4 @@
         <span>Portpolio</span>
         <a href="#">프로젝트1</a>
         <a href="#">프로젝트2</a>
-        <a href="#">프로젝트3</a>
-      </div>
-      <div class="dropdown-group">
-        <span>Column</span>
-        <a href="#">칼럼1</a>
-        <a href="#">칼럼2</a>
-      </div>
-      <div class="dropdown-group">
-        <span>Contct</span>
-        <a href="#">이메일</a>
-        <a href="#">문의폼</a>
-      </div>
-    </div>
-  </header>
-
-  <section class="hero-section">
-    <h1>신약개발의 미래, 지금 여기에</h1>
-    <p>AI로 신약개발을 혁신합니다.</p>
-    <button>Explore Hyper Lab</button>
-    <div class="scroll-indicator">SCROLL</div>
-  </section>
-
-  <main>
-    <section class="section-container">
-      <div class="slider-wrapper">
-<div class="slider-track" id="sliderTrack">
-  <img src="https://raw.githubusercontent.com/winningyear/deltag/main/assets/images/sample1.jpg" />
-  <img src="https://raw.githubusercontent.com/winningyear/deltag/main/assets/images/sample2.jpg" />
-  <img src="https://raw.githubusercontent.com/winningyear/deltag/main/assets/images/sample3.jpg" />
-</div>
-      </div>
-      <div class="slide-box right" id="slideTextBox">
-        <h2 id="slideTitle">Hyper Binding</h2>
-        <ul id="slideDescription">
-          <li>정확한 약물-단백질 상호작용 예측</li>
-          <li>3D 결합구조 시각화</li>
-          <li>웹에서 바로 접근 가능</li>
-        </ul>
-        <div class="slider-buttons">
-          <button onclick="prevSlide()">◀ Prev</button>
-          <button onclick="nextSlide()">Next ▶</button>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    const header = document.getElementById('main-header');
-    header.addEventListener('mouseenter', () => header.classList.add('expanded'));
-    header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
-
-    const track = document.getElementById('sliderTrack');
-    const slides = track.children;
-    const textBox = document.getElementById('slideTextBox');
-    const title = document.getElementById('slideTitle');
-    const description = document.getElementById('slideDescription');
-
-    const descriptions = [
-      {
-        title: "Hyper Binding",
-        lines: [
-          "정확한 약물-단백질 상호작용 예측",
-          "3D 결합구조 시각화",
-          "웹에서 바로 접근 가능"
-        ]
-      },
-      {
-        title: "Hyper Screening",
-        lines: [
-          "수백만 화합물 가상 스크리닝",
-          "AI 기반 독성 필터링",
-          "빠른 후보물질 발굴"
-        ]
-      },
-      {
-        title: "Hyper Lab",
-        lines: [
-          "실험 데이터 자동 통합",
-          "모델 기반 실험 설계",
-          "AI-driven 실험 최적화"
-        ]
-      }
-    ];
-
-    let index = 0;
-
-    function updateSlider() {
-      track.style.opacity = 0;
-      track.classList.remove('visible');
-      textBox.classList.remove('visible');
-
-      setTimeout(() => {
-        track.style.transform = `translateX(-${index * 100}%)`;
-        title.textContent = descriptions[index].title;
-        description.innerHTML = descriptions[index].lines.map(line => `<li>${line}</li>`).join('');
-        track.classList.add('visible');
-        textBox.classList.add('visible');
-      }, 100);
-    }
-
-    function nextSlide() {
-      index = (index + 1) % slides.length;
-      updateSlider();
-    }
-
-    function prevSlide() {
-      index = (index - 1 + slides.length) % slides.length;
-      updateSlider();
-    }
-
-    // 최초 1회 실행
-    updateSlider();
-  </script>
-</body>
-</html>
+        <a href="#">
