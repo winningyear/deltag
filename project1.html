@@ -94,26 +94,38 @@
 
     main {
       padding: 100px 20px;
+      position: relative;
     }
 
     .card {
       max-width: 800px;
-      margin: 0 auto 100px;
+      margin: 0 auto;
       padding: 40px;
       background: white;
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(0,0,0,0.05);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transition: all 0.8s ease;
     }
 
-    .card.hidden {
+    .faded {
       opacity: 0;
-      transform: translateY(60px);
+      transform: translateY(-80px);
+      position: absolute;
+      pointer-events: none;
+      width: 100%;
     }
 
-    .card.visible {
+    .visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    .hidden {
+      opacity: 0;
+      transform: translateY(80px);
+      pointer-events: none;
+      position: absolute;
+      width: 100%;
     }
 
     .info-grid {
@@ -181,7 +193,7 @@
   </header>
 
   <main>
-    <div class="card visible" id="profileCard">
+    <div class="card" id="profileCard">
       <h1>Profile</h1>
       <hr>
       <div class="info-grid">
@@ -246,26 +258,18 @@
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
 
-      // profileCard 페이드 아웃/인
-      if (scrollY > 100) {
-        profileCard.style.opacity = Math.max(1 - (scrollY - 100) / 300, 0);
-        profileCard.style.transform = `translateY(${Math.min((scrollY - 100) * -0.2, -60)}px)`;
-      } else {
-        profileCard.style.opacity = 1;
-        profileCard.style.transform = 'translateY(0)';
-      }
+      if (scrollY > 200) {
+        profileCard.classList.add('faded');
+        profileCard.classList.remove('visible');
 
-      // skillsCard 페이드 인/아웃
-      const skillsTop = skillsCard.getBoundingClientRect().top;
-      const skillsBottom = skillsCard.getBoundingClientRect().bottom;
-      const viewportHeight = window.innerHeight;
-
-      if (skillsTop < viewportHeight * 0.85 && skillsBottom > 0) {
-        skillsCard.classList.add('visible');
         skillsCard.classList.remove('hidden');
+        skillsCard.classList.add('visible');
       } else {
-        skillsCard.classList.add('hidden');
+        profileCard.classList.remove('faded');
+        profileCard.classList.add('visible');
+
         skillsCard.classList.remove('visible');
+        skillsCard.classList.add('hidden');
       }
     });
   </script>
