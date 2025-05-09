@@ -149,6 +149,60 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(10px); }
     }
+
+    .section-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 100px 10%;
+      gap: 50px;
+      background-color: #f5f7fa;
+    }
+
+    .slider-wrapper {
+      width: 50%;
+      height: 400px;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      cursor: grab;
+    }
+
+    .slider-track {
+      display: flex;
+      transition: transform 0.6s ease;
+      height: 100%;
+    }
+
+    .slider-track img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      flex-shrink: 0;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .slide-box.right {
+      width: 50%;
+      height: 400px;
+      background-color: #121212;
+      color: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+
+    .slide-box.right h2 {
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .slide-box.right ul li {
+      color: white;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
@@ -187,5 +241,28 @@
     <button>Explore Hyper Lab</button>
     <div class="scroll-indicator">SCROLL</div>
   </section>
+
+  <main>
+    <section class="section-container">
+      <!-- 왼쪽 슬라이드 이미지 -->
+      <div class="slider-wrapper" id="sliderWrapper">
+        <div class="slider-track" id="sliderTrack">
+          <img src="assets/images/sample1.jpg" />
+          <img src="assets/images/sample2.jpg" />
+          <img src="assets/images/sample3.jpg" />
+        </div>
+      </div>
+
+      <!-- 오른쪽 설명 박스 -->
+      <div class="slide-box right">
+        <h2>Hyper Binding</h2>
+        <ul>
+          <li>정확한 약물-단백질 상호작용 예측</li>
+          <li>3D 결합구조 시각화</li>
+          <li>웹에서 바로 접근 가능</li>
+        </ul>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
