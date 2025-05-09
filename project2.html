@@ -10,7 +10,7 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background-color: white;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     header {
@@ -93,9 +93,24 @@
       font-size: 0.95rem;
     }
 
+    main {
+      padding: 100px 20px;
+    }
+
+    .card {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
     #ngl_viewer {
-      width: 100vw;
-      height: calc(100vh - 70px); /* 화면 전체에서 헤더 높이만 제외 */
+      width: 100%;
+      height: 600px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
     }
   </style>
 </head>
@@ -127,17 +142,21 @@
     </div>
   </header>
 
-  <div id="ngl_viewer"></div>
+  <main>
+    <div class="card">
+      <h2 style="text-align: center; color: #2c3e50;">3D Structure Viewer - 4YUR</h2>
+      <div id="ngl_viewer"></div>
+    </div>
+  </main>
 
   <script>
     const header = document.getElementById('main-header');
     header.addEventListener('mouseenter', () => header.classList.add('expanded'));
     header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
 
-    // NGL Viewer 로딩
     window.addEventListener('load', () => {
       const stage = new NGL.Stage("ngl_viewer", { backgroundColor: "white" });
-      stage.loadFile("images/4yur.pdb", { defaultRepresentation: true });
+      stage.loadFile("assets/images/4yur.pdb", { defaultRepresentation: true });
     });
   </script>
 </body>
