@@ -75,7 +75,7 @@
 
     .dropdown-panel {
       position: absolute;
-      top: 100%; /* header 바로 아래 */
+      top: 100%; /* 헤더 바로 아래에 붙도록 */
       left: 0;
       width: 100%;
       background-color: rgba(44, 62, 80, 0.95);
@@ -161,23 +161,25 @@
 
   <script>
     const header = document.getElementById('main-header');
+    const navMenu = document.getElementById('nav-menu');
 
-    // 마우스 hover 시 드롭다운 메뉴 열기
-    header.addEventListener('mouseenter', () => {
-      header.classList.add('expanded');
-    });
-
-    header.addEventListener('mouseleave', () => {
-      header.classList.remove('expanded');
-    });
-
-    // 스크롤 시 shrink 모드 적용
+    // 스크롤 시 shrink 적용
     window.addEventListener('scroll', () => {
       if (window.scrollY > 30) {
         header.classList.add('shrink');
       } else {
         header.classList.remove('shrink');
       }
+    });
+
+    // 메뉴 위에 마우스를 올리면 드롭다운 확장
+    navMenu.addEventListener('mouseenter', () => {
+      header.classList.add('expanded');
+    });
+
+    // 메뉴 밖으로 나가면 닫힘
+    navMenu.addEventListener('mouseleave', () => {
+      header.classList.remove('expanded');
     });
   </script>
 
