@@ -53,7 +53,7 @@
 
     .dropdown-panel {
       position: absolute;
-      top: 70px; /* 바로 아래에 붙게 */
+      top: 70px;
       left: 0;
       width: 100%;
       background-color: rgba(44, 62, 80, 0.95);
@@ -93,6 +93,40 @@
     .dropdown-group a:hover {
       text-decoration: underline;
     }
+
+    main {
+      padding: 100px;
+    }
+
+    .long-image-section {
+      margin-top: 200px;
+      width: 100%;
+      height: 800px;
+      background: url('https://via.placeholder.com/1200x800') no-repeat center/cover;
+      position: relative;
+    }
+
+    .slide-in {
+      opacity: 0;
+      transform: translateX(100px);
+      transition: all 1s ease;
+    }
+
+    .slide-in.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .slide-text {
+      position: absolute;
+      top: 50%;
+      right: 10%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.85);
+      padding: 20px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
@@ -127,10 +161,16 @@
     </div>
   </header>
 
-  <main style="padding: 100px;">
+  <main>
     <h1>Welcome to Delta_G</h1>
     <p>This is the homepage content.</p>
   </main>
+
+  <section class="long-image-section">
+    <div class="slide-in slide-text">
+      👋 Hello! This content slides in from the right when you scroll.
+    </div>
+  </section>
 
   <script>
     const header = document.getElementById('main-header');
@@ -141,6 +181,21 @@
 
     header.addEventListener('mouseleave', () => {
       header.classList.remove('expanded');
+    });
+
+    // Scroll animation logic
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.5
+    });
+
+    document.querySelectorAll('.slide-in').forEach(el => {
+      observer.observe(el);
     });
   </script>
 
