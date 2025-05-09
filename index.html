@@ -14,112 +14,114 @@
       background-color: #2c3e50;
       transition: height 0.4s ease, background-color 0.3s ease;
       overflow: hidden;
-      height: 70px;
+      position: relative;
     }
 
-    header.expanded {
-      height: 180px;
-      background-color: rgba(62, 80, 100, 0.95);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    .header-grid {
-      display: grid;
-      grid-template-columns: auto auto auto;
-      justify-content: center;
-      gap: 80px;
-      padding: 20px 40px 0 40px;
-    }
-
-    .header-title {
+    .header-inner {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 40px;
-      height: 70px;
-    }
-
-    .site-name {
-      color: white;
-      font-size: 1.5rem;
-      font-weight: bold;
+      justify-content: center; /* 가운데 정렬 */
+      gap: 80px;
+      padding: 20px 0;
+      z-index: 2;
     }
 
     .menu-column {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      position: relative;
     }
 
-    .menu-column > .top {
+    .top {
       color: white;
       text-decoration: none;
       font-weight: bold;
-      padding: 5px;
+      padding: 8px;
+      display: block;
     }
 
-    .menu-column > .sub {
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      background-color: rgba(62, 80, 100, 0.95);
+      padding: 10px 20px;
+      border-radius: 0 0 4px 4px;
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .dropdown a {
       color: white;
       text-decoration: none;
       font-size: 0.9rem;
-      opacity: 0;
-      transform: translateY(-5px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
-    header.expanded .menu-column > .sub {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .menu-column > .sub:hover {
+    .dropdown a:hover {
       text-decoration: underline;
+    }
+
+    .menu-column:hover .dropdown {
+      display: flex;
+      animation: fadeInDown 0.3s ease;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .site-name {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      position: absolute;
+      left: 20px;
+      top: 20px;
     }
   </style>
 </head>
 <body>
 
-  <header id="main-header">
-    <div class="header-title">
-      <div class="site-name">Delta_G</div>
-    </div>
-    <div class="header-grid">
+  <header>
+    <div class="site-name">Delta_G</div>
+    <div class="header-inner">
       <div class="menu-column">
         <a href="#" class="top">PORTFOLIO</a>
-        <a href="#" class="sub">test menu</a>
-        <a href="#" class="sub">test menu 2</a>
+        <div class="dropdown">
+          <a href="#">test menu</a>
+          <a href="#">test menu 2</a>
+        </div>
       </div>
       <div class="menu-column">
         <a href="#" class="top">ABOUT</a>
-        <a href="#" class="sub">test menu</a>
-        <a href="#" class="sub">test menu 2</a>
+        <div class="dropdown">
+          <a href="#">test menu</a>
+          <a href="#">test menu 2</a>
+        </div>
       </div>
       <div class="menu-column">
         <a href="#" class="top">CONTACT</a>
-        <a href="#" class="sub">test menu</a>
-        <a href="#" class="sub">test menu 2</a>
+        <div class="dropdown">
+          <a href="#">test menu</a>
+          <a href="#">test menu 2</a>
+        </div>
       </div>
     </div>
   </header>
 
-  <main style="padding: 100px;">
+  <main style="padding: 120px 20px;">
     <h1>Welcome to Delta_G</h1>
     <p>This is your homepage content.</p>
   </main>
-
-  <script>
-    const header = document.getElementById('main-header');
-
-    header.addEventListener('mouseenter', () => {
-      header.classList.add('expanded');
-    });
-
-    header.addEventListener('mouseleave', () => {
-      header.classList.remove('expanded');
-    });
-  </script>
 
 </body>
 </html>
