@@ -314,7 +314,7 @@
       title.textContent = descriptions[index].title;
       description.innerHTML = descriptions[index].lines.map(line => `<li>${line}</li>`).join('');
       textBox.classList.remove('visible');
-      setTimeout(() => textBox.classList.add('visible'), 100);
+      setTimeout(() => textBox.classList.add('visible'), 400);
     }
 
     function nextSlide() {
