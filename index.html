@@ -11,18 +11,20 @@
       overflow-x: hidden;
     }
 
-    header { /* 그대로 유지 */
+    header {
       background-color: #2c3e50;
+      transition: height 0.4s ease, background-color 0.3s ease;
+      overflow: hidden;
       height: 70px;
       position: relative;
       z-index: 10;
-      transition: height 0.4s ease, background-color 0.3s ease;
     }
 
     header.expanded {
       height: 160px;
-      background-color: rgba(62, 80, 100, 0.9);
+      background-color: rgba(44, 62, 80, 0.9);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     .header-inner {
@@ -62,6 +64,7 @@
       opacity: 0;
       transform: translateY(-10px);
       transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 9;
     }
 
     header.expanded .dropdown-panel {
@@ -106,7 +109,6 @@
       background-color: #f5f7fa;
     }
 
-    /* 왼쪽 슬라이더 박스 */
     .slider-wrapper {
       width: 50%;
       height: 400px;
@@ -132,7 +134,6 @@
       pointer-events: none;
     }
 
-    /* 오른쪽 텍스트 박스 */
     .slide-box.right {
       width: 50%;
       height: 400px;
@@ -159,31 +160,36 @@
   <header id="main-header">
     <div class="header-inner">
       <div class="site-name">Delta_G</div>
-      <div class="nav-menu">
+      <div class="nav-menu" id="nav-menu">
         <a href="#">Portpolio</a>
         <a href="#">Column</a>
         <a href="#">Contct</a>
       </div>
     </div>
-    <div class="dropdown-panel">
+    <!-- 완전한 드롭다운 메뉴 -->
+    <div class="dropdown-panel" id="dropdownPanel">
       <div class="dropdown-group">
         <span>Portpolio</span>
-        <a href="#">test menu</a>
+        <a href="#">프로젝트1</a>
+        <a href="#">프로젝트2</a>
+        <a href="#">프로젝트3</a>
       </div>
       <div class="dropdown-group">
         <span>Column</span>
-        <a href="#">test menu</a>
+        <a href="#">칼럼1</a>
+        <a href="#">칼럼2</a>
       </div>
       <div class="dropdown-group">
         <span>Contct</span>
-        <a href="#">test menu</a>
+        <a href="#">이메일</a>
+        <a href="#">문의폼</a>
       </div>
     </div>
   </header>
 
   <main>
     <section class="section-container">
-      <!-- 왼쪽 슬라이더 -->
+      <!-- 왼쪽 슬라이드 이미지 -->
       <div class="slider-wrapper" id="sliderWrapper">
         <div class="slider-track" id="sliderTrack">
           <img src="assets/images/sample1.jpg" />
@@ -192,7 +198,7 @@
         </div>
       </div>
 
-      <!-- 오른쪽 박스 -->
+      <!-- 오른쪽 설명 박스 -->
       <div class="slide-box right">
         <h2>Hyper Binding</h2>
         <ul>
@@ -205,31 +211,34 @@
   </main>
 
   <script>
-    // Header hover logic
+    // 헤더 확장 이벤트
     const header = document.getElementById('main-header');
-    header.addEventListener('mouseenter', () => header.classList.add('expanded'));
-    header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
+    const dropdownPanel = document.getElementById('dropdownPanel');
 
-    // 슬라이더 관련
+    header.addEventListener('mouseenter', () => {
+      header.classList.add('expanded');
+    });
+    header.addEventListener('mouseleave', () => {
+      header.classList.remove('expanded');
+    });
+
+    // 슬라이더 자동 및 드래그 기능
     const track = document.getElementById('sliderTrack');
     const wrapper = document.getElementById('sliderWrapper');
     const slides = track.children;
     let index = 0;
     let startX = 0;
-    let currentTranslate = 0;
     let isDragging = false;
-
-    // 자동 슬라이드
-    setInterval(() => {
-      index = (index + 1) % slides.length;
-      updateSlider();
-    }, 3000);
 
     function updateSlider() {
       track.style.transform = `translateX(-${index * 100}%)`;
     }
 
-    // 드래그 이벤트
+    setInterval(() => {
+      index = (index + 1) % slides.length;
+      updateSlider();
+    }, 3000);
+
     wrapper.addEventListener('pointerdown', (e) => {
       isDragging = true;
       startX = e.clientX;
