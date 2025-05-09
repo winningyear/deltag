@@ -194,6 +194,9 @@
       opacity: 0;
       transform: translateX(50px);
       transition: all 3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .slide-box.right.visible {
@@ -209,8 +212,34 @@
       line-height: 1.6;
     }
 
+    .slider-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .slider-dots {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .slider-dots span {
+      width: 10px;
+      height: 10px;
+      background-color: #888;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+      opacity: 0.4;
+    }
+
+    .slider-dots span.active {
+      background-color: #fff;
+      opacity: 1;
+    }
+
     .slider-buttons {
-      margin-top: 20px;
       display: flex;
       gap: 10px;
     }
@@ -272,9 +301,12 @@
       <div class="slide-box right" id="slideTextBox">
         <h2 id="slideTitle">Docking</h2>
         <ul id="slideDescription"></ul>
-        <div class="slider-buttons">
-          <button onclick="prevSlide()">◀ Prev</button>
-          <button onclick="nextSlide()">Next ▶</button>
+        <div class="slider-controls">
+          <div class="slider-dots" id="sliderDots"></div>
+          <div class="slider-buttons">
+            <button onclick="prevSlide()">◀</button>
+            <button onclick="nextSlide()">▶</button>
+          </div>
         </div>
       </div>
     </section>
@@ -290,24 +322,22 @@
     const textBox = document.getElementById('slideTextBox');
     const title = document.getElementById('slideTitle');
     const description = document.getElementById('slideDescription');
+    const dotsContainer = document.getElementById('sliderDots');
 
     const descriptions = [
-      {
-        title: "Docking",
-        lines: ["정확한 약물-단백질 상호작용 예측", "3D 결합구조 시각화", "웹에서 바로 접근 가능"]
-      },
-      {
-        title: "QSAR",
-        lines: ["수백만 화합물 가상 스크리닝", "AI 기반 독성 필터링", "빠른 후보물질 발굴"]
-      },
-      {
-        title: "Pharmacophore",
-        lines: ["실험 데이터 자동 통합", "모델 기반 실험 설계", "AI-driven 실험 최적화"]
-      }
+      { title: "Docking", lines: ["정확한 약물-단백질 상호작용 예측", "3D 결합구조 시각화", "웹에서 바로 접근 가능"] },
+      { title: "QSAR", lines: ["수백만 화합물 가상 스크리닝", "AI 기반 독성 필터링", "빠른 후보물질 발굴"] },
+      { title: "Pharmacophore", lines: ["실험 데이터 자동 통합", "모델 기반 실험 설계", "AI-driven 실험 최적화"] }
     ];
 
     let index = 0;
     let autoSlideInterval;
+
+    // Create dot indicators
+    for (let i = 0; i < slides.length; i++) {
+      const dot = document.createElement('span');
+      dotsContainer.appendChild(dot);
+    }
 
     function updateSlider() {
       track.style.transform = `translateX(-${index * 100}%)`;
@@ -315,6 +345,9 @@
       description.innerHTML = descriptions[index].lines.map(line => `<li>${line}</li>`).join('');
       textBox.classList.remove('visible');
       setTimeout(() => textBox.classList.add('visible'), 400);
+      [...dotsContainer.children].forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
     }
 
     function nextSlide() {
