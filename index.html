@@ -102,8 +102,11 @@
       margin-top: 200px;
       width: 100%;
       height: 800px;
-      background: url('assets/images/sample.jpg') no-repeat center/cover;
+      background: url('assets/images/sample.jpg') no-repeat center center;
+      background-size: cover;
+      background-attachment: fixed;
       position: relative;
+      transition: background-position-x 0.2s ease-out;
     }
 
     .slide-in {
@@ -173,17 +176,12 @@
   </section>
 
   <script>
+    // 메뉴 확장
     const header = document.getElementById('main-header');
+    header.addEventListener('mouseenter', () => header.classList.add('expanded'));
+    header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
 
-    header.addEventListener('mouseenter', () => {
-      header.classList.add('expanded');
-    });
-
-    header.addEventListener('mouseleave', () => {
-      header.classList.remove('expanded');
-    });
-
-    // Scroll animation logic
+    // 텍스트 애니메이션 (슬라이드 인)
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -194,8 +192,13 @@
       threshold: 0.5
     });
 
-    document.querySelectorAll('.slide-in').forEach(el => {
-      observer.observe(el);
+    document.querySelectorAll('.slide-in').forEach(el => observer.observe(el));
+
+    // 배경 이미지 좌우 이동
+    window.addEventListener('scroll', () => {
+      const section = document.querySelector('.long-image-section');
+      const scrollY = window.scrollY;
+      section.style.backgroundPositionX = `${-scrollY * 0.2}px`;
     });
   </script>
 
