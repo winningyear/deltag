@@ -12,12 +12,11 @@
 
     header {
       background-color: #2c3e50;
-      transition: all 0.3s ease;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
+      transition: height 0.4s ease, background-color 0.3s ease;
+      overflow: hidden;
       height: 70px;
+      position: relative;
+      z-index: 10;
     }
 
     header.expanded {
@@ -27,32 +26,17 @@
       -webkit-backdrop-filter: blur(8px);
     }
 
-    header.shrink {
-      height: 50px;
-      background-color: #2c3e50;
-    }
-
     .header-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 20px 40px;
-      transition: padding 0.3s ease;
-    }
-
-    header.shrink .header-inner {
-      padding: 10px 40px;
     }
 
     .site-name {
       color: white;
       font-size: 1.5rem;
       font-weight: bold;
-      transition: font-size 0.3s ease;
-    }
-
-    header.shrink .site-name {
-      font-size: 1.1rem;
     }
 
     .nav-menu {
@@ -65,16 +49,11 @@
       text-decoration: none;
       font-weight: bold;
       padding: 8px;
-      transition: font-size 0.3s ease;
-    }
-
-    header.shrink .nav-menu a {
-      font-size: 0.9rem;
     }
 
     .dropdown-panel {
-      position: fixed;
-      top: 70px;
+      position: absolute;
+      top: 70px; /* 바로 아래에 붙게 */
       left: 0;
       width: 100%;
       background-color: rgba(44, 62, 80, 0.95);
@@ -84,14 +63,11 @@
       opacity: 0;
       transform: translateY(-10px);
       transition: opacity 0.4s ease, transform 0.4s ease;
-      pointer-events: none;
-      z-index: 999;
     }
 
-    header.expanded + .dropdown-panel {
+    header.expanded .dropdown-panel {
       opacity: 1;
       transform: translateY(0);
-      pointer-events: auto;
     }
 
     .dropdown-group {
@@ -117,10 +93,6 @@
     .dropdown-group a:hover {
       text-decoration: underline;
     }
-
-    main {
-      padding: 180px 20px;
-    }
   </style>
 </head>
 <body>
@@ -134,62 +106,38 @@
         <a href="#">CONTACT</a>
       </div>
     </div>
+    <div class="dropdown-panel">
+      <div class="dropdown-group">
+        <span>PORTFOLIO</span>
+        <a href="#">test menu</a>
+        <a href="#">test menu 2</a>
+      </div>
+      <div class="dropdown-group">
+        <span>ABOUT</span>
+        <a href="#">test menu</a>
+        <a href="#">test menu 2</a>
+      </div>
+      <div class="dropdown-group">
+        <span>CONTACT</span>
+        <a href="#">test menu</a>
+        <a href="#">test menu 2</a>
+      </div>
+    </div>
   </header>
 
-  <!-- 드롭다운은 header 바로 아래에 위치 -->
-  <div class="dropdown-panel" id="dropdown-panel">
-    <div class="dropdown-group">
-      <span>PORTFOLIO</span>
-      <a href="#">test menu</a>
-      <a href="#">test menu 2</a>
-    </div>
-    <div class="dropdown-group">
-      <span>ABOUT</span>
-      <a href="#">test menu</a>
-      <a href="#">test menu 2</a>
-    </div>
-    <div class="dropdown-group">
-      <span>CONTACT</span>
-      <a href="#">test menu</a>
-      <a href="#">test menu 2</a>
-    </div>
-  </div>
-
-  <main>
+  <main style="padding: 100px;">
     <h1>Welcome to Delta_G</h1>
-    <p>This is your homepage content.</p>
-    <div style="height: 1500px;"></div>
+    <p>This is the homepage content.</p>
   </main>
 
   <script>
     const header = document.getElementById('main-header');
-    const navMenu = document.getElementById('nav-menu');
-    const dropdown = document.getElementById('dropdown-panel');
 
-    // 스크롤 시 shrink 적용
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 30) {
-        header.classList.add('shrink');
-      } else {
-        header.classList.remove('shrink');
-      }
-    });
-
-    // 메뉴 hover 시 드롭다운 확장
-    navMenu.addEventListener('mouseenter', () => {
+    header.addEventListener('mouseenter', () => {
       header.classList.add('expanded');
     });
 
-    navMenu.addEventListener('mouseleave', () => {
-      header.classList.remove('expanded');
-    });
-
-    // 드롭다운에 마우스가 올라가도 유지
-    dropdown.addEventListener('mouseenter', () => {
-      header.classList.add('expanded');
-    });
-
-    dropdown.addEventListener('mouseleave', () => {
+    header.addEventListener('mouseleave', () => {
       header.classList.remove('expanded');
     });
   </script>
