@@ -3,188 +3,97 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Delta_G</title>
+  <title>Slide In Box Section</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       overflow-x: hidden;
+      background-color: #f5f7fa;
     }
 
-    header {
-      background-color: #2c3e50;
-      transition: height 0.4s ease, background-color 0.3s ease;
-      overflow: hidden;
-      height: 70px;
-      position: relative;
-      z-index: 10;
-    }
-
-    header.expanded {
-      height: 160px;
-      background-color: rgba(62, 80, 100, 0.9);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    .header-inner {
+    .section-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 40px;
+      padding: 100px 10%;
+      gap: 50px;
     }
 
-    .site-name {
-      color: white;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    .nav-menu {
-      display: flex;
-      gap: 30px;
-    }
-
-    .nav-menu a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 8px;
-    }
-
-    .dropdown-panel {
-      position: absolute;
-      top: 70px;
-      left: 0;
-      width: 100%;
-      background-color: rgba(44, 62, 80, 0.95);
-      display: flex;
-      justify-content: center;
-      gap: 60px;
+    .slide-box {
+      width: 50%;
+      height: 400px;
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       opacity: 0;
-      transform: translateY(-10px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      transform: translateX(100px);
+      transition: all 1.5s ease;
     }
 
-    header.expanded .dropdown-panel {
-      opacity: 1;
-      transform: translateY(0);
+    .slide-box.left {
+      transform: translateX(-100px);
     }
 
-    .dropdown-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 10px;
-    }
-
-    .dropdown-group span {
-      color: #ddd;
-      font-size: 0.9rem;
-      margin-bottom: 6px;
-    }
-
-    .dropdown-group a {
-      color: white;
-      text-decoration: none;
-      padding: 4px 0;
-      font-size: 0.95rem;
-    }
-
-    .dropdown-group a:hover {
-      text-decoration: underline;
-    }
-
-    main {
-      padding: 50px;
-    }
-
-    .long-image-section {
-      margin-top: 100px; /* 더 내려가야 보이도록 조정 */
-      width: 100%;
-      height: 600px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .fade-slide-image {
-      height: 100%;
-      opacity: 0;
-      transform: translateX(150px);
-      transition: all 2.5s ease; /* 느리게 */
-    }
-
-    .fade-slide-image.visible {
+    .slide-box.visible {
       opacity: 1;
       transform: translateX(0);
+    }
+
+    .box-content {
+      padding: 30px;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    /* 예시 이미지 */
+    .slide-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
     }
   </style>
 </head>
 <body>
 
-  <header id="main-header">
-    <div class="header-inner">
-      <div class="site-name">Delta_G</div>
-      <div class="nav-menu" id="nav-menu">
-        <a href="#">Portpolio</a>
-        <a href="#">Column</a>
-        <a href="#">Contct</a>
+  <section class="section-container">
+    <!-- 왼쪽 박스 (예: 이미지) -->
+    <div class="slide-box left" id="left-box">
+      <img src="assets/images/sample.jpg" alt="Left Image" />
+    </div>
+
+    <!-- 오른쪽 박스 (예: 텍스트) -->
+    <div class="slide-box right" id="right-box">
+      <div class="box-content">
+        <h2>Hyper Binding</h2>
+        <ul>
+          <li>정확한 약물-단백질 상호작용 예측</li>
+          <li>3D 결합구조 시각화</li>
+          <li>프로그램 설치 없이 웹으로 접속</li>
+        </ul>
       </div>
     </div>
-    <div class="dropdown-panel">
-      <div class="dropdown-group">
-        <span>Portpolio</span>
-        <a href="#">test menu</a>
-        <a href="#">test menu 2</a>
-        <a href="#">test menu 2</a>
-        <a href="#">test menu 2</a>
-      </div>
-      <div class="dropdown-group">
-        <span>Column</span>
-        <a href="#">test menu</a>
-        <a href="#">test menu 2</a>
-      </div>
-      <div class="dropdown-group">
-        <span>Contct</span>
-        <a href="#">test menu</a>
-        <a href="#">test menu 2</a>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <h1>Welcome to Delta_G</h1>
-    <p>This is the homepage content.</p>
-  </main>
-
-  <section class="long-image-section">
-    <img src="assets/images/sample.jpg" class="fade-slide-image" alt="background image" />
   </section>
 
   <script>
-    // Header hover logic
-    const header = document.getElementById('main-header');
-    header.addEventListener('mouseenter', () => header.classList.add('expanded'));
-    header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
+    // 애니메이션 트리거
+    const leftBox = document.getElementById('left-box');
+    const rightBox = document.getElementById('right-box');
 
-    // Fade + slide image logic
-    const img = document.querySelector('.fade-slide-image');
-
-    const observer = new IntersectionObserver((entries, obs) => {
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          img.classList.add('visible');
-          obs.unobserve(entry.target); // 한 번만 실행
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // 한 번만 실행
         }
       });
     }, {
-      threshold: 0.5 // 스크롤이 더 내려왔을 때 실행되도록
+      threshold: 0.3
     });
 
-    observer.observe(img);
+    observer.observe(leftBox);
+    observer.observe(rightBox);
   </script>
 
 </body>
