@@ -10,7 +10,6 @@
       font-family: Arial, sans-serif;
     }
 
-    /* 기본 헤더 스타일 */
     header {
       background-color: #2c3e50;
       transition: height 0.4s ease, background-color 0.3s ease;
@@ -19,17 +18,26 @@
     }
 
     header.expanded {
-      height: 170px;
+      height: 180px;
       background-color: rgba(62, 80, 100, 0.95);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
     }
 
-    .header-inner {
+    .header-grid {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      justify-content: center;
+      gap: 80px;
+      padding: 20px 40px 0 40px;
+    }
+
+    .header-title {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 40px;
+      padding: 0 40px;
+      height: 70px;
     }
 
     .site-name {
@@ -38,54 +46,35 @@
       font-weight: bold;
     }
 
-    .nav-menu {
+    .menu-column {
       display: flex;
-      gap: 80px;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
     }
 
-    .nav-item {
-      text-align: center;
-      position: relative;
-    }
-
-    .nav-item > a {
+    .menu-column > .top {
       color: white;
       text-decoration: none;
       font-weight: bold;
-      padding: 8px;
-      display: block;
+      padding: 5px;
     }
 
-    /* 하위 메뉴 전체 패널 (header 안에 포함됨) */
-    .dropdown-panel {
-      display: flex;
-      justify-content: center;
-      gap: 80px;
-      padding-bottom: 20px;
+    .menu-column > .sub {
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
       opacity: 0;
-      transform: translateY(-10px);
+      transform: translateY(-5px);
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
-    header.expanded .dropdown-panel {
+    header.expanded .menu-column > .sub {
       opacity: 1;
       transform: translateY(0);
     }
 
-    .dropdown-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .dropdown-group a {
-      color: white;
-      text-decoration: none;
-      padding: 4px 0;
-      font-size: 0.9rem;
-    }
-
-    .dropdown-group a:hover {
+    .menu-column > .sub:hover {
       text-decoration: underline;
     }
   </style>
@@ -93,26 +82,24 @@
 <body>
 
   <header id="main-header">
-    <div class="header-inner">
+    <div class="header-title">
       <div class="site-name">Delta_G</div>
-      <div class="nav-menu">
-        <div class="nav-item"><a href="#">PORTFOLIO</a></div>
-        <div class="nav-item"><a href="#">ABOUT</a></div>
-        <div class="nav-item"><a href="#">CONTACT</a></div>
-      </div>
     </div>
-    <div class="dropdown-panel">
-      <div class="dropdown-group">
-        <a href="#">test menu</a>
-        <a href="#">test menu 2</a>
+    <div class="header-grid">
+      <div class="menu-column">
+        <a href="#" class="top">PORTFOLIO</a>
+        <a href="#" class="sub">test menu</a>
+        <a href="#" class="sub">test menu 2</a>
       </div>
-      <div class="dropdown-group">
-        <a href="#">test menu</a>
-        <a href="#">test menu 2</a>
+      <div class="menu-column">
+        <a href="#" class="top">ABOUT</a>
+        <a href="#" class="sub">test menu</a>
+        <a href="#" class="sub">test menu 2</a>
       </div>
-      <div class="dropdown-group">
-        <a href="#">test menu</a>
-        <a href="#">test menu 2</a>
+      <div class="menu-column">
+        <a href="#" class="top">CONTACT</a>
+        <a href="#" class="sub">test menu</a>
+        <a href="#" class="sub">test menu 2</a>
       </div>
     </div>
   </header>
