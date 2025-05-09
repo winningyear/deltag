@@ -99,7 +99,6 @@
       padding: 0;
     }
 
-    /* 첫 이미지 섹션 */
     .long-image-section {
       margin-top: 100px;
       width: 100%;
@@ -123,7 +122,6 @@
       transform: translateX(0);
     }
 
-    /* 새로운 양쪽 등장 섹션 */
     .section-container {
       display: flex;
       justify-content: space-between;
@@ -136,7 +134,6 @@
     .slide-box {
       width: 50%;
       height: 400px;
-      background-color: white;
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       opacity: 0;
@@ -144,10 +141,13 @@
     }
 
     .slide-box.left {
+      background-color: white;
       transform: translateX(-100px);
     }
 
     .slide-box.right {
+      background-color: #121212;
+      color: white;
       transform: translateX(100px);
     }
 
@@ -156,17 +156,21 @@
       transform: translateX(0);
     }
 
-    .box-content {
-      padding: 30px;
-      font-size: 1.1rem;
-      color: #333;
-    }
-
     .slide-box img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       border-radius: 20px;
+    }
+
+    .box-content {
+      padding: 30px;
+      font-size: 1.1rem;
+    }
+
+    .slide-box.right .box-content h2,
+    .slide-box.right .box-content ul li {
+      color: white;
     }
   </style>
 </head>
@@ -206,7 +210,7 @@
       <img src="assets/images/sample.jpg" class="fade-slide-image" alt="background image" />
     </section>
 
-    <!-- 양쪽 슬라이드 박스 섹션 -->
+    <!-- 좌우 박스 섹션 -->
     <section class="section-container">
       <div class="slide-box left" id="left-box">
         <img src="assets/images/sample.jpg" alt="Left Image" />
@@ -225,12 +229,12 @@
   </main>
 
   <script>
-    // 헤더 확장
+    // Header interaction
     const header = document.getElementById('main-header');
     header.addEventListener('mouseenter', () => header.classList.add('expanded'));
     header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
 
-    // 이미지 등장 애니메이션
+    // 이미지 등장
     const img = document.querySelector('.fade-slide-image');
     const observer1 = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
@@ -242,10 +246,9 @@
     }, { threshold: 0.2 });
     observer1.observe(img);
 
-    // 양쪽 박스 등장 애니메이션
+    // 좌우 박스 등장
     const leftBox = document.getElementById('left-box');
     const rightBox = document.getElementById('right-box');
-
     const observer2 = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
