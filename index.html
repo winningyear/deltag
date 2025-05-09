@@ -8,9 +8,10 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+      overflow-x: hidden;
     }
 
-    header {
+    header { /* 기존 헤더는 그대로 유지 */
       background-color: #2c3e50;
       transition: height 0.4s ease, background-color 0.3s ease;
       overflow: hidden;
@@ -101,12 +102,18 @@
     .long-image-section {
       margin-top: 200px;
       width: 100%;
-      height: 800px;
-      background: url('assets/images/sample.jpg') no-repeat center center;
-      background-size: cover;
-      background-attachment: fixed;
+      height: 600px;
+      overflow: hidden;
       position: relative;
-      transition: background-position-x 0.2s ease-out;
+    }
+
+    .long-image-section img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: auto;
+      transition: transform 0.1s linear;
     }
 
     .slide-in {
@@ -129,6 +136,7 @@
       padding: 20px;
       font-size: 1.2rem;
       border-radius: 10px;
+      z-index: 2;
     }
   </style>
 </head>
@@ -170,35 +178,38 @@
   </main>
 
   <section class="long-image-section">
+    <img src="assets/images/sample.jpg" id="scrolling-image" alt="long image" />
     <div class="slide-in slide-text">
       👋 Hello! This content slides in from the right when you scroll.
     </div>
   </section>
 
   <script>
-    // 메뉴 확장
     const header = document.getElementById('main-header');
+
     header.addEventListener('mouseenter', () => header.classList.add('expanded'));
     header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
 
-    // 텍스트 애니메이션 (슬라이드 인)
+    // Slide-in 텍스트 애니메이션
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
         }
       });
-    }, {
-      threshold: 0.5
-    });
+    }, { threshold: 0.5 });
 
     document.querySelectorAll('.slide-in').forEach(el => observer.observe(el));
 
-    // 배경 이미지 좌우 이동
+    // 가로 이동 애니메이션 (진짜 이미지 이동)
     window.addEventListener('scroll', () => {
-      const section = document.querySelector('.long-image-section');
+      const img = document.getElementById('scrolling-image');
       const scrollY = window.scrollY;
-      section.style.backgroundPositionX = `${-scrollY * 0.2}px`;
+      const maxScroll = document.body.scrollHeight - window.innerHeight;
+      const scrollPercent = scrollY / maxScroll;
+
+      // 최대 이동 범위: 이미지 폭의 30%까지만
+      img.style.transform = `translateX(${-scrollPercent * 30}%)`;
     });
   </script>
 
