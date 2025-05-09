@@ -285,12 +285,12 @@
   <section class="hero-section">
     <h1>Computer Aided Drug Design</h1>
     <p>"AI와 계산이 이끄는 신약 설계의 새로운 패러다임."</p>
-    <button>Go</button>
+    <button onclick="scrollToCards()">Go</button>
     <div class="scroll-indicator">SCROLL</div>
   </section>
 
   <main>
-    <section class="section-container">
+    <section class="section-container" id="cardSection">
       <div class="slider-wrapper">
         <div class="slider-track" id="sliderTrack">
           <img src="https://raw.githubusercontent.com/winningyear/deltag/main/assets/images/sample1.jpg" />
@@ -333,7 +333,6 @@
     let index = 0;
     let autoSlideInterval;
 
-    // Create dot indicators
     for (let i = 0; i < slides.length; i++) {
       const dot = document.createElement('span');
       dotsContainer.appendChild(dot);
@@ -371,6 +370,10 @@
     function resetAutoSlide() {
       clearInterval(autoSlideInterval);
       startAutoSlide();
+    }
+
+    function scrollToCards() {
+      document.getElementById('cardSection').scrollIntoView({ behavior: 'smooth' });
     }
 
     updateSlider();
