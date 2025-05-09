@@ -1,92 +1,75 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>BLOSUM62 입력</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delta_G</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background-color: #2c3e50;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .site-name {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+    }
+
+    .menu-left {
+      display: flex;
+      gap: 30px;
+    }
+
+    .menu-right {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
 
-    <div class="border-bottom pt-5 pb-2 mt-2 mb-4">
-      <h1 class="mt-lg-4 pt-5">BLOSUM62</h1>
-
-      <div class="d-flex flex-wrap flex-md-nowrap justify-content-between mt-3 border-bottom ">
-        <p class="text-muted">Select Sequence Type, Mutation Type and Input Sequence.</p>
-      </div>
-
-      <form>
-        <!-- Sequence Type -->
-        <div class="my-3">
-          <p class="form-label mb-2">Sequence Type</p>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" id="sequence_type_1" name="sequenceType" value="genetic_code" checked>
-            <label class="form-check-label" for="sequence_type_1">Genetic Code</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" id="sequence_type_2" name="sequenceType" value="amino_acid">
-            <label class="form-check-label" for="sequence_type_2">Amino Acid</label>
-          </div>
-        </div>
-
-        <!-- Mutation Type -->
-        <div class="mb-3">
-          <p class="form-label mb-2">Mutation Type</p>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" id="mutation_type_1" name="mutationType" value="single_mutation" checked>
-            <label class="form-check-label" for="mutation_type_1">Single Mutation</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" id="mutation_type_2" name="mutationType" value="double_mutation">
-            <label class="form-check-label" for="mutation_type_2">Double Mutation</label>
-          </div>
-        </div>
-
-        <!-- Sequence Input -->
-        <div class="mb-3">
-          <div class="d-flex justify-content-between mb-2">
-            <label for="sequence" class="form-label align-self-end mb-0">Input Sequence</label>
-            <button class="btn btn-primary btn-sm" type="button" id="loadSampleData">Load Example</button>
-          </div>
-          <textarea class="form-control" id="sequence" name="sequence" rows="5" placeholder="'A','C','G','T'로 구성된 시퀀스를 입력"></textarea>
-        </div>
-
-        <!-- Submit -->
-        <button class="btn btn-primary w-100" type="submit">Submit</button>
-      </form>
-
-      <!-- 이미지 예시 (images/example.png) -->
-      <div class="mt-4">
-        <h5>예시 이미지:</h5>
-        <img src="images/example.png" alt="예시 이미지" style="max-width: 100%;">
-      </div>
-
+  <header>
+    <div class="menu-left nav-menu">
+      <a href="#portfolio">PORTFOLIO</a>
+      <a href="#about">ABOUT</a>
+      <a href="#contact">CONTACT</a>
     </div>
-  </div>
+    <div class="menu-right site-name">Delta_G</div>
+  </header>
 
-  <script>
-    $("form").on("change", function () {
-      let sequenceType = $("input[name='sequenceType']:checked").val();
-      let sequenceTextArea = $("#sequence");
+  <!-- 아래에 본문 작성 -->
+  <main>
+    <section id="portfolio"></section>
+    <section id="about"></section>
+    <section id="contact"></section>
+  </main>
 
-      if (sequenceType === "genetic_code") {
-        sequenceTextArea.attr('placeholder', "'A','C','G','T'로 구성된 시퀀스를 입력");
-      } else {
-        sequenceTextArea.attr('placeholder', '20개의 알파벳(G,L,V,A 등)으로 구성된 아미노산 시퀀스 입력');
-      }
-    });
-
-    $("#loadSampleData").on("click", function () {
-      let sequenceType = $("input[name='sequenceType']:checked").val();
-      let sequenceTextArea = $("#sequence");
-
-      if (sequenceType === "genetic_code") {
-        sequenceTextArea.val('ACGTGATACAGT');
-      } else {
-        sequenceTextArea.val('YVSYTTYRYPGNDTTTEGIPQL');
-      }
-    });
-  </script>
 </body>
 </html>
