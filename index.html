@@ -253,17 +253,64 @@
       cursor: pointer;
     }
 
-    /* 🔽 clinical.jpg 이미지 영역 */
     #drugDevelopmentImage {
       padding: 100px 0;
       text-align: center;
       background-color: #ffffff;
+      position: relative;
     }
 
     #fadeInImage {
       max-width: 90%;
       opacity: 0;
       transition: opacity 1.5s ease;
+    }
+
+    /* 🔽 레퍼런스 박스 추가 */
+    .ref-button-container {
+      position: absolute;
+      bottom: 30px;
+      left: 30px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      cursor: pointer;
+      width: 130px;
+    }
+
+    .ref-button-container:hover {
+      width: 250px;
+      background-color: rgba(0, 0, 0, 0.85);
+    }
+
+    .ref-toggle {
+      color: white;
+      padding: 10px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .ref-links {
+      display: none;
+      flex-direction: column;
+      padding: 10px;
+    }
+
+    .ref-button-container:hover .ref-links {
+      display: flex;
+    }
+
+    .ref-links a {
+      color: #00e7e7;
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    .ref-links a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -304,6 +351,14 @@
 
   <section id="drugDevelopmentImage">
     <img src="assets/images/clinical.jpg" alt="Drug Development Process" id="fadeInImage" />
+    <div class="ref-button-container" id="refButtonContainer">
+      <div class="ref-toggle">📖 References</div>
+      <div class="ref-links">
+        <a href="https://doi.org/10.1038/nrd.2016.230" target="_blank">Nature Rev Drug Discov, 2016</a>
+        <a href="https://doi.org/10.1126/science.aba4902" target="_blank">Science, 2020</a>
+        <a href="https://doi.org/10.1016/j.drudis.2020.09.012" target="_blank">Drug Discovery Today, 2020</a>
+      </div>
+    </div>
   </section>
 
   <main>
@@ -389,15 +444,15 @@
       startAutoSlide();
     }
 
-function scrollToImage() {
-  document.getElementById('drugDevelopmentImage').scrollIntoView({
-    behavior: 'smooth',
-    block: 'center'  // 중간 정렬
-  });
-}
-    // 이미지 페이드인
-    const fadeInTarget = document.getElementById('fadeInImage');
+    function scrollToImage() {
+      document.getElementById('drugDevelopmentImage').scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+
     window.addEventListener('scroll', () => {
+      const fadeInTarget = document.getElementById('fadeInImage');
       const rect = fadeInTarget.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       if (rect.top <= windowHeight * 0.9) {
