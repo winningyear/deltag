@@ -265,65 +265,60 @@
       opacity: 0;
       transition: opacity 1.5s ease;
     }
+    
+  .ref-button-container {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    width: 130px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    cursor: pointer;
+  }
 
-.ref-button-container {
-  width: auto;
-  min-width: 130px;
-  max-width: 250px;
-  padding: 10px;
-  background-color: rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
-  overflow: hidden;
-  transition: all 0.4s ease;
-  cursor: pointer;
-  position: absolute;
-  bottom: 30px;
-  left: 30px;
-}
+  .ref-button-container:hover {
+    width: 260px;
+    height: 160px;
+    background-color: rgba(0, 0, 0, 0.85);
+  }
 
-    .ref-button-container:hover {
-      width: 250px;
-      background-color: rgba(0, 0, 0, 0.85);
-    }
+  .ref-toggle {
+    color: white;
+    padding: 10px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    text-align: center;
+  }
 
-    .ref-toggle {
-      color: white;
-      padding: 10px;
-      font-size: 0.95rem;
-      font-weight: bold;
-      text-align: center;
-    }
+  .ref-links {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+  }
 
-.ref-links {
-  opacity: 0;
-  visibility: hidden;
-  max-height: 0;
-  transition: opacity 0.4s ease, visibility 0.4s ease, max-height 0.4s ease;
-  flex-direction: column;
-  padding: 0 10px;
-  overflow: hidden;
-}
+  .ref-button-container:hover .ref-links {
+    opacity: 1;
+    visibility: visible;
+    padding-top: 5px;
+  }
 
-.ref-button-container:hover .ref-links {
-  opacity: 1;
-  visibility: visible;
-  max-height: 1000px;  
-  padding: 10px;
-}
+  .ref-links a {
+    color: #00e7e7;
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin: 3px 0;
+  }
 
-.ref-links a {
-  display: block;
-  padding: 5px 0;
-  color: #00e7e7;
-  text-decoration: none;
-  font-size: 0.85rem;
-  margin-top: 4px;
-}
-
-    .ref-links a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  .ref-links a:hover {
+    text-decoration: underline;
+  }
+</style>
 </head>
 <body>
   <header id="main-header">
@@ -360,17 +355,18 @@
     <div class="scroll-indicator">SCROLL</div>
   </section>
 
-  <section id="drugDevelopmentImage">
-    <img src="assets/images/clinical.jpg" alt="Drug Development Process" id="fadeInImage" />
-    <div class="ref-button-container" id="refButtonContainer">
-      <div class="ref-toggle">📖 References</div>
-      <div class="ref-links">
-        <a href="https://doi.org/10.1038/nrd.2016.230" target="_blank">Nature Rev Drug Discov, 2016</a>
-        <a href="https://doi.org/10.1126/science.aba4902" target="_blank">Science, 2020</a>
-        <a href="https://doi.org/10.1016/j.drudis.2020.09.012" target="_blank">Drug Discovery Today, 2020</a>
-      </div>
+<section id="drugDevelopmentImage">
+  <img src="assets/images/clinical.jpg" alt="Drug Development Process" id="fadeInImage" />
+
+  <div class="ref-button-container">
+    <div class="ref-toggle">📖 References</div>
+    <div class="ref-links">
+      <a href="https://doi.org/10.1038/nrd.2016.230" target="_blank">Nature Rev Drug Discov, 2016</a>
+      <a href="https://doi.org/10.1126/science.aba4902" target="_blank">Science, 2020</a>
+      <a href="https://doi.org/10.1016/j.drudis.2020.09.012" target="_blank">Drug Discovery Today, 2020</a>
     </div>
-  </section>
+  </div>
+</section>
 
   <main>
     <section class="section-container" id="cardSection">
