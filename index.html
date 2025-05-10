@@ -252,6 +252,19 @@
       border-radius: 6px;
       cursor: pointer;
     }
+
+    /* 🔽 clinical.jpg 이미지 영역 */
+    #drugDevelopmentImage {
+      padding: 100px 0;
+      text-align: center;
+      background-color: #ffffff;
+    }
+
+    #fadeInImage {
+      max-width: 90%;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
   </style>
 </head>
 <body>
@@ -285,8 +298,13 @@
   <section class="hero-section">
     <h1>Computer Aided Drug Design</h1>
     <p>"AI와 계산이 이끄는 신약 설계의 새로운 패러다임."</p>
-    <button onclick="scrollToCards()">Go</button>
+    <button onclick="scrollToImage()">Go</button>
     <div class="scroll-indicator">SCROLL</div>
+  </section>
+
+  <!-- ✅ clinical.jpg 이미지 섹션 -->
+  <section id="drugDevelopmentImage">
+    <img src="clinical.jpg" alt="Drug Development Process" id="fadeInImage" />
   </section>
 
   <main>
@@ -372,9 +390,20 @@
       startAutoSlide();
     }
 
-    function scrollToCards() {
-      document.getElementById('cardSection').scrollIntoView({ behavior: 'smooth' });
+    // 버튼 클릭 시 clinical.jpg 이미지 위치로 스크롤
+    function scrollToImage() {
+      document.getElementById('drugDevelopmentImage').scrollIntoView({ behavior: 'smooth' });
     }
+
+    // 이미지 페이드인
+    const fadeInTarget = document.getElementById('fadeInImage');
+    window.addEventListener('scroll', () => {
+      const rect = fadeInTarget.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      if (rect.top <= windowHeight * 0.9) {
+        fadeInTarget.style.opacity = '1';
+      }
+    });
 
     updateSlider();
     startAutoSlide();
