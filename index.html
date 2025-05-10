@@ -292,15 +292,22 @@
       text-align: center;
     }
 
-    .ref-links {
-      display: none;
-      flex-direction: column;
-      padding: 10px;
-    }
+.ref-links {
+  opacity: 0;
+  visibility: hidden;
+  max-height: 0;
+  transition: opacity 0.4s ease, visibility 0.4s ease, max-height 0.4s ease;
+  flex-direction: column;
+  padding: 0 10px;
+  overflow: hidden;
+}
 
-    .ref-button-container:hover .ref-links {
-      display: flex;
-    }
+.ref-button-container:hover .ref-links {
+  opacity: 1;
+  visibility: visible;
+  max-height: 200px; /* 충분한 공간 */
+  padding: 10px;
+}
 
     .ref-links a {
       color: #00e7e7;
