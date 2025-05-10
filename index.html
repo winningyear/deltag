@@ -389,10 +389,12 @@
       startAutoSlide();
     }
 
-    function scrollToImage() {
-      document.getElementById('drugDevelopmentImage').scrollIntoView({ behavior: 'smooth' });
-    }
-
+function scrollToImage() {
+  document.getElementById('drugDevelopmentImage').scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'  // 중간 정렬
+  });
+}
     // 이미지 페이드인
     const fadeInTarget = document.getElementById('fadeInImage');
     window.addEventListener('scroll', () => {
