@@ -266,18 +266,20 @@
       transition: opacity 1.5s ease;
     }
 
-    /* 🔽 레퍼런스 박스 추가 */
-    .ref-button-container {
-      position: absolute;
-      bottom: 30px;
-      left: 30px;
-      background-color: rgba(0, 0, 0, 0.6);
-      border-radius: 10px;
-      overflow: hidden;
-      transition: all 0.4s ease;
-      cursor: pointer;
-      width: 130px;
-    }
+.ref-button-container {
+  width: auto;
+  min-width: 130px;
+  max-width: 250px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+}
 
     .ref-button-container:hover {
       width: 250px;
