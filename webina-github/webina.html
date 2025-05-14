@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Webina Docking</title>
+  <script type="module">
+    import initWebina from './vina.js';
+
+    async function runDocking() {
+      const output = document.getElementById("output");
+      output.textContent = "Loading...";
+
+      const receptorText = await (await fetch('protein.pdbqt')).text();
+      const ligandText = await (await fetch('ligand.pdbqt')).text();
+
+      const webina = await initWebina({
+        receptor: receptorText,
+        ligand: ligandText,
+        center_x: 0,  // 위치에 맞게 수정
+        center_y: 0,
+        center_z: 0,
+        size_x: 20,
+        size_y: 20,
+        size_z: 20
+      });
+
+      const result = await webina.dock();
+      output.textContent = result;
+    }
+
+    window.runDocking = runDocking;
+  </script>
+</head>
+<body>
+  <h1>Run Webina in Browser</h1>
+  <button onclick="runDocking()">Start Docking</button>
+  <pre id="output">Waiting for docking...</pre>
+</body>
+</html>
