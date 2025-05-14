@@ -3,37 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <title>Webina Docking</title>
+
+  <!-- Webina는 SharedArrayBuffer 사용하므로, 반드시 Netlify에서 보안 헤더 필요 -->
+  <!-- vina.js는 반드시 같은 폴더에 있어야 함 -->
   <script type="module">
     import initWebina from './vina.js';
 
     async function runDocking() {
       const output = document.getElementById("output");
-      output.textContent = "Loading...";
+      output.textContent = "⏳ Loading PDBQT files...";
 
-      const receptorText = await (await fetch('protein.pdbqt')).text();
-      const ligandText = await (await fetch('ligand.pdbqt')).text();
+      try {
+        // 리간드와 리셉터 파일 불러오기
+        const receptorText = await (await fetch('protein.pdbqt')).text();
+        const ligandText = await (await fetch('ligand.pdbqt')).text();
 
-      const webina = await initWebina({
-        receptor: receptorText,
-        ligand: ligandText,
-        center_x: 0,  // 위치에 맞게 수정
-        center_y: 0,
-        center_z: 0,
-        size_x: 20,
-        size_y: 20,
-        size_z: 20
-      });
+        output.textContent = "🚀 Running docking...";
 
-      const result = await webina.dock();
-      output.textContent = result;
+        // Webina 실행
+        const webina = await initWebina({
+          receptor: receptorText,
+          ligand: ligandText,
+          center_x: 0,   // 중심 좌표 (바인딩 포켓 위치)
+          center_y: 0,
+          center_z: 0,
+          size_x: 20,    // 박스 크기
+          size_y: 20,
+          size_z: 20
+        });
+
+        const result = await webina.dock();
+        output.textContent = "✅ Docking complete:\n\n" + result;
+      } catch (err) {
+        output.textContent = "❌ Error during docking:\n" + err;
+        console.error(err);
+      }
     }
 
     window.runDocking = runDocking;
   </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+  </style>
 </head>
 <body>
-  <h1>Run Webina in Browser</h1>
+  <h1>🧪 Webina Docking in Browser</h1>
+  <p>Click the button below to run molecular docking directly in your browser using Webina.</p>
+
   <button onclick="runDocking()">Start Docking</button>
+
   <pre id="output">Waiting for docking...</pre>
 </body>
 </html>
