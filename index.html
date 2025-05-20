@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Delta_G</title>
+  <title>Project1</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
   <style>
     body {
       margin: 0;
@@ -11,44 +13,29 @@
       overflow-x: hidden;
     }
 
-    header {
-      background-color: #2c3e50;
-      transition: height 0.4s ease, background-color 0.3s ease;
-      overflow: hidden;
-      height: 70px;
-      position: relative;
-      z-index: 10;
-    }
-
-    header.expanded {
-      height: 160px;
-      background-color: rgba(44, 62, 80, 0.9);
-      backdrop-filter: blur(8px);
-    }
-
+header {
+  background-color: white;
+  height: 70px;
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  width: 100%;     
+  z-index: 10;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #ddd;
+}
     .header-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 40px;
+      padding: 0 40px;
+      height: 100%;
     }
 
     .site-name {
-      color: white;
       font-size: 1.5rem;
       font-weight: bold;
-    }
-
-    .nav-menu {
-      display: flex;
-      gap: 30px;
-    }
-
-    .nav-menu a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 8px;
+      color: #222;
     }
 
     .dropdown-panel {
@@ -56,81 +43,158 @@
       top: 70px;
       left: 0;
       width: 100%;
-      background-color: rgba(44, 62, 80, 0.95);
+      background-color: white;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
       display: flex;
       justify-content: center;
-      gap: 60px;
+      gap: 80px;
+      padding: 0 60px;
       opacity: 0;
-      transform: translateY(-10px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.4s ease;
       z-index: 9;
     }
 
     header.expanded .dropdown-panel {
+      padding-top: 40px;
+      padding-bottom: 40px;
       opacity: 1;
-      transform: translateY(0);
+      max-height: 500px;
     }
 
     .dropdown-group {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 10px;
+      text-align: center;
+      width: 200px;
     }
 
     .dropdown-group span {
-      color: #ddd;
-      font-size: 0.9rem;
-      margin-bottom: 6px;
+      font-size: 1.5rem;
+      color: #888;
+      margin-bottom: 10px;
+      font-weight: bold;
     }
 
     .dropdown-group a {
-      color: white;
+      color: #222;
       text-decoration: none;
-      padding: 4px 0;
-      font-size: 0.95rem;
+      padding: 8px;
+      transition: color 0.3s ease, transform 0.3s ease, font-weight 0.3s ease;
     }
 
     .dropdown-group a:hover {
-      text-decoration: underline;
+      color: #00c7c7;
+      transform: scale(1.02);
+      font-weight: bold;
     }
 
-    .hero-section {
-      height: 100vh;
+    .main-content {
+      padding: 100px 40px;
+      background-color: #f5f5f5;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      background: linear-gradient(to bottom right, #ffffff, #eafffc);
-      text-align: center;
+      gap: 60px;
     }
 
-    .hero-section h1 {
-      font-size: 2.5rem;
-      color: #1e1e1e;
-    }
-
-    .hero-section p {
-      font-size: 1.2rem;
-      color: #555;
-      margin: 10px 0 30px;
-    }
-
-    .hero-section button {
-      background-color: #00e7e7;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 10px;
+    .intro-title {
+      font-size: 2rem;
       font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0, 231, 231, 0.3);
+      color: #2c3e50;
+      text-align: center;
+      max-width: 800px;
+      line-height: 1.5;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto 80px;
+    }
+
+.card {
+  width: 300px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 15px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+  border: 2px solid transparent;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+}
+
+.tech-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.tech-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  border: 2px solid #00c7c7;
+}
+
+    .card:hover {
+      transform: translateY(-10px);
+      border: 2px solid #00c7c7;
+      box-shadow: 0 8px 20px rgba(0, 199, 199, 0.3);
+    }
+
+    .card:nth-child(1) {
+      animation-delay: 0.3s;
+    }
+
+    .card:nth-child(2) {
+      animation-delay: 0.7s;
+    }
+
+    .card:nth-child(3) {
+      animation-delay: 1.1s;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #00a0a0;
+    }
+
+    .card-description {
+      font-size: 0.95rem;
+      color: #444;
+      line-height: 1.5;
     }
 
     .scroll-indicator {
       margin-top: 60px;
       color: #aaa;
       font-size: 0.9rem;
+      text-align: center;
     }
 
     .scroll-indicator::after {
@@ -138,28 +202,35 @@
       display: block;
       width: 10px;
       height: 10px;
-      background-color: #00e7e7;
+      background-color: #00c7c7;
       border-radius: 50%;
       margin: 10px auto 0;
       animation: bounce 1.5s infinite;
     }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(10px); }
-    }
+.section-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;               
+  padding: 100px 10%;
+  background-color: #f5f7fa;
+  flex-wrap: wrap;    
+}
+  .tech-list {
+    display: grid;
+    flex-direction: column;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px, 20px; 
+  }
 
-    .section-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 100px 10%;
-      gap: 50px;
-      background-color: #f5f7fa;
-    }
-
+  .tech-item {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* 아이콘과 글자 사이 간격 */
+  }
     .slider-wrapper {
-      width: 50%;
+      width: 300px;
       height: 400px;
       overflow: hidden;
       border-radius: 20px;
@@ -184,8 +255,9 @@
     }
 
     .slide-box.right {
-      width: 50%;
-      height: 400px;
+      width: 250px;
+      height: 350px;
+      margin-left: 40px;
       background-color: #121212;
       color: white;
       border-radius: 20px;
@@ -205,11 +277,23 @@
     }
 
     .slide-box.right h2 {
-      margin-bottom: 1rem;
+      font-size: 1.2rem;
+  font-weight: bold;
+  line-height: 1.4;
+  margin-bottom: 16px;
+  color: #fff;
     }
 
+.slide-box.right ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
     .slide-box.right ul li {
-      line-height: 1.6;
+      font-size: 0.95rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+ text-align: left;
     }
 
     .slider-controls {
@@ -223,6 +307,24 @@
       gap: 8px;
       margin-bottom: 10px;
     }
+
+
+section.fade-section {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s ease;
+  background-color: transparent;
+}
+
+section.fade-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+  background-color: #f0f8ff; /* 원하는 배경색으로 */
+}
+
+section.ai-section.visible {
+  background-color: #fff5e6; /* AI 섹션만 연한 오렌지 */
+}
 
     .slider-dots span {
       width: 10px;
@@ -253,145 +355,493 @@
       cursor: pointer;
     }
 
-    #drugDevelopmentImage {
-      padding: 100px 0;
-      text-align: center;
-      background-color: #ffffff;
-      position: relative;
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(10px);
+      }
     }
 
-    #fadeInImage {
-      max-width: 90%;
-      opacity: 0;
-      transition: opacity 1.5s ease;
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    
-  .ref-button-container {
-    position: absolute;
-    bottom: 30px;
-    left: 30px;
-    width: 130px;
-    height: 40px;
-    background-color: rgba(0, 0, 0, 0.6);
-    border-radius: 10px;
-    overflow: hidden;
-    transition: all 0.4s ease;
-    cursor: pointer;
-  }
 
-  .ref-button-container:hover {
-    width: 260px;
-    height: 160px;
-    background-color: rgba(0, 0, 0, 0.85);
-  }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-  .ref-toggle {
-    color: white;
-    padding: 10px;
-    font-size: 0.95rem;
-    font-weight: bold;
-    text-align: center;
-  }
-
-  .ref-links {
+@keyframes slideIn {
+  from {
     opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
-    padding: 0 10px;
-    display: flex;
-    flex-direction: column;
+    transform: translateX(30px);
   }
-
-  .ref-button-container:hover .ref-links {
+  to {
     opacity: 1;
-    visibility: visible;
-    padding-top: 5px;
+    transform: translateX(0);
   }
+}
 
-  .ref-links a {
-    color: #00e7e7;
-    text-decoration: none;
-    font-size: 0.85rem;
-    margin: 3px 0;
-  }
+.site-footer {
+  background-color: #2c3e50;
+  color: #f0f0f0;
+  padding: 30px 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 100px;
+}
 
-  .ref-links a:hover {
-    text-decoration: underline;
-  }
-</style>
+.site-footer p {
+  margin: 6px 0;
+  line-height: 1.6;
+}
+
+  </style>
 </head>
 <body>
   <header id="main-header">
     <div class="header-inner">
-<div class="site-name">
-  <a href="index.html" style="color: white; text-decoration: none;">Delta_G</a>
-</div>
-      <div class="nav-menu" id="nav-menu">
-        <a href="#">Portpolio</a>
-        <a href="#">Column</a>
-        <a href="#">Contct</a>
-      </div>
+      <div class="site-name">ΔG</div>
     </div>
-    <div class="dropdown-panel" id="dropdownPanel">
+    <div class="dropdown-panel">
       <div class="dropdown-group">
-        <span>Portpolio</span>
-        <a href="project1.html">프로젝트1</a>
-        <a href="project2.html">프로젝트2</a>
+        <span>Profile</span>
+        <a href="#">Profile</a>
+        <a href="#">Skills</a>
+        <a href="#">Project</a>
       </div>
       <div class="dropdown-group">
-        <span>Column</span>
-        <a href="project3.html">칼럼1</a>
-        <a href="#">칼럼2</a>
+        <span>Posting</span>
+        <a href="#">What is CADD</a>
+        <a href="#">Blog</a>
       </div>
       <div class="dropdown-group">
-        <span>Contct</span>
-        <a href="#">이메일</a>
+        <span>Contact</span>
+        <a href="#">Contact</a>
       </div>
     </div>
   </header>
 
-  <section class="hero-section">
-    <h1>Computer Aided Drug Design</h1>
-    <p>"AI와 계산이 이끄는 신약 설계의 새로운 패러다임."</p>
-    <button onclick="scrollToImage()">Go</button>
-    <div class="scroll-indicator">SCROLL</div>
-  </section>
+<main class="main-content">
+<div class="intro-title" style="margin-top: 60px; text-align: center;">
+  유승연은 학부는 응용화학을 전공했으며<br>석사는 Computer Aided Drug Design을 전공했습니다.
+</div>
 
-<section id="drugDevelopmentImage">
-  <img src="assets/images/clinical.jpg" alt="Drug Development Process" id="fadeInImage" />
-
-  <div class="ref-button-container">
-    <div class="ref-toggle">📖 References</div>
-    <div class="ref-links">
-      <a href="https://doi.org/10.1038/nrd.2016.230" target="_blank">Nature Rev Drug Discov, 2016</a>
-      <a href="https://doi.org/10.1126/science.aba4902" target="_blank">Science, 2020</a>
-      <a href="https://doi.org/10.1016/j.drudis.2020.09.012" target="_blank">Drug Discovery Today, 2020</a>
+  <div class="card-container">
+    <div class="card" onclick="scrollToSectionCenter('section-coding')">
+      <div class="card-title">Coding</div>
+      <div class="card-description">
+        프론트엔드 및 백엔드 코딩이 가능,<br>
+        물리화학적 지표 계산 및 시각화를 구현가능, <br>
+        서버자원을 통한 자동화 코드도 구현가능
+      </div>
+    </div>
+    <div class="card" onclick="scrollToSectionCenter('section-cadd')">
+      <div class="card-title">CADD</div>
+      <div class="card-description">
+        컴퓨터 기반 신약개발 프로그램들 적용<br>
+        상용화, 오픈소스 프로그램까지 적용가능<br>
+        Structure, Ligand-based drug design 경험 
+      </div>
+    </div>
+    <div class="card" onclick="scrollToSectionCenter('section-ai')">
+      <div class="card-title">AI</div>
+      <div class="card-description">
+        머신러닝, 딥러닝 알고리즘에 대해 이해<br>
+        생물학적데이터를 학습 후 분류 및 회귀 모델 구현
+      </div>
     </div>
   </div>
+
+    <div class="scroll-indicator">SCROLL</div>
+  
+</main>
+
+<section id="section-coding" class="coding-detail" style="margin-top: 60px; text-align: center;">
+  <h2 style="
+    font-size: 2rem;
+    color: #00a0a0;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.6s ease forwards;
+  ">
+    Coding
+  </h2>
+
+  <p style="
+    font-size: 1.05rem;
+    color: #444;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 0.2s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    display: inline-block;
+    max-width: 1000px;
+    text-align: center;
+  ">
+    신약개발 플렛폼 구축을 위해 사용되는 프론트엔드 및 백엔드 코딩이 가능하며,<br>
+    이를 통해 신약개발에서 사용되는 많은 지표들의 계산 및 시각화를 구현할 수 있습니다. <br>
+    또한 서버자원을 활용한 자동화 코드도 구현하여 실제 적용할 수 있습니다.
+  </p>
+
+
+<section id="section-coding-detail" class="coding-detail" style="margin-top: 60px; text-align: center;">
+  <div class="grid" style="
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 320px);
+    justify-content: center;
+    gap: 30px; 
+    max-width: 1000px;
+    margin: 0 auto 80px;
+  ">
+
+    <!-- 언어 -->
+    <div class="tech-card" style="
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+    ">
+      <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
+        <i class="fas fa-code"></i> Programming Language
+      </h3>
+      <div class="tech-list" style="line-height: 1.8;">
+        <div class="tech-item"><i class="fab fa-python"></i> Python</div>
+        <div class="tech-item"><i class="fab fa-js-square"></i> JavaScript</div>
+        <div class="tech-item"><i class="fab fa-html5"></i> HTML</div>
+        <div class="tech-item"><i class="fab fa-css3-alt"></i> CSS</div>
+      </div>
+    </div>
+
+    <!-- 프레임워크 -->
+<div class="tech-card" style="
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+">
+  <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
+    <i class="fas fa-tools"></i> Framework
+  </h3>
+  <div class="tech-list" style="line-height: 1.8;">
+    <div class="tech-item"><i class="fas fa-table"></i> Pandas</div>
+    <div class="tech-item"><i class="fas fa-square-root-alt"></i> NumPy</div>
+    <div class="tech-item"><i class="fas fa-brain"></i> Scikit-learn</div>
+    <div class="tech-item"><i class="fas fa-vials"></i> RDKit</div>
+    <div class="tech-item"><i class="fas fa-dna"></i> BioPandas</div>
+    <div class="tech-item"><i class="fas fa-microscope"></i> PyMOL</div>
+    <div class="tech-item"><i class="fas fa-fire"></i> PyTorch</div>
+    <div class="tech-item"><i class="fas fa-project-diagram"></i> Multiprocessing</div>
+    <div class="tech-item"><i class="fas fa-robot"></i> Selenium</div>
+    <div class="tech-item"><i class="fas fa-chart-bar"></i> Matplotlib</div>
+  </div>
+</div>
+
+  <!-- OS -->
+<div class="tech-card" style="
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+">
+  <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
+    <i class="fas fa-server"></i> OS
+  </h3>
+  <div class="tech-list" style="line-height: 1.8; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 30px; word-break: break-word;">
+    <div class="tech-item"><i class="fab fa-linux"></i> Linux</div>
+    <div class="tech-item"><i class="fas fa-terminal"></i> WSL-Ubuntu</div>
+    <div class="tech-item"><i class="fab fa-windows"></i> Windows</div>
+  </div>
+</div>
+
+<!-- Tools -->
+<div class="tech-card" style="
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+">
+  <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
+    <i class="fas fa-tools"></i> Tools
+  </h3>
+  <div class="tech-list" style="line-height: 1.8; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 30px;">
+    <div class="tech-item"><i class="fas fa-code"></i> PyCharm</div>
+    <div class="tech-item"><i class="fas fa-code-branch"></i> VSCode</div>
+    <div class="tech-item"><i class="fab fa-git-alt"></i> Git</div>
+    <div class="tech-item"><i class="fab fa-github"></i> GitHub</div>
+  </div>
+</div>
 </section>
 
-  <main>
-    <section class="section-container" id="cardSection">
-      <div class="slider-wrapper">
-        <div class="slider-track" id="sliderTrack">
-          <img src="https://raw.githubusercontent.com/winningyear/deltag/main/assets/images/sample1.jpg" />
-          <img src="https://raw.githubusercontent.com/winningyear/deltag/main/assets/images/sample2.jpg" />
-          <img src="https://raw.githubusercontent.com/winningyear/deltag/main/assets/images/sample3.jpg" />
+<section id="section-cadd" class="coding-detail fade-section" style="margin-top: 120px; padding-top: 40px; text-align: center;">
+  <h2 style="
+    font-size: 2rem;
+    color: #00a0a0;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.6s ease forwards;
+  ">
+    CADD(Computer Aided Drug Design)
+  </h2>
+
+  <p style="
+    font-size: 1.05rem;
+    color: #444;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 0.2s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    display: inline-block;
+    max-width: 1000px;
+    text-align: center;
+  ">
+    컴퓨터 기반 신약개발 프로그램들에 대한 이해를 하고있으며 상용화 프로그램부터 오픈소스 프로그램까지 폭넓은 경험을 했습니다. <br>
+    특히 CLI 기반으로 실행되는 최신 신약개발 프로그램들 세팅과 더불어 적용까지 가능합니다. 
+  </p>
+
+
+<section id="section-cadd" class="coding-detail fade-section" style="margin-top: 30px; padding-top: 40px; text-align: center; position: relative; z-index: 1;">
+  <div class="grid" style="
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 320px);
+    justify-content: center;
+    gap: 30px; 
+    max-width: 1000px;
+    margin: 0 auto 80px;
+  ">
+
+    <!-- 언어 -->
+    <div class="tech-card" style="
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+    ">
+      <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
+        <i class="fas fa-code"></i> Commercial program
+      </h3>
+      <div class="tech-list" style="line-height: 1.8;">
+        <div class="tech-item"><i class="fab fa-python"></i> DS</div>
+        <div class="tech-item"><i class="fab fa-js-square"></i> Schrödinger</div>
+      </div>
+    </div>
+
+
+   <div class="tech-card" style="
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: visible; 
+">
+  <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
+    <i class="fas fa-code"></i> CADD tools
+  </h3>
+
+  <div class="tech-list" style="line-height: 1.8;">
+    <div class="tech-item"><i class="fab fa-python"></i> QSAR</div>
+    <div class="tech-item"><i class="fab fa-js-square"></i> Pharmacophore</div>
+    <div class="tech-item"><i class="fab fa-js-square"></i> Dynamics</div>
+    <div class="tech-item"><i class="fab fa-js-square"></i> Docking</div>
+  </div>
+
+  <!-- +more 버튼 -->
+  <a href="javascript:void(0)" onclick="toggleExpandedCard()" style="
+    margin-top: 20px;
+    align-self: flex-start;
+    font-size: 0.9rem;
+    color: #00a0a0;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+  " onmouseover="this.style.color='#007070'" onmouseout="this.style.color='#00a0a0'">+more</a>
+
+  <!-- ✅ 확장 카드: 반드시 내부에 위치할 것 -->
+  <div id="expandedCard" style="
+    position: absolute;
+    top: 0;
+    left: calc(100% + 20px);
+    width: 300px;
+    min-height: 600px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    display: none;
+    flex-direction: column;
+    animation: slideIn 0.5s forwards;
+    z-index: 9999;
+  ">
+    <h3 style="color: #00a0a0; margin-bottom: 16px;">Detailed CADD Tools</h3>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.85rem; color: #444;">
+    <thead>
+      <tr style="background-color: #f0f8ff;">
+        <th style="padding: 8px; border: 1px solid #ccc;">Category</th>
+        <th style="padding: 8px; border: 1px solid #ccc;">Programs</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">Docking</td><td style="padding: 8px; border: 1px solid #ccc;">HADDOCK<br>HDock<br>ZDOCK<br>Glide Dock<br>AutoDock/Vina<br>SwissDock<br>Diffdock<br>Gnina<br>GOLD Dock</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">QSAR</td><td style="padding: 8px; border: 1px solid #ccc;">Machine, deep learning<br>Discovery Studio<br>AutoQSAR</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">MD simulation</td><td style="padding: 8px; border: 1px solid #ccc;">GROMACS<br>AMBER<br>CHARMM</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">Homology modeling</td><td style="padding: 8px; border: 1px solid #ccc;">Discovery Studio<br>Swiss-Modeler<br>AlphaFold</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">Pharmacophore modeling</td><td style="padding: 8px; border: 1px solid #ccc;">Ligand scout<br>Discovery Studio<br>Phase</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">Visualizer</td><td style="padding: 8px; border: 1px solid #ccc;">VMD<br>PyMOL</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">Interaction</td><td style="padding: 8px; border: 1px solid #ccc;">PLIP</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #ccc;">Pysicochemical properties</td><td style="padding: 8px; border: 1px solid #ccc;">RDKit</td></tr>
+    </tbody>
+  </table>
+
+
+
+  </div>
+</div>
+
+</section>
+
+<section id="section-ai" class="coding-detail fade-section ai-section" style="margin-top: 60px;padding-top: 40px; text-align: center; position: static;">
+  <h2 style="
+    font-size: 2rem;
+    color: #00a0a0;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.6s ease forwards;
+  ">
+    AI(Artificial Intelligent)
+  </h2>
+
+  <p style="
+    font-size: 1.05rem;
+    color: #444;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 0.2s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    display: inline-block;
+    max-width: 1000px;
+    text-align: center;
+  ">
+    다양한 머신러닝, 딥러닝 알고리즘에 대해 이해하고 있습니다.<br>
+    이러한 알고리즘에 정량화된 생물학적데이터를 학습시켜 분류 및 회귀 모델을 구현할 수 있습니다. <br>
+  </p>
+
+<section id="section-ai-detail" class="coding-detail" style="margin-top: 60px; text-align: center;">
+  <div class="grid" style="
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 320px);
+    justify-content: center;
+    gap: 30px; 
+    max-width: 1000px;
+    margin: 0 auto 80px;
+  ">
+
+    <!-- 언어 -->
+    <div class="tech-card" style="
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+    ">
+      <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
+        <i class="fas fa-code"></i> Framework
+      </h3>
+      <div class="tech-list" style="line-height: 1.8;">
+        <div class="tech-item"><i class="fab fa-python"></i> Pytorch</div>
+        <div class="tech-item"><i class="fab fa-js-square"></i> Skit-learn</div>
+      </div>
+    </div>
+    <div class="tech-card" style="
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+    ">
+      <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
+        <i class="fas fa-code"></i> Algorithms
+      </h3>
+      <div class="tech-list" style="line-height: 1.8;">
+        <div class="tech-item"><i class="fab fa-python"></i> SVM</div>
+        <div class="tech-item"><i class="fab fa-python"></i> Random forest</div>
+        <div class="tech-item"><i class="fab fa-python"></i> MLP</div>
+        <div class="tech-item"><i class="fab fa-python"></i> XGBoost</div>
+        <div class="tech-item"><i class="fab fa-python"></i> CNN</div>
+        <div class="tech-item"><i class="fab fa-python"></i> RNN</div>
+        <div class="tech-item"><i class="fab fa-python"></i> GNN</div>
+      </div>
+    </div>
+</section>
+
+  <section class="section-container" id="cardSection">
+<h2 style="text-align: center; font-size: 1.8rem; margin-bottom: 30px; color: #333;">
+    이런 프로젝트를 진행해왔습니다.
+  </h2>
+    <div class="slider-wrapper">
+      <div class="slider-track" id="sliderTrack">
+        <img src="https://raw.githubusercontent.com/winningyear/deltag/main/assets/images/ABIO2.jpg"/>
+        <img src="https://raw.githubusercontent.com/winningyear/deltag/main/assets/images/clinivision2.jpg"/>
+        <img src="https://raw.githubusercontent.com/winningyear/deltag/main/assets/images/PLK4_2.jpg"/>
+      </div>
+    </div>
+    <div class="slide-box right" id="slideTextBox">
+      <h2 id="slideTitle">Docking</h2>
+      <ul id="slideDescription"></ul>
+      <div class="slider-controls">
+        <div class="slider-dots" id="sliderDots"></div>
+        <div class="slider-buttons">
+          <button onclick="prevSlide()">◀</button>
+          <button onclick="nextSlide()">▶</button>
         </div>
       </div>
-      <div class="slide-box right" id="slideTextBox">
-        <h2 id="slideTitle">Docking</h2>
-        <ul id="slideDescription"></ul>
-        <div class="slider-controls">
-          <div class="slider-dots" id="sliderDots"></div>
-          <div class="slider-buttons">
-            <button onclick="prevSlide()">◀</button>
-            <button onclick="nextSlide()">▶</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+    </div>
+  </section>
+
+<footer class="site-footer">
+  <div class="footer-content">
+    <p>📧 이메일: ysysmart@naver.com</p>
+    <p>© 2025 Seongyeon Yu. All Rights Reserved.</p>
+  </div>
+</footer>
 
   <script>
     const header = document.getElementById('main-header');
@@ -406,9 +856,9 @@
     const dotsContainer = document.getElementById('sliderDots');
 
     const descriptions = [
-      { title: "Docking", lines: ["정확한 약물-단백질 상호작용 예측", "3D 결합구조 시각화", "웹에서 바로 접근 가능"] },
-      { title: "QSAR", lines: ["수백만 화합물 가상 스크리닝", "AI 기반 독성 필터링", "빠른 후보물질 발굴"] },
-      { title: "Pharmacophore", lines: ["실험 데이터 자동 통합", "모델 기반 실험 설계", "AI-driven 실험 최적화"] }
+      { title: "ABIO-platform development 참여", lines: ["Opensource기반 신약개발 platform 개발", "항체 최적화 platform", "Saas기반 플렛폼 개발"] },
+      { title: "Clinivision platform development 참여", lines: ["인공지능기반 임상시험 예측 platform", "AI 기반 독성 필터링", "과제 제안서 작성"] },
+      { title: "PLK4 inhibitor discovery", lines: ["CADD method를 활용한 신약개발", "Biology data 해석, Pysicochemical properties 생성", "PLK4 inhibitor discovery에 최적화된 AI 모델 도출"] }
     ];
 
     let index = 0;
@@ -453,24 +903,31 @@
       startAutoSlide();
     }
 
-    function scrollToImage() {
-      document.getElementById('drugDevelopmentImage').scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      });
-    }
-
-    window.addEventListener('scroll', () => {
-      const fadeInTarget = document.getElementById('fadeInImage');
-      const rect = fadeInTarget.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      if (rect.top <= windowHeight * 0.9) {
-        fadeInTarget.style.opacity = '1';
-      }
-    });
-
     updateSlider();
     startAutoSlide();
+
+ const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.2 // 20% 보이면 발동
+  });
+
+  document.querySelectorAll('section.fade-section').forEach(section => {
+    observer.observe(section);
+  });
+
+
+  function toggleExpandedCard() {
+    const card = document.getElementById('expandedCard');
+    card.style.display = card.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+
+
   </script>
 </body>
 </html>
