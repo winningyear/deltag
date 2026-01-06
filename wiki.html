@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research Wiki</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #00b4b4;
+      --primary-dark: #008282;
+      --bg: #f5f7fa;
+      --panel: #ffffff;
+      --text: #1f2d3d;
+      --muted: #6b7b8c;
+      --border: #e0e6ed;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #ffffffcc;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.5px;
+    }
+
+    .brand span {
+      background: var(--primary);
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      box-shadow: 0 6px 12px rgba(0, 180, 180, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      background: #e6f9f9;
+      color: var(--primary-dark);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 36px 24px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .hero {
+      background: radial-gradient(circle at 10% 20%, #e8ffff 0%, #ffffff 35%, #f3f7fb 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: 32px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+
+    .search-bar {
+      display: grid;
+      grid-template-columns: 1fr 180px 120px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .search-bar input,
+    .search-bar select,
+    .search-bar button,
+    .info-form input,
+    .info-form textarea {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 14px;
+      width: 100%;
+      background: white;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-bar input:focus,
+    .search-bar select:focus,
+    .info-form input:focus,
+    .info-form textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(0, 180, 180, 0.12);
+    }
+
+    .search-bar button {
+      background: linear-gradient(135deg, var(--primary), #00cfcf);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 8px 14px rgba(0, 180, 180, 0.25);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .chip {
+      background: #eef3f8;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .chip i {
+      color: var(--primary);
+    }
+
+    .aside-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04);
+    }
+
+    .aside-card h3 {
+      margin: 0;
+      font-size: 16px;
+      color: var(--primary-dark);
+    }
+
+    .aside-card a {
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      border-radius: 12px;
+      transition: background 0.2s ease;
+    }
+
+    .aside-card a:hover {
+      background: #f2fbfb;
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      color: var(--text);
+    }
+
+    .section-title i {
+      color: var(--primary);
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid.cards {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      background: white;
+      display: grid;
+      gap: 10px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .card .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #e6f9f9;
+      color: var(--primary-dark);
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      width: fit-content;
+    }
+
+    .card h4 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .card .meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .card a {
+      color: var(--primary-dark);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .highlight {
+      display: grid;
+      grid-template-columns: 0.55fr 0.45fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .highlight img {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .gallery figure {
+      margin: 0;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.04);
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery figcaption {
+      padding: 10px 12px 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .info-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .info-form textarea {
+      min-height: 110px;
+      resize: vertical;
+      grid-column: 1 / -1;
+    }
+
+    .form-row {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .upload-box {
+      border: 2px dashed var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      background: #fbfdff;
+      color: var(--muted);
+      display: grid;
+      gap: 6px;
+      align-content: center;
+      text-align: center;
+    }
+
+    .submit-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: flex-end;
+      grid-column: 1 / -1;
+    }
+
+    .btn-secondary,
+    .btn-primary {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-secondary {
+      background: #e9eef5;
+      color: var(--text);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #00cfcf);
+      color: white;
+      box-shadow: 0 8px 16px rgba(0, 180, 180, 0.2);
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .list .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+      gap: 12px;
+    }
+
+    .item .pill {
+      background: #f0f9ff;
+      color: #0a6ea6;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .search-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .highlight {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html" aria-label="메인으로 이동">
+        <span>Δ</span>
+        <div>
+          <div style="font-size: 15px; color: var(--muted);">Knowledge Base</div>
+          <div style="font-size: 18px; color: var(--text);">Research Wiki</div>
+        </div>
+      </a>
+      <nav class="nav-links" aria-label="보조 메뉴">
+        <a href="profile.html"><i class="fa-solid fa-user"></i> 프로필</a>
+        <a href="project.html"><i class="fa-solid fa-diagram-project"></i> 프로젝트</a>
+        <a href="project1.html"><i class="fa-solid fa-vials"></i> 사례집</a>
+        <a href="#submit" class="primary-link"><i class="fa-solid fa-pen"></i> 정보 추가</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>실험 노트와 리포트를 한 곳에서 찾는 위키</h1>
+        <p>검색, 링크 모음, 이미지 자료, 추가 제안을 위한 UI까지 갖춘 연구 위키 템플릿입니다.</p>
+        <div class="search-bar" aria-label="위키 검색">
+          <input id="searchInput" type="search" placeholder="키워드, 실험명, 약물명 등을 입력하세요" />
+          <select id="categoryFilter" aria-label="카테고리 선택">
+            <option value="all">전체 카테고리</option>
+            <option value="protocol">실험 프로토콜</option>
+            <option value="chemistry">화학/구조</option>
+            <option value="ai">AI 모델링</option>
+          </select>
+          <button id="searchButton" type="button"><i class="fa-solid fa-magnifying-glass"></i> 검색</button>
+        </div>
+        <div class="tag-row" aria-label="자주 찾는 태그">
+          <span class="chip"><i class="fa-solid fa-flask"></i> Docking</span>
+          <span class="chip"><i class="fa-solid fa-dna"></i> QSAR</span>
+          <span class="chip"><i class="fa-solid fa-brain"></i> Deep Learning</span>
+          <span class="chip"><i class="fa-solid fa-file-pen"></i> Protocol</span>
+          <span class="chip"><i class="fa-solid fa-link"></i> Database</span>
+        </div>
+      </div>
+      <div class="aside-card" aria-label="바로가기">
+        <h3><i class="fa-solid fa-book-open"></i> 빠른 모음</h3>
+        <a href="#highlight"><i class="fa-solid fa-star"></i> 오늘의 추천 문서</a>
+        <a href="#gallery"><i class="fa-solid fa-image"></i> 구조/이미지 자료</a>
+        <a href="#links"><i class="fa-solid fa-link"></i> 참고 링크 보관함</a>
+        <a href="#recent"><i class="fa-solid fa-clock"></i> 최근 업데이트</a>
+      </div>
+    </section>
+
+    <section class="panel" id="results">
+      <div class="section-title"><i class="fa-solid fa-magnifying-glass-chart"></i> 검색 결과 / 추천 카드</div>
+      <div class="grid cards" id="searchResults" aria-live="polite"></div>
+    </section>
+
+    <section class="panel" id="highlight">
+      <div class="section-title"><i class="fa-solid fa-sparkles"></i> 특집 문서</div>
+      <div class="highlight">
+        <img src="assets/images/clinical.jpg" alt="실험 테이블과 샘플 이미지" />
+        <div class="card" style="height: 100%;">
+          <div class="label"><i class="fa-solid fa-flask"></i> 실험 프로토콜</div>
+          <h4>플라즈마 단백 결합 실험 위키</h4>
+          <p>샘플 준비, 스핀 열처리 조건, 데이터 시각화 링크까지 한 번에 모아둔 문서입니다. 표준화된 순서, 장비 체크리스트, 원본 결과 파일 링크를 포함합니다.</p>
+          <div class="meta">
+            <span><i class="fa-regular fa-clock"></i> 업데이트 2일 전</span>
+            <span><i class="fa-solid fa-user"></i> Editor: YS</span>
+          </div>
+          <a href="#">위키 문서로 이동 <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="gallery">
+      <div class="section-title"><i class="fa-solid fa-photo-film"></i> 이미지/미디어 자료</div>
+      <div class="gallery">
+        <figure>
+          <img src="assets/images/sample1.jpg" alt="단백질 구조 렌더링" />
+          <figcaption>단백질 표면 렌더링 예시</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/sample2.jpg" alt="화학 구조 스케치" />
+          <figcaption>화학 구조 및 annotation</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/sample3.jpg" alt="분자 동역학 그래프" />
+          <figcaption>MD RMSD 결과 그래프</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/clinivision.jpg" alt="현미경 이미지" />
+          <figcaption>세포 이미지 스냅샷</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="panel" id="links">
+      <div class="section-title"><i class="fa-solid fa-link"></i> 링크 컬렉션</div>
+      <div class="grid cards">
+        <div class="card">
+          <div class="label"><i class="fa-solid fa-database"></i> 데이터</div>
+          <h4>Public BioAssay Data</h4>
+          <p>ChEMBL, PubChem, BindingDB 등 오픈 데이터베이스 바로가기 링크.</p>
+          <div class="meta"><span><i class="fa-solid fa-arrow-up-right-from-square"></i> 외부 링크</span></div>
+        </div>
+        <div class="card">
+          <div class="label"><i class="fa-solid fa-file-waveform"></i> 분석</div>
+          <h4>Docking Workflow 템플릿</h4>
+          <p>AutoDock Vina, PLIP 리포트, 상호작용 이미지 HTML 결과 모음.</p>
+          <div class="meta"><span><i class="fa-regular fa-copy"></i> 샘플 문서 포함</span></div>
+        </div>
+        <div class="card">
+          <div class="label"><i class="fa-solid fa-robot"></i> AI</div>
+          <h4>QSAR 모델 카탈로그</h4>
+          <p>데이터 전처리, 피처 엔지니어링, 스코어 카드 링크를 한 화면에서 관리.</p>
+          <div class="meta"><span><i class="fa-solid fa-tags"></i> Regression / Classification</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="submit">
+      <div class="section-title"><i class="fa-solid fa-pen-to-square"></i> 정보 추가 제안</div>
+      <p class="muted" style="margin: 0 0 14px;">제목, 카테고리, 요약, 참고 링크, 첨부파일 영역을 갖춘 모양새입니다. 실제 저장 로직은 연결되어 있지 않습니다.</p>
+      <form class="info-form" aria-label="정보 추가 폼">
+        <input type="text" name="title" placeholder="제목을 입력하세요" aria-label="제목" required />
+        <input type="text" name="category" placeholder="카테고리 (예: Docking, QSAR)" aria-label="카테고리" />
+        <input type="url" name="link" placeholder="참고 링크 (https://)" aria-label="참고 링크" />
+        <input type="text" name="tags" placeholder="#태그 #키워드" aria-label="태그" />
+        <textarea name="summary" placeholder="간단한 요약, 실험 조건, 메모 등을 적어보세요" aria-label="요약"></textarea>
+        <div class="form-row">
+          <div class="upload-box"><i class="fa-solid fa-file-circle-plus"></i> 파일을 여기로 끌어놓거나 클릭해 업로드</div>
+          <div class="upload-box"><i class="fa-solid fa-image"></i> 이미지/도면 첨부 영역</div>
+        </div>
+        <div class="submit-actions">
+          <button type="button" class="btn-secondary"><i class="fa-regular fa-eye"></i> 미리보기</button>
+          <button type="button" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> 제안 제출</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel" id="recent">
+      <div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> 최근 업데이트</div>
+      <div class="list">
+        <div class="item">
+          <div>
+            <div class="pill"><i class="fa-solid fa-flask-vial"></i> Protocol</div>
+            <div class="muted">Microsome stability assay | by SY</div>
+          </div>
+          <span class="muted">12시간 전</span>
+        </div>
+        <div class="item">
+          <div>
+            <div class="pill" style="background:#f1f5ff; color:#2747d8;"><i class="fa-solid fa-brain"></i> AI</div>
+            <div class="muted">QSAR baseline vs transformer 비교 리포트</div>
+          </div>
+          <span class="muted">어제</span>
+        </div>
+        <div class="item">
+          <div>
+            <div class="pill" style="background:#e8fff5; color:#0c9a5a;"><i class="fa-solid fa-microscope"></i> Imaging</div>
+            <div class="muted">Confocal 이미지 주석 추가</div>
+          </div>
+          <span class="muted">3일 전</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const searchData = [
+      {
+        title: "HDOCK 기반 단백질-단백질 도킹",
+        category: "protocol",
+        summary: "입력 구조 준비, 그리드 설정, PLIP 상호작용 이미지까지 포함한 절차형 가이드.",
+        tags: ["Docking", "Interaction"],
+        link: "#"
+      },
+      {
+        title: "QSAR 분류 모델 실험 기록",
+        category: "ai",
+        summary: "RandomForest, XGBoost, GNN 실험 요약과 검증 스코어 표.",
+        tags: ["QSAR", "ML"],
+        link: "#"
+      },
+      {
+        title: "합성 가능한 스캐폴드 라이브러리",
+        category: "chemistry",
+        summary: "PLK4 저해제 시리즈 중심의 스캐폴드, building block, 구매 링크.",
+        tags: ["Scaffold", "Library"],
+        link: "#"
+      },
+      {
+        title: "MD 시뮬레이션 셋업 체크리스트",
+        category: "protocol",
+        summary: "force field 선택, 솔베이션, 평형화 단계별 파라미터 모음.",
+        tags: ["MD", "Simulation"],
+        link: "#"
+      }
+    ];
+
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const searchButton = document.getElementById("searchButton");
+    const searchResults = document.getElementById("searchResults");
+
+    function renderCards(data) {
+      searchResults.innerHTML = data
+        .map(item => `
+          <article class="card">
+            <div class="label"><i class="fa-solid fa-folder-open"></i> ${item.category}</div>
+            <h4>${item.title}</h4>
+            <p>${item.summary}</p>
+            <div class="meta">
+              <span><i class="fa-solid fa-tag"></i> ${item.tags.join(", ")}</span>
+            </div>
+            <a href="${item.link}">문서 보기 <i class="fa-solid fa-arrow-right"></i></a>
+          </article>
+        `)
+        .join("");
+    }
+
+    function filterCards() {
+      const query = searchInput.value.toLowerCase();
+      const category = categoryFilter.value;
+      const filtered = searchData.filter(item => {
+        const matchQuery =
+          item.title.toLowerCase().includes(query) ||
+          item.summary.toLowerCase().includes(query) ||
+          item.tags.some(tag => tag.toLowerCase().includes(query));
+        const matchCategory = category === "all" || item.category === category;
+        return matchQuery && matchCategory;
+      });
+      renderCards(filtered.length ? filtered : searchData);
+    }
+
+    searchButton.addEventListener("click", filterCards);
+    searchInput.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        filterCards();
+      }
+    });
+    categoryFilter.addEventListener("change", filterCards);
+
+    renderCards(searchData);
+  </script>
+</body>
+</html>
