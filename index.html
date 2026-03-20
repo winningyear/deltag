@@ -2,934 +2,935 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ΔG</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seongyeon Yu — CADD Researcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f8f7f4;
+      --surface: #ffffff;
+      --border: #e8e4de;
+      --text: #1a1917;
+      --muted: #7a7570;
+      --accent: #2d5a3d;
+      --accent-light: #e8f0ea;
+      --accent2: #c8543a;
+      --mono: 'DM Mono', monospace;
+      --serif: 'DM Serif Display', serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
       overflow-x: hidden;
     }
 
-header {
-  background-color: white;
-  height: 70px;
-  position: fixed;
-  top: 0; 
-  left: 0; 
-  width: 100%;     
-  z-index: 10;
-  transition: all 0.3s ease;
-  border-bottom: 1px solid #ddd;
-}
-    .header-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 40px;
-      height: 100%;
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 3rem;
+      background: rgba(248,247,244,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
     }
-
-    .site-name {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #222;
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-transform: uppercase;
     }
-
-    .dropdown-panel {
-      position: absolute;
-      top: 70px;
-      left: 0;
-      width: 100%;
-      background-color: white;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      display: flex;
-      justify-content: center;
-      gap: 80px;
-      padding: 0 60px;
-      opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: all 0.4s ease;
-      z-index: 9;
-    }
-
-    header.expanded .dropdown-panel {
-      padding-top: 40px;
-      padding-bottom: 40px;
-      opacity: 1;
-      max-height: 500px;
-    }
-
-    .dropdown-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      width: 200px;
-    }
-
-    .dropdown-group span {
-      font-size: 1.5rem;
-      color: #888;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-
-    .dropdown-group a {
-      color: #222;
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
       text-decoration: none;
-      padding: 8px;
-      transition: color 0.3s ease, transform 0.3s ease, font-weight 0.3s ease;
+      transition: color 0.2s;
     }
+    .nav-links a:hover { color: var(--text); }
 
-    .dropdown-group a:hover {
-      color: #00c7c7;
-      transform: scale(1.02);
-      font-weight: bold;
-    }
-
-    .main-content {
-      padding: 100px 40px;
-      background-color: #f5f5f5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 60px;
-    }
-
-    .intro-title {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #2c3e50;
-      text-align: center;
-      max-width: 800px;
-      line-height: 1.5;
-      animation: fadeIn 1s ease forwards;
-    }
-
-    .card-container {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      max-width: 1000px;
-      margin: 0 auto 80px;
-    }
-
-.card {
-  width: 300px;
-  background-color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  padding: 20px;
-  margin: 15px;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.6s ease forwards;
-  border: 2px solid transparent;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
-}
-
-.tech-card {
-  background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-  position: relative;
-  z-index: 1;
-}
-
-.tech-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-  border: 2px solid #00c7c7;
-}
-
-    .card:hover {
-      transform: translateY(-10px);
-      border: 2px solid #00c7c7;
-      box-shadow: 0 8px 20px rgba(0, 199, 199, 0.3);
-    }
-
-    .card:nth-child(1) {
-      animation-delay: 0.3s;
-    }
-
-    .card:nth-child(2) {
-      animation-delay: 0.7s;
-    }
-
-    .card:nth-child(3) {
-      animation-delay: 1.1s;
-    }
-
-    .card-title {
-      font-size: 1.3rem;
-      font-weight: bold;
-      margin-bottom: 12px;
-      color: #00a0a0;
-    }
-
-    .card-description {
-      font-size: 0.95rem;
-      color: #444;
-      line-height: 1.5;
-    }
-
-    .scroll-indicator {
-      margin-top: 60px;
-      color: #aaa;
-      font-size: 0.9rem;
-      text-align: center;
-    }
-
-    .scroll-indicator::after {
-      content: "";
-      display: block;
-      width: 10px;
-      height: 10px;
-      background-color: #00c7c7;
-      border-radius: 50%;
-      margin: 10px auto 0;
-      animation: bounce 1.5s infinite;
-    }
-
-.section-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;               
-  padding: 100px 10%;
-  background-color: #f5f7fa;
-  flex-wrap: wrap;    
-}
-  .tech-list {
-    display: grid;
-    flex-direction: column;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 5px, 20px; 
-  }
-
-  .tech-item {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* 아이콘과 글자 사이 간격 */
-  }
-    .slider-wrapper {
-      width: 300px;
-      height: 400px;
-      overflow: hidden;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 3rem 5rem;
       position: relative;
     }
-
-    .slider-track {
-      display: flex;
-      height: 100%;
-      transform: translateX(0%);
-      transition: transform 1.5s ease;
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
     }
-
-    .slider-track img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      flex-shrink: 0;
-      user-select: none;
-      pointer-events: none;
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(3.5rem, 8vw, 7.5rem);
+      line-height: 1.0;
+      color: var(--text);
+      letter-spacing: -0.02em;
     }
-
-    .slide-box.right {
-      width: 250px;
-      height: 350px;
-      margin-left: 40px;
-      background-color: #121212;
-      color: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      padding: 30px;
-      opacity: 0;
-      transform: translateX(50px);
-      transition: all 3s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
     }
-
-    .slide-box.right.visible {
-      opacity: 1;
-      transform: translateX(0);
+    .hero-tagline {
+      margin-top: 1.8rem;
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.7;
     }
-
-    .slide-box.right h2 {
-      font-size: 1.2rem;
-  font-weight: bold;
-  line-height: 1.4;
-  margin-bottom: 16px;
-  color: #fff;
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex; gap: 1rem; flex-wrap: wrap;
     }
-
-.slide-box.right ul {
-  list-style-type: disc;
-  padding-left: 20px;
-  margin-bottom: 20px;
-}
-    .slide-box.right ul li {
-      font-size: 0.95rem;
-  line-height: 1.6;
-  color: #e0e0e0;
- text-align: left;
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: all 0.2s;
+      cursor: pointer; border: none;
     }
-
-    .slider-controls {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
     }
-
-    .slider-dots {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 10px;
+    .btn-primary:hover { background: var(--accent); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
     }
+    .btn-ghost:hover { border-color: var(--text); }
 
-
-section.fade-section {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: all 1s ease;
-  background-color: transparent;
-}
-
-section.fade-section.visible {
-  opacity: 1;
-  transform: translateY(0);
-  background-color: #f0f8ff; /* 원하는 배경색으로 */
-}
-
-section.ai-section.visible {
-  background-color: #fff5e6; /* AI 섹션만 연한 오렌지 */
-}
-
-    .slider-dots span {
-      width: 10px;
-      height: 10px;
-      background-color: #888;
+    .hero-deco {
+      position: absolute;
+      top: 6rem; right: 3rem;
+      width: 320px; height: 320px;
       border-radius: 50%;
-      display: inline-block;
-      transition: background-color 0.3s ease;
-      opacity: 0.4;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      animation: spin-slow 30s linear infinite;
+    }
+    .hero-deco::before {
+      content: '';
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, var(--accent-light) 0%, transparent 70%);
+    }
+    .hero-deco-inner {
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      border: 1px dashed var(--border);
+      display: flex; align-items: center; justify-content: center;
+      animation: spin-slow 20s linear infinite reverse;
+    }
+    .hero-mol {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.9;
+      letter-spacing: 0.05em;
+    }
+    @keyframes spin-slow { to { transform: rotate(360deg); } }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 7rem 3rem; }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 3rem;
+    }
+    .divider {
+      width: 100%; height: 1px;
+      background: var(--border);
+      margin: 0;
     }
 
-    .slider-dots span.active {
-      background-color: #fff;
-      opacity: 1;
+    /* ── ABOUT ── */
+    #about { background: var(--surface); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-bio {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--text);
+    }
+    .about-bio p + p { margin-top: 1.2rem; }
+    .about-meta { display: flex; flex-direction: column; gap: 1.5rem; }
+    .meta-item {
+      padding: 1.2rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    .meta-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .meta-value {
+      font-size: 0.92rem;
+      color: var(--text);
     }
 
-    .slider-buttons {
-      display: flex;
-      gap: 10px;
+    /* ── SKILLS ACCORDION ── */
+    #skills { background: var(--bg); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
     }
-
-    .slider-buttons button {
-      background-color: rgba(255, 255, 255, 0.2);
-      border: none;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 6px;
+    .skill-card {
+      background: var(--surface);
       cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+    }
+    .skill-card:hover { background: #fafaf8; }
+    .skill-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 1.8rem;
+    }
+    .skill-title-row { display: flex; align-items: center; gap: 0.9rem; }
+    .skill-icon {
+      width: 36px; height: 36px;
+      border-radius: 6px;
+      background: var(--accent-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .skill-name {
+      font-weight: 500;
+      font-size: 0.92rem;
+      letter-spacing: 0.01em;
+    }
+    .skill-toggle {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      transition: transform 0.3s, background 0.2s;
+      flex-shrink: 0;
+    }
+    .skill-card.open .skill-toggle {
+      transform: rotate(45deg);
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .skill-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
+      padding: 0 1.8rem;
+    }
+    .skill-card.open .skill-body {
+      max-height: 400px;
+      padding: 0 1.8rem 1.6rem;
+    }
+    .skill-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .tag {
+      display: inline-block;
+      padding: 0.28rem 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      border-radius: 2px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid rgba(45,90,61,0.15);
+    }
+    .tag.secondary {
+      background: #f2ece8;
+      color: #8b4a34;
+      border-color: rgba(200,84,58,0.15);
+    }
+    .tag.neutral {
+      background: #f0f0ee;
+      color: #555;
+      border-color: #ddd;
     }
 
+    /* ── PUBLICATIONS ── */
+    #publications { background: var(--surface); }
+    .pub-list { display: flex; flex-direction: column; gap: 0; }
+    .pub-item {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 1.5rem;
+      align-items: start;
+      padding: 1.8rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .pub-item:first-child { border-top: 1px solid var(--border); }
+    .pub-year {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      padding-top: 0.15rem;
+    }
+    .pub-content {}
+    .pub-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 0.3rem;
+    }
+    .pub-journal {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    .pub-badge {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      align-self: flex-start;
+      margin-top: 0.15rem;
+    }
+    .badge-published { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(45,90,61,0.2); }
+    .badge-prep { background: #f5f0e8; color: #9a7840; border: 1px solid rgba(154,120,64,0.2); }
 
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(10px);
-      }
+    /* ── PROJECTS ── */
+    #projects { background: var(--bg); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.8rem;
+      display: flex; flex-direction: column;
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+      transform: translateY(-2px);
+    }
+    .project-number {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+    .project-name {
+      font-weight: 500;
+      font-size: 1rem;
+      margin-bottom: 0.6rem;
+      line-height: 1.4;
+    }
+    .project-desc {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 1.4rem;
+    }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .project-tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      padding: 0.2rem 0.55rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
     }
 
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--text);
+      color: var(--bg);
+    }
+    #contact .section-label { color: rgba(255,255,255,0.4); }
+    #contact .section-title { color: var(--bg); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-desc {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 2rem;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .contact-link:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.25);
+    }
+    .contact-link-icon {
+      width: 36px; height: 36px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .contact-link-text {}
+    .contact-link-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.1rem;
+    }
+    .contact-link-value {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.85);
+    }
+    .contact-note {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.3);
+      line-height: 1.8;
+      padding-top: 1rem;
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 1.5rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.08em;
     }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
+    /* ── FADE-IN ANIMATION ── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
 
-.site-footer {
-  background-color: #2c3e50;
-  color: #f0f0f0;
-  padding: 30px 20px;
-  text-align: center;
-  font-size: 0.9rem;
-  margin-top: 100px;
-}
-
-.site-footer p {
-  margin: 6px 0;
-  line-height: 1.6;
-}
-
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      #hero { padding: 0 1.5rem 4rem; }
+      .hero-deco { display: none; }
+      section { padding: 5rem 1.5rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .pub-item { grid-template-columns: 1fr; gap: 0.3rem; }
+      footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; }
+    }
   </style>
 </head>
 <body>
-  <header id="main-header">
-    <div class="header-inner">
-      <div class="site-name">
-  <a href="index.html" style="text-decoration: none; color: inherit;">ΔG</a>
-</div>
-    </div>
-    <div class="dropdown-panel">
-      <div class="dropdown-group">
-        <span>Profile</span>
-        <a href="profile.html">Profile</a>
-        <a href="#">Skills</a>
-        <a href="project.html">Project</a>
-      </div>
-      <div class="dropdown-group">
-        <span>Posting</span>
-        <a href="#">What is CADD</a>
-        <a href="#">Blog</a>
-      </div>
-      <div class="dropdown-group">
-        <span>Contact</span>
-        <a href="#">Contact</a>
-      </div>
-    </div>
-  </header>
 
-<main class="main-content">
-<div class="intro-title" style="margin-top: 60px; text-align: center;">
-  유승연은 학부는 응용화학을 전공했으며<br>석사는 Computer Aided Drug Design을 전공했습니다.
-</div>
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">SY.YU</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-  <div class="card-container">
-    <div class="card" onclick="scrollToSectionCenter('section-coding')">
-      <div class="card-title">Coding</div>
-      <div class="card-description">
-        프론트엔드 및 백엔드 코딩이 가능,<br>
-        물리화학적 지표 계산 및 시각화를 구현가능, <br>
-        서버자원을 통한 자동화 코드도 구현가능
-      </div>
-    </div>
-    <div class="card" onclick="scrollToSectionCenter('section-cadd')">
-      <div class="card-title">CADD</div>
-      <div class="card-description">
-        컴퓨터 기반 신약개발 프로그램들 적용<br>
-        상용화, 오픈소스 프로그램까지 적용가능<br>
-        Structure, Ligand-based drug design 경험 
-      </div>
-    </div>
-    <div class="card" onclick="scrollToSectionCenter('section-ai')">
-      <div class="card-title">AI</div>
-      <div class="card-description">
-        머신러닝, 딥러닝 알고리즘에 대해 이해<br>
-        생물학적데이터를 학습 후 분류 및 회귀 모델 구현
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-deco">
+    <div class="hero-deco-inner">
+      <div class="hero-mol">
+        C—N<br>|&nbsp;&nbsp;&nbsp;|<br>C&nbsp;&nbsp;C<br>|&nbsp;&nbsp;&nbsp;|<br>N—C
       </div>
     </div>
   </div>
-
-    <div class="scroll-indicator">SCROLL</div>
-  
-</main>
-
-<section id="section-coding" class="coding-detail" style="margin-top: 60px; text-align: center;">
-  <h2 style="
-    font-size: 2rem;
-    color: #00a0a0;
-    margin-bottom: 20px;
-    animation: fadeInUp 0.6s ease forwards;
-  ">
-    Coding
-  </h2>
-
-  <p style="
-    font-size: 1.05rem;
-    color: #444;
-    line-height: 1.8;
-    margin-bottom: 20px;
-    animation: fadeInUp 0.6s ease forwards;
-    animation-delay: 0.2s;
-    opacity: 0;
-    animation-fill-mode: forwards;
-    display: inline-block;
-    max-width: 1000px;
-    text-align: center;
-  ">
-    신약개발 플렛폼 구축을 위해 사용되는 프론트엔드 및 백엔드 코딩이 가능하며,<br>
-    이를 통해 신약개발에서 사용되는 많은 지표들의 계산 및 시각화를 구현할 수 있습니다. <br>
-    또한 서버자원을 활용한 자동화 코드도 구현하여 실제 적용할 수 있습니다.
-  </p>
-
-
-<section id="section-coding-detail" class="coding-detail" style="margin-top: 60px; text-align: center;">
-  <div class="grid" style="
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 320px);
-    justify-content: center;
-    gap: 30px; 
-    max-width: 1000px;
-    margin: 0 auto 80px;
-  ">
-
-    <!-- 언어 -->
-    <div class="tech-card" style="
-      background-color: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-      height: 220px;
-      display: flex;
-      flex-direction: column;
-    ">
-      <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
-        <i class="fas fa-code"></i> Programming Language
-      </h3>
-      <div class="tech-list" style="line-height: 1.8;">
-        <div class="tech-item"><i class="fab fa-python"></i> Python</div>
-        <div class="tech-item"><i class="fab fa-js-square"></i> JavaScript</div>
-        <div class="tech-item"><i class="fab fa-html5"></i> HTML</div>
-        <div class="tech-item"><i class="fab fa-css3-alt"></i> CSS</div>
-      </div>
+  <div class="fade-in visible">
+    <p class="hero-label">Computational Drug Discovery · Seoul, KR</p>
+    <h1 class="hero-name">Seongyeon<br><em>Yu</em></h1>
+    <p class="hero-tagline">
+      Computational chemist working at the intersection of structural bioinformatics
+      and drug discovery — turning protein structures into therapeutic insights.
+    </p>
+    <div class="hero-cta">
+      <a href="#publications" class="btn btn-primary">View Research ↓</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
     </div>
-
-    <!-- 프레임워크 -->
-<div class="tech-card" style="
-  background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  height: 220px;
-  display: flex;
-  flex-direction: column;
-">
-  <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
-    <i class="fas fa-tools"></i> Framework
-  </h3>
-  <div class="tech-list" style="line-height: 1.8;">
-    <div class="tech-item"><i class="fas fa-table"></i> Pandas</div>
-    <div class="tech-item"><i class="fas fa-square-root-alt"></i> NumPy</div>
-    <div class="tech-item"><i class="fas fa-brain"></i> Scikit-learn</div>
-    <div class="tech-item"><i class="fas fa-vials"></i> RDKit</div>
-    <div class="tech-item"><i class="fas fa-dna"></i> BioPandas</div>
-    <div class="tech-item"><i class="fas fa-microscope"></i> PyMOL</div>
-    <div class="tech-item"><i class="fas fa-fire"></i> PyTorch</div>
-    <div class="tech-item"><i class="fas fa-project-diagram"></i> Multiprocessing</div>
-    <div class="tech-item"><i class="fas fa-robot"></i> Selenium</div>
-    <div class="tech-item"><i class="fas fa-chart-bar"></i> Matplotlib</div>
   </div>
-</div>
-
-  <!-- OS -->
-<div class="tech-card" style="
-  background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  height: 220px;
-  display: flex;
-  flex-direction: column;
-">
-  <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
-    <i class="fas fa-server"></i> OS
-  </h3>
-  <div class="tech-list" style="line-height: 1.8; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 30px; word-break: break-word;">
-    <div class="tech-item"><i class="fab fa-linux"></i> Linux</div>
-    <div class="tech-item"><i class="fas fa-terminal"></i> WSL-Ubuntu</div>
-    <div class="tech-item"><i class="fab fa-windows"></i> Windows</div>
-  </div>
-</div>
-
-<!-- Tools -->
-<div class="tech-card" style="
-  background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  height: 220px;
-  display: flex;
-  flex-direction: column;
-">
-  <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
-    <i class="fas fa-tools"></i> Tools
-  </h3>
-  <div class="tech-list" style="line-height: 1.8; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 30px;">
-    <div class="tech-item"><i class="fas fa-code"></i> PyCharm</div>
-    <div class="tech-item"><i class="fas fa-code-branch"></i> VSCode</div>
-    <div class="tech-item"><i class="fab fa-git-alt"></i> Git</div>
-    <div class="tech-item"><i class="fab fa-github"></i> GitHub</div>
-  </div>
-</div>
 </section>
 
-<section id="section-cadd" class="coding-detail fade-section" style="margin-top: 120px; padding-top: 40px; text-align: center;">
-  <h2 style="
-    font-size: 2rem;
-    color: #00a0a0;
-    margin-bottom: 20px;
-    animation: fadeInUp 0.6s ease forwards;
-  ">
-    CADD(Computer Aided Drug Design)
-  </h2>
+<div class="divider"></div>
 
-  <p style="
-    font-size: 1.05rem;
-    color: #444;
-    line-height: 1.8;
-    margin-bottom: 20px;
-    animation: fadeInUp 0.6s ease forwards;
-    animation-delay: 0.2s;
-    opacity: 0;
-    animation-fill-mode: forwards;
-    display: inline-block;
-    max-width: 1000px;
-    text-align: center;
-  ">
-    컴퓨터 기반 신약개발 프로그램들에 대한 이해를 하고있으며 상용화 프로그램부터 오픈소스 프로그램까지 폭넓은 경험을 했습니다. <br>
-    특히 CLI 기반으로 실행되는 최신 신약개발 프로그램들 세팅과 더불어 적용까지 가능합니다. 
-  </p>
-
-
-<section id="section-cadd" class="coding-detail fade-section" style="margin-top: 30px; padding-top: 40px; text-align: center; position: relative; z-index: 1;">
-  <div class="grid" style="
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 320px);
-    justify-content: center;
-    gap: 30px; 
-    max-width: 1000px;
-    margin: 0 auto 80px;
-  ">
-
-    <!-- 언어 -->
-    <div class="tech-card" style="
-      background-color: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-      height: 220px;
-      display: flex;
-      flex-direction: column;
-    ">
-      <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
-        <i class="fas fa-code"></i> Commercial program
-      </h3>
-      <div class="tech-list" style="line-height: 1.8;">
-        <div class="tech-item"><i class="fab fa-python"></i> DS</div>
-        <div class="tech-item"><i class="fab fa-js-square"></i> Schrödinger</div>
+<!-- ABOUT -->
+<section id="about">
+  <div class="fade-in">
+    <p class="section-label">01 — About</p>
+    <h2 class="section-title">Background</h2>
+  </div>
+  <div class="about-grid fade-in">
+    <div class="about-bio">
+      <p>
+        I'm a computational researcher specializing in computer-aided drug design (CADD),
+        with a focus on structure-based approaches including molecular docking, molecular
+        dynamics simulations, and structural bioinformatics.
+      </p>
+      <p>
+        My work bridges computational chemistry and medicinal chemistry — building pipelines
+        that translate structural data into actionable hypotheses for drug development.
+        I'm particularly interested in virtual screening, protein–ligand interaction analysis,
+        and leveraging PDB crystal structure data to understand binding geometries.
+      </p>
+      <p>
+        I work primarily in Linux environments with Python-based toolchains, integrating
+        open-source cheminformatics libraries with domain-specific simulation software.
+      </p>
+    </div>
+    <div class="about-meta">
+      <div class="meta-item">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Computational Drug Discovery Researcher</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Focus Areas</div>
+        <div class="meta-value">Structure-based drug design · Virtual screening · MD simulation</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Environment</div>
+        <div class="meta-value">Linux · Python · Conda · HPC clusters</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Languages</div>
+        <div class="meta-value">Korean (native) · English (working proficiency)</div>
       </div>
     </div>
-
-
-   <div class="tech-card" style="
-  background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  height: 220px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: visible; 
-">
-  <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
-    <i class="fas fa-code"></i> CADD tools
-  </h3>
-
-  <div class="tech-list" style="line-height: 1.8;">
-    <div class="tech-item"><i class="fab fa-python"></i> QSAR</div>
-    <div class="tech-item"><i class="fab fa-js-square"></i> Pharmacophore</div>
-    <div class="tech-item"><i class="fab fa-js-square"></i> Dynamics</div>
-    <div class="tech-item"><i class="fab fa-js-square"></i> Docking</div>
   </div>
-
-  <!-- +more 버튼 -->
-  <a href="javascript:void(0)" onclick="toggleExpandedCard()" style="
-    margin-top: 20px;
-    align-self: flex-start;
-    font-size: 0.9rem;
-    color: #00a0a0;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
-  " onmouseover="this.style.color='#007070'" onmouseout="this.style.color='#00a0a0'">+more</a>
-
-  <!-- ✅ 확장 카드: 반드시 내부에 위치할 것 -->
-  <div id="expandedCard" style="
-    position: absolute;
-    top: 0;
-    left: calc(100% + 20px);
-    width: 300px;
-    min-height: 600px;
-    background-color: #ffffff;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    border-radius: 12px;
-    padding: 20px;
-    display: none;
-    flex-direction: column;
-    animation: slideIn 0.5s forwards;
-    z-index: 9999;
-  ">
-    <h3 style="color: #00a0a0; margin-bottom: 16px;">Detailed CADD Tools</h3>
-  <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.85rem; color: #444;">
-    <thead>
-      <tr style="background-color: #f0f8ff;">
-        <th style="padding: 8px; border: 1px solid #ccc;">Category</th>
-        <th style="padding: 8px; border: 1px solid #ccc;">Programs</th>
-      </tr>
-    </thead>
-    <tbody>
-
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">Docking</td><td style="padding: 8px; border: 1px solid #ccc;">HADDOCK<br>HDock<br>ZDOCK<br>Glide Dock<br>AutoDock/Vina<br>SwissDock<br>Diffdock<br>Gnina<br>GOLD Dock</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">QSAR</td><td style="padding: 8px; border: 1px solid #ccc;">Machine, deep learning<br>Discovery Studio<br>AutoQSAR</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">MD simulation</td><td style="padding: 8px; border: 1px solid #ccc;">GROMACS<br>AMBER<br>CHARMM</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">Homology modeling</td><td style="padding: 8px; border: 1px solid #ccc;">Discovery Studio<br>Swiss-Modeler<br>AlphaFold</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">Pharmacophore modeling</td><td style="padding: 8px; border: 1px solid #ccc;">Ligand scout<br>Discovery Studio<br>Phase</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">Visualizer</td><td style="padding: 8px; border: 1px solid #ccc;">VMD<br>PyMOL</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">Interaction</td><td style="padding: 8px; border: 1px solid #ccc;">PLIP</td></tr>
-      <tr><td style="padding: 8px; border: 1px solid #ccc;">Pysicochemical properties</td><td style="padding: 8px; border: 1px solid #ccc;">RDKit</td></tr>
-    </tbody>
-  </table>
-
-
-
-  </div>
-</div>
-
 </section>
 
-<section id="section-ai" class="coding-detail fade-section ai-section" style="margin-top: 60px;padding-top: 40px; text-align: center; position: static;">
-  <h2 style="
-    font-size: 2rem;
-    color: #00a0a0;
-    margin-bottom: 20px;
-    animation: fadeInUp 0.6s ease forwards;
-  ">
-    AI(Artificial Intelligent)
-  </h2>
+<div class="divider"></div>
 
-  <p style="
-    font-size: 1.05rem;
-    color: #444;
-    line-height: 1.8;
-    margin-bottom: 20px;
-    animation: fadeInUp 0.6s ease forwards;
-    animation-delay: 0.2s;
-    opacity: 0;
-    animation-fill-mode: forwards;
-    display: inline-block;
-    max-width: 1000px;
-    text-align: center;
-  ">
-    다양한 머신러닝, 딥러닝 알고리즘에 대해 이해하고 있습니다.<br>
-    이러한 알고리즘에 정량화된 생물학적데이터를 학습시켜 분류 및 회귀 모델을 구현할 수 있습니다. <br>
-  </p>
+<!-- SKILLS -->
+<section id="skills">
+  <div class="fade-in">
+    <p class="section-label">02 — Skills</p>
+    <h2 class="section-title">Technical Stack</h2>
+  </div>
+  <div class="skills-grid fade-in">
 
-<section id="section-ai-detail" class="coding-detail" style="margin-top: 60px; text-align: center;">
-  <div class="grid" style="
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 320px);
-    justify-content: center;
-    gap: 30px; 
-    max-width: 1000px;
-    margin: 0 auto 80px;
-  ">
-
-    <!-- 언어 -->
-    <div class="tech-card" style="
-      background-color: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-      height: 220px;
-      display: flex;
-      flex-direction: column;
-    ">
-      <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
-        <i class="fas fa-code"></i> Framework
-      </h3>
-      <div class="tech-list" style="line-height: 1.8;">
-        <div class="tech-item"><i class="fab fa-python"></i> Pytorch</div>
-        <div class="tech-item"><i class="fab fa-js-square"></i> Skit-learn</div>
+    <div class="skill-card" onclick="toggleSkill(this)">
+      <div class="skill-header">
+        <div class="skill-title-row">
+          <div class="skill-icon">🧬</div>
+          <span class="skill-name">Molecular Docking</span>
+        </div>
+        <div class="skill-toggle">+</div>
       </div>
-    </div>
-    <div class="tech-card" style="
-      background-color: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-      height: 220px;
-      display: flex;
-      flex-direction: column;
-    ">
-      <h3 style="margin-top: 0; font-size: 1rem; color: #00a0a0; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 6px;">
-        <i class="fas fa-code"></i> Algorithms
-      </h3>
-      <div class="tech-list" style="line-height: 1.8;">
-        <div class="tech-item"><i class="fab fa-python"></i> SVM</div>
-        <div class="tech-item"><i class="fab fa-python"></i> Random forest</div>
-        <div class="tech-item"><i class="fab fa-python"></i> MLP</div>
-        <div class="tech-item"><i class="fab fa-python"></i> XGBoost</div>
-        <div class="tech-item"><i class="fab fa-python"></i> CNN</div>
-        <div class="tech-item"><i class="fab fa-python"></i> RNN</div>
-        <div class="tech-item"><i class="fab fa-python"></i> GNN</div>
-      </div>
-    </div>
-</section>
-
-  <section class="section-container" id="cardSection">
-<h2 style="text-align: center; font-size: 1.8rem; margin-bottom: 30px; color: #333;">
-    이런 프로젝트를 진행해왔습니다.
-  </h2>
-    <div class="slider-wrapper">
-      <div class="slider-track" id="sliderTrack">
-        <img src="https://raw.githubusercontent.com/winningyear/deltag/main/assets/images/ABIO2.jpg"/>
-        <img src="https://raw.githubusercontent.com/winningyear/deltag/main/assets/images/clinivision2.jpg"/>
-        <img src="https://raw.githubusercontent.com/winningyear/deltag/main/assets/images/PLK4_2.jpg"/>
-      </div>
-    </div>
-    <div class="slide-box right" id="slideTextBox">
-      <h2 id="slideTitle">Docking</h2>
-      <ul id="slideDescription"></ul>
-      <div class="slider-controls">
-        <div class="slider-dots" id="sliderDots"></div>
-        <div class="slider-buttons">
-          <button onclick="prevSlide()">◀</button>
-          <button onclick="nextSlide()">▶</button>
+      <div class="skill-body">
+        <div class="skill-tags">
+          <span class="tag">AutoDock Vina</span>
+          <span class="tag">Glide</span>
+          <span class="tag">GOLD</span>
+          <span class="tag">Smina</span>
+          <span class="tag">Gnina</span>
+          <span class="tag">rDock</span>
+          <span class="tag neutral">Virtual Screening</span>
+          <span class="tag neutral">Rescoring</span>
+          <span class="tag neutral">Ensemble Docking</span>
         </div>
       </div>
     </div>
-  </section>
 
-<footer class="site-footer">
-  <div class="footer-content">
-    <p>📧 이메일: ysysmart@naver.com</p>
-    <p>© 2025 Seongyeon Yu. All Rights Reserved.</p>
+    <div class="skill-card" onclick="toggleSkill(this)">
+      <div class="skill-header">
+        <div class="skill-title-row">
+          <div class="skill-icon">⚛️</div>
+          <span class="skill-name">MD Simulations</span>
+        </div>
+        <div class="skill-toggle">+</div>
+      </div>
+      <div class="skill-body">
+        <div class="skill-tags">
+          <span class="tag">GROMACS</span>
+          <span class="tag">AMBER</span>
+          <span class="tag">OpenMM</span>
+          <span class="tag neutral">RMSD / RMSF</span>
+          <span class="tag neutral">Free Energy</span>
+          <span class="tag neutral">Trajectory Analysis</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-card" onclick="toggleSkill(this)">
+      <div class="skill-header">
+        <div class="skill-title-row">
+          <div class="skill-icon">🐍</div>
+          <span class="skill-name">Cheminformatics / Python</span>
+        </div>
+        <div class="skill-toggle">+</div>
+      </div>
+      <div class="skill-body">
+        <div class="skill-tags">
+          <span class="tag">RDKit</span>
+          <span class="tag">MDAnalysis</span>
+          <span class="tag">Biopython</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">Matplotlib</span>
+          <span class="tag secondary">SMILES</span>
+          <span class="tag secondary">PAINS filter</span>
+          <span class="tag secondary">FilterCatalog</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-card" onclick="toggleSkill(this)">
+      <div class="skill-header">
+        <div class="skill-title-row">
+          <div class="skill-icon">🏗️</div>
+          <span class="skill-name">Structure Bioinformatics</span>
+        </div>
+        <div class="skill-toggle">+</div>
+      </div>
+      <div class="skill-body">
+        <div class="skill-tags">
+          <span class="tag">PyMOL</span>
+          <span class="tag">PLIP</span>
+          <span class="tag">UCSF Chimera</span>
+          <span class="tag">PDB parsing</span>
+          <span class="tag neutral">Protein prep</span>
+          <span class="tag neutral">Binding site analysis</span>
+          <span class="tag neutral">Homology modeling</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-card" onclick="toggleSkill(this)">
+      <div class="skill-header">
+        <div class="skill-title-row">
+          <div class="skill-icon">🖥️</div>
+          <span class="skill-name">Dev / Infra</span>
+        </div>
+        <div class="skill-toggle">+</div>
+      </div>
+      <div class="skill-body">
+        <div class="skill-tags">
+          <span class="tag">Linux / Bash</span>
+          <span class="tag">conda</span>
+          <span class="tag">Git</span>
+          <span class="tag">SLURM / HPC</span>
+          <span class="tag neutral">Pipeline automation</span>
+          <span class="tag neutral">Jupyter</span>
+          <span class="tag neutral">VS Code</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-card" onclick="toggleSkill(this)">
+      <div class="skill-header">
+        <div class="skill-title-row">
+          <div class="skill-icon">🤖</div>
+          <span class="skill-name">AI / ML for Drug Discovery</span>
+        </div>
+        <div class="skill-toggle">+</div>
+      </div>
+      <div class="skill-body">
+        <div class="skill-tags">
+          <span class="tag">AlphaFold2</span>
+          <span class="tag">DiffDock</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag secondary">QSAR modeling</span>
+          <span class="tag secondary">ML scoring</span>
+          <span class="tag neutral">Feature engineering</span>
+        </div>
+      </div>
+    </div>
+
   </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="fade-in">
+    <p class="section-label">03 — Publications</p>
+    <h2 class="section-title">Research</h2>
+  </div>
+  <div class="pub-list fade-in">
+
+    <div class="pub-item">
+      <span class="pub-year">2025</span>
+      <div class="pub-content">
+        <div class="pub-title">Publication title — add yours here</div>
+        <div class="pub-journal">Journal Name · Volume, Issue · DOI: 10.xxxx/xxxxx</div>
+      </div>
+      <span class="pub-badge badge-prep">In prep</span>
+    </div>
+
+    <div class="pub-item">
+      <span class="pub-year">2024</span>
+      <div class="pub-content">
+        <div class="pub-title">Publication title — add yours here</div>
+        <div class="pub-journal">Journal Name · Volume, Issue · DOI: 10.xxxx/xxxxx</div>
+      </div>
+      <span class="pub-badge badge-published">Published</span>
+    </div>
+
+    <div class="pub-item">
+      <span class="pub-year">2023</span>
+      <div class="pub-content">
+        <div class="pub-title">Publication title — add yours here</div>
+        <div class="pub-journal">Journal Name · Volume, Issue · DOI: 10.xxxx/xxxxx</div>
+      </div>
+      <span class="pub-badge badge-published">Published</span>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="fade-in">
+    <p class="section-label">04 — Projects</p>
+    <h2 class="section-title">Selected Work</h2>
+  </div>
+  <div class="projects-grid fade-in">
+
+    <div class="project-card">
+      <div class="project-number">P — 01</div>
+      <div class="project-name">Virtual Screening Pipeline</div>
+      <div class="project-desc">
+        SMILES-based compound filtering pipeline integrating PAINS, BRENK, NIH,
+        and ZINC rules via RDKit FilterCatalog, followed by automated docking and
+        post-docking rescoring.
+      </div>
+      <div class="project-stack">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">RDKit</span>
+        <span class="project-tag">AutoDock Vina</span>
+        <span class="project-tag">Bash</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-number">P — 02</div>
+      <div class="project-name">Interaction Geometry Knowledge Base</div>
+      <div class="project-desc">
+        Data-driven tool that extracts bonded interaction geometry statistics from
+        PDB crystal structures, building a custom knowledge base analogous to CSD Mogul
+        for validating docking poses.
+      </div>
+      <div class="project-stack">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Biopython</span>
+        <span class="project-tag">MDAnalysis</span>
+        <span class="project-tag">PDB</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-number">P — 03</div>
+      <div class="project-name">LC3B MD Trajectory Analysis</div>
+      <div class="project-desc">
+        Batch GROMACS trajectory analysis computing partial RMSD of a peptide ligand
+        near PHE52 across multiple simulation runs, with automated reporting and
+        visualization.
+      </div>
+      <div class="project-stack">
+        <span class="project-tag">GROMACS</span>
+        <span class="project-tag">MDAnalysis</span>
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Matplotlib</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-number">P — 04</div>
+      <div class="project-name">AhR Structure-Based Docking</div>
+      <div class="project-desc">
+        Structure-based virtual screening campaign targeting the Aryl Hydrocarbon
+        Receptor (AhR), including protein preparation, binding site definition,
+        and PLIP-based interaction profiling.
+      </div>
+      <div class="project-stack">
+        <span class="project-tag">AutoDock Vina</span>
+        <span class="project-tag">PLIP</span>
+        <span class="project-tag">PyMOL</span>
+        <span class="project-tag">RDKit</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="fade-in">
+    <p class="section-label">05 — Contact</p>
+    <h2 class="section-title">Let's Connect</h2>
+  </div>
+  <div class="contact-grid fade-in">
+    <div>
+      <p class="contact-desc">
+        Open to research collaborations, discussions on CADD methodology,
+        or any interesting computational chemistry questions.
+        Feel free to reach out.
+      </p>
+      <a href="mailto:your@email.com" class="btn btn-ghost" style="color:rgba(255,255,255,0.8); border-color:rgba(255,255,255,0.2);">
+        Send Email ↗
+      </a>
+    </div>
+    <div class="contact-links">
+      <a href="https://github.com/yourid" target="_blank" class="contact-link">
+        <div class="contact-link-icon">⌥</div>
+        <div class="contact-link-text">
+          <div class="contact-link-label">GitHub</div>
+          <div class="contact-link-value">github.com/yourid</div>
+        </div>
+      </a>
+      <a href="mailto:your@email.com" class="contact-link">
+        <div class="contact-link-icon">@</div>
+        <div class="contact-link-text">
+          <div class="contact-link-label">Email</div>
+          <div class="contact-link-value">your@email.com</div>
+        </div>
+      </a>
+      <a href="https://orcid.org/0000-0000-0000-0000" target="_blank" class="contact-link">
+        <div class="contact-link-icon">○</div>
+        <div class="contact-link-text">
+          <div class="contact-link-label">ORCID</div>
+          <div class="contact-link-value">0000-0000-0000-0000</div>
+        </div>
+      </a>
+      <a href="https://linkedin.com/in/yourid" target="_blank" class="contact-link">
+        <div class="contact-link-icon">in</div>
+        <div class="contact-link-text">
+          <div class="contact-link-label">LinkedIn</div>
+          <div class="contact-link-value">linkedin.com/in/yourid</div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="contact-note" style="margin-top:3rem;">
+    Built with plain HTML/CSS/JS — no frameworks, no build step.<br>
+    Hosted on GitHub Pages · © 2025 Seongyeon Yu
+  </div>
+</section>
+
+<footer>
+  <span class="footer-copy">© 2025 SEONGYEON YU</span>
+  <span class="footer-copy">CADD RESEARCHER · SEOUL, KR</span>
 </footer>
 
-  <script>
-    const header = document.getElementById('main-header');
-    header.addEventListener('mouseenter', () => header.classList.add('expanded'));
-    header.addEventListener('mouseleave', () => header.classList.remove('expanded'));
+<script>
+  // Accordion toggle
+  function toggleSkill(card) {
+    const isOpen = card.classList.contains('open');
+    document.querySelectorAll('.skill-card').forEach(c => c.classList.remove('open'));
+    if (!isOpen) card.classList.add('open');
+  }
 
-    const track = document.getElementById('sliderTrack');
-    const slides = track.children;
-    const textBox = document.getElementById('slideTextBox');
-    const title = document.getElementById('slideTitle');
-    const description = document.getElementById('slideDescription');
-    const dotsContainer = document.getElementById('sliderDots');
-
-    const descriptions = [
-      { title: "ABIO-platform development 참여", lines: ["Opensource기반 신약개발 platform 개발", "항체 최적화 platform", "Saas기반 플렛폼 개발"] },
-      { title: "Clinivision platform development 참여", lines: ["인공지능기반 임상시험 예측 platform", "AI 기반 독성 필터링", "과제 제안서 작성"] },
-      { title: "PLK4 inhibitor discovery", lines: ["CADD method를 활용한 신약개발", "Biology data 해석, Pysicochemical properties 생성", "PLK4 inhibitor discovery에 최적화된 AI 모델 도출"] }
-    ];
-
-    let index = 0;
-    let autoSlideInterval;
-
-    for (let i = 0; i < slides.length; i++) {
-      const dot = document.createElement('span');
-      dotsContainer.appendChild(dot);
-    }
-
-    function updateSlider() {
-      track.style.transform = `translateX(-${index * 100}%)`;
-      title.textContent = descriptions[index].title;
-      description.innerHTML = descriptions[index].lines.map(line => `<li>${line}</li>`).join('');
-      textBox.classList.remove('visible');
-      setTimeout(() => textBox.classList.add('visible'), 400);
-      [...dotsContainer.children].forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
-    }
-
-    function nextSlide() {
-      index = (index + 1) % slides.length;
-      updateSlider();
-      resetAutoSlide();
-    }
-
-    function prevSlide() {
-      index = (index - 1 + slides.length) % slides.length;
-      updateSlider();
-      resetAutoSlide();
-    }
-
-    function startAutoSlide() {
-      autoSlideInterval = setInterval(() => {
-        nextSlide();
-      }, 9000);
-    }
-
-    function resetAutoSlide() {
-      clearInterval(autoSlideInterval);
-      startAutoSlide();
-    }
-
-    updateSlider();
-    startAutoSlide();
-
- const observer = new IntersectionObserver(entries => {
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+        // stagger children
+        entry.target.querySelectorAll('.fade-in').forEach((el, i) => {
+          setTimeout(() => el.classList.add('visible'), i * 120);
+        });
       }
     });
-  }, {
-    threshold: 0.2 // 20% 보이면 발동
-  });
+  }, { threshold: 0.08 });
 
-  document.querySelectorAll('section.fade-section').forEach(section => {
-    observer.observe(section);
-  });
-
-
-  function toggleExpandedCard() {
-    const card = document.getElementById('expandedCard');
-    card.style.display = card.style.display === 'flex' ? 'none' : 'flex';
-  }
-
-
-
-  </script>
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
