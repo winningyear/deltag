@@ -64,9 +64,9 @@
 
     /* ── HERO ── */
     #hero {
-      min-height: 100vh;
+      min-height: 52vh;
       display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 0 3rem 5rem;
+      padding: 0 3rem 4rem;
       position: relative;
     }
     .hero-label {
@@ -75,12 +75,12 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 1.2rem;
+      margin-bottom: 1rem;
     }
     .hero-name {
       font-family: var(--serif);
-      font-size: clamp(3.5rem, 8vw, 7.5rem);
-      line-height: 1.0;
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      line-height: 1.1;
       color: var(--text);
       letter-spacing: -0.02em;
     }
@@ -89,15 +89,15 @@
       color: var(--accent);
     }
     .hero-tagline {
-      margin-top: 1.8rem;
-      font-size: 1.05rem;
+      margin-top: 1.2rem;
+      font-size: 0.95rem;
       font-weight: 300;
       color: var(--muted);
       max-width: 480px;
       line-height: 1.7;
     }
     .hero-cta {
-      margin-top: 2.5rem;
+      margin-top: 2rem;
       display: flex; gap: 1rem; flex-wrap: wrap;
     }
     .btn {
@@ -124,38 +124,7 @@
     }
     .btn-ghost:hover { border-color: var(--text); }
 
-    .hero-deco {
-      position: absolute;
-      top: 6rem; right: 3rem;
-      width: 320px; height: 320px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      animation: spin-slow 30s linear infinite;
-    }
-    .hero-deco::before {
-      content: '';
-      position: absolute;
-      width: 200px; height: 200px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 40% 40%, var(--accent-light) 0%, transparent 70%);
-    }
-    .hero-deco-inner {
-      width: 180px; height: 180px;
-      border-radius: 50%;
-      border: 1px dashed var(--border);
-      display: flex; align-items: center; justify-content: center;
-      animation: spin-slow 20s linear infinite reverse;
-    }
-    .hero-mol {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--muted);
-      text-align: center;
-      line-height: 1.9;
-      letter-spacing: 0.05em;
-    }
-    @keyframes spin-slow { to { transform: rotate(360deg); } }
+
 
     /* ── SECTION COMMON ── */
     section { padding: 7rem 3rem; }
@@ -522,20 +491,9 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-deco">
-    <div class="hero-deco-inner">
-      <div class="hero-mol">
-        C—N<br>|&nbsp;&nbsp;&nbsp;|<br>C&nbsp;&nbsp;C<br>|&nbsp;&nbsp;&nbsp;|<br>N—C
-      </div>
-    </div>
-  </div>
   <div class="fade-in visible">
     <p class="hero-label">Computational Drug Discovery · Seoul, KR</p>
-    <h1 class="hero-name">Seongyeon<br><em>Yu</em></h1>
-    <p class="hero-tagline">
-      Computational chemist working at the intersection of structural bioinformatics
-      and drug discovery — turning protein structures into therapeutic insights.
-    </p>
+    <h1 class="hero-name">Seongyeon <em>Yu</em></h1>
     <div class="hero-cta">
       <a href="#publications" class="btn btn-primary">View Research ↓</a>
       <a href="#contact" class="btn btn-ghost">Get in Touch</a>
@@ -863,7 +821,7 @@
         or any interesting computational chemistry questions.
         Feel free to reach out.
       </p>
-      <a href="mailto:your@email.com" class="btn btn-ghost" style="color:rgba(255,255,255,0.8); border-color:rgba(255,255,255,0.2);">
+      <a href="/cdn-cgi/l/email-protection#3f46504a4d7f5a525e5653115c5052" class="btn btn-ghost" style="color:rgba(255,255,255,0.8); border-color:rgba(255,255,255,0.2);">
         Send Email ↗
       </a>
     </div>
@@ -875,11 +833,11 @@
           <div class="contact-link-value">github.com/yourid</div>
         </div>
       </a>
-      <a href="mailto:your@email.com" class="contact-link">
+      <a href="/cdn-cgi/l/email-protection#dba2b4aea99bbeb6bab2b7f5b8b4b6" class="contact-link">
         <div class="contact-link-icon">@</div>
         <div class="contact-link-text">
           <div class="contact-link-label">Email</div>
-          <div class="contact-link-value">your@email.com</div>
+          <div class="contact-link-value"><span class="__cf_email__" data-cfemail="31485e444371545c50585d1f525e5c">[email&#160;protected]</span></div>
         </div>
       </a>
       <a href="https://orcid.org/0000-0000-0000-0000" target="_blank" class="contact-link">
@@ -909,7 +867,7 @@
   <span class="footer-copy">CADD RESEARCHER · SEOUL, KR</span>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Accordion toggle
   function toggleSkill(card) {
     const isOpen = card.classList.contains('open');
@@ -923,14 +881,4 @@
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
         // stagger children
-        entry.target.querySelectorAll('.fade-in').forEach((el, i) => {
-          setTimeout(() => el.classList.add('visible'), i * 120);
-        });
-      }
-    });
-  }, { threshold: 0.08 });
-
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-</script>
-</body>
-</html>
+        entry.target.query
