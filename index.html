@@ -1,884 +1,1058 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Seongyeon Yu — CADD Researcher</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seongyeon — CADD Researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg: #f8f7f4;
-      --surface: #ffffff;
-      --border: #e8e4de;
-      --text: #1a1917;
-      --muted: #7a7570;
-      --accent: #2d5a3d;
-      --accent-light: #e8f0ea;
-      --accent2: #c8543a;
-      --mono: 'DM Mono', monospace;
-      --serif: 'DM Serif Display', serif;
-      --sans: 'DM Sans', sans-serif;
-    }
+  :root {
+    --bg: #F5F4F0;
+    --surface: #EDECEA;
+    --surface2: #E4E3DF;
+    --border: #D4D2CE;
+    --border-strong: #B8B6B0;
+    --text: #1A1917;
+    --text-muted: #6B6965;
+    --text-faint: #9B9895;
+    --accent: #2A3D5E;
+    --accent-light: #4A6080;
+    --tag-bg: #D8DDE5;
+    --tag-text: #2A3D5E;
+    --drawer-handle: #C8C6C0;
+    --mono: 'DM Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'Instrument Sans', sans-serif;
+  }
 
-    html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; }
 
-    body {
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.2rem 3rem;
-      background: rgba(248,247,244,0.88);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      font-size: 0.82rem;
-      font-weight: 400;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--text); }
+  /* ── Layout ── */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
 
-    /* ── HERO ── */
-    #hero {
-      min-height: 52vh;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 0 3rem 4rem;
-      position: relative;
-    }
-    .hero-label {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1rem;
-    }
-    .hero-name {
-      font-family: var(--serif);
-      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-      line-height: 1.1;
-      color: var(--text);
-      letter-spacing: -0.02em;
-    }
-    .hero-name em {
-      font-style: italic;
-      color: var(--accent);
-    }
-    .hero-tagline {
-      margin-top: 1.2rem;
-      font-size: 0.95rem;
-      font-weight: 300;
-      color: var(--muted);
-      max-width: 480px;
-      line-height: 1.7;
-    }
-    .hero-cta {
-      margin-top: 2rem;
-      display: flex; gap: 1rem; flex-wrap: wrap;
-    }
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-radius: 2px;
-      transition: all 0.2s;
-      cursor: pointer; border: none;
-    }
-    .btn-primary {
-      background: var(--text);
-      color: var(--bg);
-    }
-    .btn-primary:hover { background: var(--accent); }
-    .btn-ghost {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover { border-color: var(--text); }
+  /* ── Header ── */
+  header {
+    padding: 4rem 0 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .name-block {}
+  .label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.5rem;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 6vw, 3.8rem);
+    line-height: 1.05;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent-light);
+  }
+  .tagline {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+  .status-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.45rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #5A9E6F;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
 
+  /* ── Nav ── */
+  nav {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(245,244,240,0.9);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+  }
+  .nav-inner {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+  nav a {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--text); }
 
+  /* ── Section titles ── */
+  .section { padding: 4rem 0; border-bottom: 1px solid var(--border); }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
 
-    /* ── SECTION COMMON ── */
-    section { padding: 7rem 3rem; }
-    .section-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.8rem;
-    }
-    .section-title {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.15;
-      color: var(--text);
-      margin-bottom: 3rem;
-    }
-    .divider {
-      width: 100%; height: 1px;
-      background: var(--border);
-      margin: 0;
-    }
+  /* ── About ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+  .about-text p + p { margin-top: 1rem; }
+  .about-meta { }
+  .meta-item {
+    padding: 1rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .meta-item:last-child { border-bottom: 1px solid var(--border); }
+  .meta-key {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.3rem;
+  }
+  .meta-val {
+    font-size: 0.9rem;
+    color: var(--text);
+    font-weight: 400;
+  }
 
-    /* ── ABOUT ── */
-    #about { background: var(--surface); }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: start;
-    }
-    .about-bio {
-      font-size: 1.05rem;
-      font-weight: 300;
-      line-height: 1.85;
-      color: var(--text);
-    }
-    .about-bio p + p { margin-top: 1.2rem; }
-    .about-meta { display: flex; flex-direction: column; gap: 1.5rem; }
-    .meta-item {
-      padding: 1.2rem 1.5rem;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-    }
-    .meta-label {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
-    }
-    .meta-value {
-      font-size: 0.92rem;
-      color: var(--text);
-    }
+  /* ── Skills — Drawer System ── */
+  .skills-intro {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+    margin-bottom: 1.5rem;
+  }
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
 
-    /* ── SKILLS ACCORDION ── */
-    #skills { background: var(--bg); }
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-    }
-    .skill-card {
-      background: var(--surface);
-      cursor: pointer;
-      user-select: none;
-      transition: background 0.15s;
-    }
-    .skill-card:hover { background: #fafaf8; }
-    .skill-header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.4rem 1.8rem;
-    }
-    .skill-title-row { display: flex; align-items: center; gap: 0.9rem; }
-    .skill-icon {
-      width: 36px; height: 36px;
-      border-radius: 6px;
-      background: var(--accent-light);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-    }
-    .skill-name {
-      font-weight: 500;
-      font-size: 0.92rem;
-      letter-spacing: 0.01em;
-    }
-    .skill-toggle {
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem;
-      color: var(--muted);
-      transition: transform 0.3s, background 0.2s;
-      flex-shrink: 0;
-    }
-    .skill-card.open .skill-toggle {
-      transform: rotate(45deg);
-      background: var(--accent);
-      border-color: var(--accent);
-      color: white;
-    }
-    .skill-body {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
-      padding: 0 1.8rem;
-    }
-    .skill-card.open .skill-body {
-      max-height: 400px;
-      padding: 0 1.8rem 1.6rem;
-    }
-    .skill-tags {
-      display: flex; flex-wrap: wrap; gap: 0.5rem;
-    }
-    .tag {
-      display: inline-block;
-      padding: 0.28rem 0.75rem;
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.04em;
-      border-radius: 2px;
-      background: var(--accent-light);
-      color: var(--accent);
-      border: 1px solid rgba(45,90,61,0.15);
-    }
-    .tag.secondary {
-      background: #f2ece8;
-      color: #8b4a34;
-      border-color: rgba(200,84,58,0.15);
-    }
-    .tag.neutral {
-      background: #f0f0ee;
-      color: #555;
-      border-color: #ddd;
-    }
+  .skill-drawer {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .skill-drawer:last-child { border-bottom: none; }
 
-    /* ── PUBLICATIONS ── */
-    #publications { background: var(--surface); }
-    .pub-list { display: flex; flex-direction: column; gap: 0; }
-    .pub-item {
-      display: grid;
-      grid-template-columns: 64px 1fr auto;
-      gap: 1.5rem;
-      align-items: start;
-      padding: 1.8rem 0;
-      border-bottom: 1px solid var(--border);
-      transition: background 0.15s;
-    }
-    .pub-item:first-child { border-top: 1px solid var(--border); }
-    .pub-year {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      padding-top: 0.15rem;
-    }
-    .pub-content {}
-    .pub-title {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: var(--text);
-      line-height: 1.5;
-      margin-bottom: 0.3rem;
-    }
-    .pub-journal {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-    }
-    .pub-badge {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 2px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      align-self: flex-start;
-      margin-top: 0.15rem;
-    }
-    .badge-published { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(45,90,61,0.2); }
-    .badge-prep { background: #f5f0e8; color: #9a7840; border: 1px solid rgba(154,120,64,0.2); }
+  .drawer-handle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.5rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+    gap: 1rem;
+  }
+  .drawer-handle:hover { background: var(--surface2); }
 
-    /* ── PROJECTS ── */
-    #projects { background: var(--bg); }
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-    .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 1.8rem;
-      display: flex; flex-direction: column;
-      transition: box-shadow 0.2s, transform 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .project-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s;
-    }
-    .project-card:hover::before { transform: scaleX(1); }
-    .project-card:hover {
-      box-shadow: 0 8px 32px rgba(0,0,0,0.07);
-      transform: translateY(-2px);
-    }
-    .project-number {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--muted);
-      letter-spacing: 0.15em;
-      margin-bottom: 1rem;
-    }
-    .project-name {
-      font-weight: 500;
-      font-size: 1rem;
-      margin-bottom: 0.6rem;
-      line-height: 1.4;
-    }
-    .project-desc {
-      font-size: 0.85rem;
-      font-weight: 300;
-      color: var(--muted);
-      line-height: 1.7;
-      flex: 1;
-      margin-bottom: 1.4rem;
-    }
-    .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .project-tag {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      padding: 0.2rem 0.55rem;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-    }
+  .handle-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .skill-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+  .skill-drawer.open .skill-icon {
+    background: var(--accent);
+    border-color: var(--accent);
+    filter: brightness(1);
+  }
+  .skill-drawer.open .skill-icon span { filter: invert(1) brightness(10); }
 
-    /* ── CONTACT ── */
-    #contact {
-      background: var(--text);
-      color: var(--bg);
-    }
-    #contact .section-label { color: rgba(255,255,255,0.4); }
-    #contact .section-title { color: var(--bg); }
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: start;
-    }
-    .contact-desc {
-      font-size: 1rem;
-      font-weight: 300;
-      line-height: 1.85;
-      color: rgba(255,255,255,0.65);
-      margin-bottom: 2rem;
-    }
-    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
-    .contact-link {
-      display: flex; align-items: center; gap: 1rem;
-      padding: 1rem 1.2rem;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 4px;
-      text-decoration: none;
-      transition: background 0.2s, border-color 0.2s;
-    }
-    .contact-link:hover {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.25);
-    }
-    .contact-link-icon {
-      width: 36px; height: 36px;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.08);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-      flex-shrink: 0;
-    }
-    .contact-link-text {}
-    .contact-link-label {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-      margin-bottom: 0.1rem;
-    }
-    .contact-link-value {
-      font-size: 0.88rem;
-      color: rgba(255,255,255,0.85);
-    }
-    .contact-note {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.3);
-      line-height: 1.8;
-      padding-top: 1rem;
-    }
+  .handle-text {}
+  .skill-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .skill-subtitle {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+    margin-top: 0.1rem;
+  }
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--text);
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 1.5rem 3rem;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .footer-copy {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: rgba(255,255,255,0.25);
-      letter-spacing: 0.08em;
-    }
+  .handle-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .proficiency {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+  }
+  .prof-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--border-strong);
+    transition: background 0.3s;
+  }
+  .prof-dot.filled { background: var(--accent); }
 
-    /* ── FADE-IN ANIMATION ── */
-    .fade-in {
-      opacity: 0; transform: translateY(24px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .fade-in.visible { opacity: 1; transform: none; }
+  .chevron {
+    width: 18px; height: 18px;
+    color: var(--text-faint);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+  }
+  .skill-drawer.open .chevron { transform: rotate(180deg); }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      #hero { padding: 0 1.5rem 4rem; }
-      .hero-deco { display: none; }
-      section { padding: 5rem 1.5rem; }
-      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .pub-item { grid-template-columns: 1fr; gap: 0.3rem; }
-      footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; }
-    }
-  </style>
+  /* ── Drawer Content ── */
+  .drawer-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .skill-drawer.open .drawer-body {
+    max-height: 600px;
+  }
+
+  .drawer-content {
+    padding: 0 1.5rem 1.5rem;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+  }
+
+  .drawer-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    align-items: start;
+    padding-top: 1.25rem;
+  }
+
+  .skill-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .skill-level-block {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .level-label {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .level-value {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    padding: 0.25rem 0.65rem;
+    border-radius: 100px;
+    font-family: var(--mono);
+    font-size: 0.67rem;
+    letter-spacing: 0.04em;
+    font-weight: 400;
+  }
+
+  .experience-bar-row {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .bar-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    width: 80px;
+    flex-shrink: 0;
+  }
+  .bar-track {
+    flex: 1;
+    height: 3px;
+    background: var(--border);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 100px;
+    width: 0%;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+  }
+  .skill-drawer.open .bar-fill {
+    width: var(--fill-width);
+  }
+  .bar-pct {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-faint);
+    width: 35px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ── Projects ── */
+  .projects-list { display: flex; flex-direction: column; gap: 1px; }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 0.75rem;
+    transition: border-color 0.2s, background 0.2s;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeup 0.5s forwards;
+  }
+  .project-card:nth-child(1) { animation-delay: 0.1s; }
+  .project-card:nth-child(2) { animation-delay: 0.2s; }
+  .project-card:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes fadeup {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .project-card:hover { border-color: var(--border-strong); background: var(--surface2); }
+
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+  }
+  .project-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .project-year {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+  }
+  .project-desc {
+    font-size: 0.87rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Footer ── */
+  footer {
+    padding: 3rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-name {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+  .footer-meta {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .drawer-top { grid-template-columns: 1fr; }
+    .skill-level-block { text-align: left; }
+  }
+</style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <span class="nav-logo">SY.YU</span>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#publications">Publications</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+<div class="container">
 
-<!-- HERO -->
-<section id="hero">
-  <div class="fade-in visible">
-    <p class="hero-label">Computational Drug Discovery · Seoul, KR</p>
-    <h1 class="hero-name">Seongyeon <em>Yu</em></h1>
-    <div class="hero-cta">
-      <a href="#publications" class="btn btn-primary">View Research ↓</a>
-      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="fade-in">
-    <p class="section-label">01 — About</p>
-    <h2 class="section-title">Background</h2>
-  </div>
-  <div class="about-grid fade-in">
-    <div class="about-bio">
-      <p>
-        I'm a computational researcher specializing in computer-aided drug design (CADD),
-        with a focus on structure-based approaches including molecular docking, molecular
-        dynamics simulations, and structural bioinformatics.
-      </p>
-      <p>
-        My work bridges computational chemistry and medicinal chemistry — building pipelines
-        that translate structural data into actionable hypotheses for drug development.
-        I'm particularly interested in virtual screening, protein–ligand interaction analysis,
-        and leveraging PDB crystal structure data to understand binding geometries.
-      </p>
-      <p>
-        I work primarily in Linux environments with Python-based toolchains, integrating
-        open-source cheminformatics libraries with domain-specific simulation software.
-      </p>
-    </div>
-    <div class="about-meta">
-      <div class="meta-item">
-        <div class="meta-label">Role</div>
-        <div class="meta-value">Computational Drug Discovery Researcher</div>
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="name-block">
+        <div class="label">Portfolio · CADD Researcher</div>
+        <h1>Seongyeon<br><em>Kim</em></h1>
+        <p class="tagline">Computer-Aided Drug Design &amp; Molecular Informatics</p>
       </div>
-      <div class="meta-item">
-        <div class="meta-label">Focus Areas</div>
-        <div class="meta-value">Structure-based drug design · Virtual screening · MD simulation</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">Environment</div>
-        <div class="meta-value">Linux · Python · Conda · HPC clusters</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">Languages</div>
-        <div class="meta-value">Korean (native) · English (working proficiency)</div>
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Available for collaboration
       </div>
     </div>
-  </div>
-</section>
+  </header>
 
-<div class="divider"></div>
+  <!-- Nav -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
 
-<!-- SKILLS -->
-<section id="skills">
-  <div class="fade-in">
-    <p class="section-label">02 — Skills</p>
-    <h2 class="section-title">Technical Stack</h2>
-  </div>
-  <div class="skills-grid fade-in">
-
-    <div class="skill-card" onclick="toggleSkill(this)">
-      <div class="skill-header">
-        <div class="skill-title-row">
-          <div class="skill-icon">🧬</div>
-          <span class="skill-name">Molecular Docking</span>
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>About</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          Researcher specializing in <strong>Computer-Aided Drug Design (CADD)</strong>, working at the intersection of structural biology, cheminformatics, and machine learning.
+        </p>
+        <p>
+          My work spans the full CADD pipeline — from hit identification via virtual screening and molecular docking, to lead optimization through MD simulations and free energy calculations. I build automated pipelines that connect wet-lab hypotheses with computational predictions.
+        </p>
+        <p>
+          I'm particularly interested in leveraging deep learning to accelerate early-stage drug discovery, including structure-based approaches and chemical space exploration.
+        </p>
+      </div>
+      <div class="about-meta">
+        <div class="meta-item">
+          <div class="meta-key">Field</div>
+          <div class="meta-val">CADD / Drug Discovery</div>
         </div>
-        <div class="skill-toggle">+</div>
-      </div>
-      <div class="skill-body">
-        <div class="skill-tags">
-          <span class="tag">AutoDock Vina</span>
-          <span class="tag">Glide</span>
-          <span class="tag">GOLD</span>
-          <span class="tag">Smina</span>
-          <span class="tag">Gnina</span>
-          <span class="tag">rDock</span>
-          <span class="tag neutral">Virtual Screening</span>
-          <span class="tag neutral">Rescoring</span>
-          <span class="tag neutral">Ensemble Docking</span>
+        <div class="meta-item">
+          <div class="meta-key">Environment</div>
+          <div class="meta-val">Linux HPC Cluster</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-key">Languages</div>
+          <div class="meta-val">Python, Bash</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-key">Location</div>
+          <div class="meta-val">South Korea</div>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="skill-card" onclick="toggleSkill(this)">
-      <div class="skill-header">
-        <div class="skill-title-row">
-          <div class="skill-icon">⚛️</div>
-          <span class="skill-name">MD Simulations</span>
-        </div>
-        <div class="skill-toggle">+</div>
-      </div>
-      <div class="skill-body">
-        <div class="skill-tags">
-          <span class="tag">GROMACS</span>
-          <span class="tag">AMBER</span>
-          <span class="tag">OpenMM</span>
-          <span class="tag neutral">RMSD / RMSF</span>
-          <span class="tag neutral">Free Energy</span>
-          <span class="tag neutral">Trajectory Analysis</span>
-        </div>
-      </div>
+  <!-- Skills -->
+  <section class="section" id="skills">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>Skills</h2>
     </div>
+    <p class="skills-intro">↓ 클릭해서 각 항목을 열어보세요</p>
 
-    <div class="skill-card" onclick="toggleSkill(this)">
-      <div class="skill-header">
-        <div class="skill-title-row">
-          <div class="skill-icon">🐍</div>
-          <span class="skill-name">Cheminformatics / Python</span>
+    <div class="skills-grid" id="skills-grid">
+
+      <!-- Python -->
+      <div class="skill-drawer" data-drawer>
+        <div class="drawer-handle" onclick="toggleDrawer(this)">
+          <div class="handle-left">
+            <div class="skill-icon"><span>🐍</span></div>
+            <div class="handle-text">
+              <div class="skill-name">Python</div>
+              <div class="skill-subtitle">Core Language</div>
+            </div>
+          </div>
+          <div class="handle-right">
+            <div class="proficiency">
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+            </div>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
         </div>
-        <div class="skill-toggle">+</div>
+        <div class="drawer-body">
+          <div class="drawer-content">
+            <div class="drawer-top">
+              <div>
+                <p class="skill-desc">
+                  Scientific computing과 자동화 파이프라인 구축에 주력. NumPy, Pandas, Matplotlib 등 데이터 사이언스 스택과 함께 CADD 도메인 라이브러리들을 결합한 end-to-end 워크플로우를 설계하고 구현합니다.
+                </p>
+                <div class="tags-row">
+                  <span class="tag">NumPy</span>
+                  <span class="tag">Pandas</span>
+                  <span class="tag">Matplotlib</span>
+                  <span class="tag">scikit-learn</span>
+                  <span class="tag">PyTorch</span>
+                  <span class="tag">argparse</span>
+                  <span class="tag">pathlib</span>
+                </div>
+              </div>
+              <div class="skill-level-block">
+                <div class="level-label">Level</div>
+                <div class="level-value">Advanced</div>
+              </div>
+            </div>
+            <div class="experience-bar-row">
+              <div class="bar-label">Proficiency</div>
+              <div class="bar-track"><div class="bar-fill" style="--fill-width: 90%"></div></div>
+              <div class="bar-pct">90%</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="skill-body">
-        <div class="skill-tags">
+
+      <!-- RDKit -->
+      <div class="skill-drawer" data-drawer>
+        <div class="drawer-handle" onclick="toggleDrawer(this)">
+          <div class="handle-left">
+            <div class="skill-icon"><span>⚗️</span></div>
+            <div class="handle-text">
+              <div class="skill-name">RDKit / Cheminformatics</div>
+              <div class="skill-subtitle">Molecular Informatics</div>
+            </div>
+          </div>
+          <div class="handle-right">
+            <div class="proficiency">
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot"></div>
+            </div>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+        <div class="drawer-body">
+          <div class="drawer-content">
+            <div class="drawer-top">
+              <div>
+                <p class="skill-desc">
+                  분자 구조 처리, SMILES 파싱, 분자 기술자 계산, substructure 탐색 등 cheminformatics 전반을 다룹니다. SDF 파일 배치 처리, fingerprint 기반 유사도 계산, ring system 분류 등의 파이프라인을 직접 구현한 경험이 있습니다.
+                </p>
+                <div class="tags-row">
+                  <span class="tag">RDKit</span>
+                  <span class="tag">SMILES</span>
+                  <span class="tag">SDF I/O</span>
+                  <span class="tag">Fingerprints</span>
+                  <span class="tag">Descriptors</span>
+                  <span class="tag">Substructure</span>
+                  <span class="tag">Ring Systems</span>
+                </div>
+              </div>
+              <div class="skill-level-block">
+                <div class="level-label">Level</div>
+                <div class="level-value">Proficient</div>
+              </div>
+            </div>
+            <div class="experience-bar-row">
+              <div class="bar-label">Proficiency</div>
+              <div class="bar-track"><div class="bar-fill" style="--fill-width: 78%"></div></div>
+              <div class="bar-pct">78%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GROMACS -->
+      <div class="skill-drawer" data-drawer>
+        <div class="drawer-handle" onclick="toggleDrawer(this)">
+          <div class="handle-left">
+            <div class="skill-icon"><span>🔬</span></div>
+            <div class="handle-text">
+              <div class="skill-name">GROMACS / MD Simulation</div>
+              <div class="skill-subtitle">Molecular Dynamics</div>
+            </div>
+          </div>
+          <div class="handle-right">
+            <div class="proficiency">
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot"></div>
+            </div>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+        <div class="drawer-body">
+          <div class="drawer-content">
+            <div class="drawer-top">
+              <div>
+                <p class="skill-desc">
+                  단백질-리간드 복합체의 MD 시뮬레이션 셋업부터 분석까지 전 과정을 다룹니다. 시스템 준비, 에너지 최소화, equilibration, production run 및 trajectory 분석 파이프라인을 Linux HPC 환경에서 운영합니다.
+                </p>
+                <div class="tags-row">
+                  <span class="tag">GROMACS</span>
+                  <span class="tag">Force Fields</span>
+                  <span class="tag">AMBER</span>
+                  <span class="tag">CHARMM</span>
+                  <span class="tag">RMSD/RMSF</span>
+                  <span class="tag">gmx analysis</span>
+                  <span class="tag">MDAnalysis</span>
+                </div>
+              </div>
+              <div class="skill-level-block">
+                <div class="level-label">Level</div>
+                <div class="level-value">Proficient</div>
+              </div>
+            </div>
+            <div class="experience-bar-row">
+              <div class="bar-label">Proficiency</div>
+              <div class="bar-track"><div class="bar-fill" style="--fill-width: 75%"></div></div>
+              <div class="bar-pct">75%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Molecular Docking -->
+      <div class="skill-drawer" data-drawer>
+        <div class="drawer-handle" onclick="toggleDrawer(this)">
+          <div class="handle-left">
+            <div class="skill-icon"><span>🎯</span></div>
+            <div class="handle-text">
+              <div class="skill-name">Molecular Docking</div>
+              <div class="skill-subtitle">Virtual Screening</div>
+            </div>
+          </div>
+          <div class="handle-right">
+            <div class="proficiency">
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot"></div>
+            </div>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+        <div class="drawer-body">
+          <div class="drawer-content">
+            <div class="drawer-top">
+              <div>
+                <p class="skill-desc">
+                  smina 기반 가상 스크리닝 파이프라인을 구축하고, 도킹 결과물(SDF) 배치 처리 및 클러스터링을 자동화했습니다. 융합 고리 시스템 기반 히트 필터링 스크립트를 직접 개발한 경험이 있습니다.
+                </p>
+                <div class="tags-row">
+                  <span class="tag">smina</span>
+                  <span class="tag">AutoDock Vina</span>
+                  <span class="tag">Hit Filtering</span>
+                  <span class="tag">Pose Analysis</span>
+                  <span class="tag">Binding Score</span>
+                  <span class="tag">SDF Parsing</span>
+                  <span class="tag">Clustering</span>
+                </div>
+              </div>
+              <div class="skill-level-block">
+                <div class="level-label">Level</div>
+                <div class="level-value">Proficient</div>
+              </div>
+            </div>
+            <div class="experience-bar-row">
+              <div class="bar-label">Proficiency</div>
+              <div class="bar-track"><div class="bar-fill" style="--fill-width: 80%"></div></div>
+              <div class="bar-pct">80%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ML / DL -->
+      <div class="skill-drawer" data-drawer>
+        <div class="drawer-handle" onclick="toggleDrawer(this)">
+          <div class="handle-left">
+            <div class="skill-icon"><span>🧠</span></div>
+            <div class="handle-text">
+              <div class="skill-name">Machine Learning / Deep Learning</div>
+              <div class="skill-subtitle">Applied AI for Drug Discovery</div>
+            </div>
+          </div>
+          <div class="handle-right">
+            <div class="proficiency">
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot"></div>
+              <div class="prof-dot"></div>
+            </div>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+        <div class="drawer-body">
+          <div class="drawer-content">
+            <div class="drawer-top">
+              <div>
+                <p class="skill-desc">
+                  EfficientNet 기반 이미지 분류 모델을 PyTorch + timm으로 직접 학습시킨 경험이 있으며, 화학 구조 이미지 파이프라인(DECIMER-Seg → MolScribe)에 binary classifier를 통합했습니다. 실무 적용 중심의 ML 역량을 지속적으로 확장하고 있습니다.
+                </p>
+                <div class="tags-row">
+                  <span class="tag">PyTorch</span>
+                  <span class="tag">timm</span>
+                  <span class="tag">EfficientNet</span>
+                  <span class="tag">scikit-learn</span>
+                  <span class="tag">DECIMER</span>
+                  <span class="tag">MolScribe</span>
+                  <span class="tag">Image Classification</span>
+                </div>
+              </div>
+              <div class="skill-level-block">
+                <div class="level-label">Level</div>
+                <div class="level-value">Intermediate</div>
+              </div>
+            </div>
+            <div class="experience-bar-row">
+              <div class="bar-label">Proficiency</div>
+              <div class="bar-track"><div class="bar-fill" style="--fill-width: 62%"></div></div>
+              <div class="bar-pct">62%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Linux / Bash -->
+      <div class="skill-drawer" data-drawer>
+        <div class="drawer-handle" onclick="toggleDrawer(this)">
+          <div class="handle-left">
+            <div class="skill-icon"><span>🖥️</span></div>
+            <div class="handle-text">
+              <div class="skill-name">Linux / Bash</div>
+              <div class="skill-subtitle">HPC & Server Environment</div>
+            </div>
+          </div>
+          <div class="handle-right">
+            <div class="proficiency">
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot"></div>
+            </div>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+        <div class="drawer-body">
+          <div class="drawer-content">
+            <div class="drawer-top">
+              <div>
+                <p class="skill-desc">
+                  Linux 서버 환경에서 일상적으로 작업합니다. Conda 환경 관리, SSH 설정, 배치 작업 자동화, 파이프라인 스크립팅을 주로 담당하며, 멀티 유저 HPC 환경에서의 리소스 관리 경험이 있습니다.
+                </p>
+                <div class="tags-row">
+                  <span class="tag">Ubuntu</span>
+                  <span class="tag">Bash scripting</span>
+                  <span class="tag">Conda</span>
+                  <span class="tag">SSH</span>
+                  <span class="tag">tmux</span>
+                  <span class="tag">cron</span>
+                  <span class="tag">HPC</span>
+                </div>
+              </div>
+              <div class="skill-level-block">
+                <div class="level-label">Level</div>
+                <div class="level-value">Proficient</div>
+              </div>
+            </div>
+            <div class="experience-bar-row">
+              <div class="bar-label">Proficiency</div>
+              <div class="bar-track"><div class="bar-fill" style="--fill-width: 76%"></div></div>
+              <div class="bar-pct">76%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CADD 전반 -->
+      <div class="skill-drawer" data-drawer>
+        <div class="drawer-handle" onclick="toggleDrawer(this)">
+          <div class="handle-left">
+            <div class="skill-icon"><span>💊</span></div>
+            <div class="handle-text">
+              <div class="skill-name">CADD 전반</div>
+              <div class="skill-subtitle">Drug Discovery Pipeline</div>
+            </div>
+          </div>
+          <div class="handle-right">
+            <div class="proficiency">
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot filled"></div>
+              <div class="prof-dot"></div>
+            </div>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+        <div class="drawer-body">
+          <div class="drawer-content">
+            <div class="drawer-top">
+              <div>
+                <p class="skill-desc">
+                  Target identification부터 hit-to-lead까지 CADD 전체 파이프라인에 대한 이해와 실무 경험을 보유합니다. Structure-based drug design과 ligand-based approach를 상황에 맞게 조합하고, 계산 결과를 실험팀과 소통하는 역할도 담당합니다.
+                </p>
+                <div class="tags-row">
+                  <span class="tag">SBDD</span>
+                  <span class="tag">LBDD</span>
+                  <span class="tag">Virtual Screening</span>
+                  <span class="tag">Hit-to-Lead</span>
+                  <span class="tag">ADMET</span>
+                  <span class="tag">Pharmacophore</span>
+                  <span class="tag">Protein-Ligand</span>
+                </div>
+              </div>
+              <div class="skill-level-block">
+                <div class="level-label">Level</div>
+                <div class="level-value">Proficient</div>
+              </div>
+            </div>
+            <div class="experience-bar-row">
+              <div class="bar-label">Proficiency</div>
+              <div class="bar-track"><div class="bar-fill" style="--fill-width: 82%"></div></div>
+              <div class="bar-pct">82%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="section" id="projects">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Projects</h2>
+    </div>
+    <div class="projects-list">
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">Chemical Structure Image Classifier</div>
+          <div class="project-year">2024</div>
+        </div>
+        <p class="project-desc">
+          PDF에서 추출된 화학 구조 이미지를 자동 필터링하는 EfficientNetB0 기반 binary classifier. DECIMER-Seg / MolScribe 파이프라인에 통합하여 그래프·rat 이미지 등 노이즈 데이터를 제거합니다.
+        </p>
+        <div class="tags-row">
+          <span class="tag">PyTorch</span>
+          <span class="tag">timm</span>
+          <span class="tag">EfficientNet</span>
+          <span class="tag">DECIMER-Seg</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">Docking Hit Filtering Pipeline</div>
+          <div class="project-year">2024</div>
+        </div>
+        <p class="project-desc">
+          smina 도킹 결과물 SDF 파일을 융합 고리 시스템 크기 기준으로 자동 분류하는 배치 처리 파이프라인. RDKit Union-Find 기반으로 fused ring 탐지 알고리즘을 직접 구현했습니다.
+        </p>
+        <div class="tags-row">
           <span class="tag">RDKit</span>
-          <span class="tag">MDAnalysis</span>
-          <span class="tag">Biopython</span>
-          <span class="tag">NumPy</span>
-          <span class="tag">Pandas</span>
-          <span class="tag">Matplotlib</span>
-          <span class="tag secondary">SMILES</span>
-          <span class="tag secondary">PAINS filter</span>
-          <span class="tag secondary">FilterCatalog</span>
+          <span class="tag">smina</span>
+          <span class="tag">SDF</span>
+          <span class="tag">Union-Find</span>
         </div>
       </div>
-    </div>
 
-    <div class="skill-card" onclick="toggleSkill(this)">
-      <div class="skill-header">
-        <div class="skill-title-row">
-          <div class="skill-icon">🏗️</div>
-          <span class="skill-name">Structure Bioinformatics</span>
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">MD System Preparation API (molcube)</div>
+          <div class="project-year">2024–</div>
         </div>
-        <div class="skill-toggle">+</div>
-      </div>
-      <div class="skill-body">
-        <div class="skill-tags">
-          <span class="tag">PyMOL</span>
-          <span class="tag">PLIP</span>
-          <span class="tag">UCSF Chimera</span>
-          <span class="tag">PDB parsing</span>
-          <span class="tag neutral">Protein prep</span>
-          <span class="tag neutral">Binding site analysis</span>
-          <span class="tag neutral">Homology modeling</span>
+        <p class="project-desc">
+          GROMACS 기반 MD 시뮬레이션 시스템 준비를 자동화하는 Python 패키지 API 서버. Django 기반으로 구축 중이며, 사내 연구팀의 워크플로우 자동화를 목표로 합니다.
+        </p>
+        <div class="tags-row">
+          <span class="tag">Django</span>
+          <span class="tag">GROMACS</span>
+          <span class="tag">REST API</span>
+          <span class="tag">Python</span>
         </div>
       </div>
+
     </div>
+  </section>
 
-    <div class="skill-card" onclick="toggleSkill(this)">
-      <div class="skill-header">
-        <div class="skill-title-row">
-          <div class="skill-icon">🖥️</div>
-          <span class="skill-name">Dev / Infra</span>
-        </div>
-        <div class="skill-toggle">+</div>
-      </div>
-      <div class="skill-body">
-        <div class="skill-tags">
-          <span class="tag">Linux / Bash</span>
-          <span class="tag">conda</span>
-          <span class="tag">Git</span>
-          <span class="tag">SLURM / HPC</span>
-          <span class="tag neutral">Pipeline automation</span>
-          <span class="tag neutral">Jupyter</span>
-          <span class="tag neutral">VS Code</span>
-        </div>
-      </div>
+  <!-- Contact -->
+  <section class="section" id="contact" style="border-bottom: none;">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Contact</h2>
     </div>
-
-    <div class="skill-card" onclick="toggleSkill(this)">
-      <div class="skill-header">
-        <div class="skill-title-row">
-          <div class="skill-icon">🤖</div>
-          <span class="skill-name">AI / ML for Drug Discovery</span>
-        </div>
-        <div class="skill-toggle">+</div>
-      </div>
-      <div class="skill-body">
-        <div class="skill-tags">
-          <span class="tag">AlphaFold2</span>
-          <span class="tag">DiffDock</span>
-          <span class="tag">scikit-learn</span>
-          <span class="tag secondary">QSAR modeling</span>
-          <span class="tag secondary">ML scoring</span>
-          <span class="tag neutral">Feature engineering</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- PUBLICATIONS -->
-<section id="publications">
-  <div class="fade-in">
-    <p class="section-label">03 — Publications</p>
-    <h2 class="section-title">Research</h2>
-  </div>
-  <div class="pub-list fade-in">
-
-    <div class="pub-item">
-      <span class="pub-year">2025</span>
-      <div class="pub-content">
-        <div class="pub-title">Publication title — add yours here</div>
-        <div class="pub-journal">Journal Name · Volume, Issue · DOI: 10.xxxx/xxxxx</div>
-      </div>
-      <span class="pub-badge badge-prep">In prep</span>
-    </div>
-
-    <div class="pub-item">
-      <span class="pub-year">2024</span>
-      <div class="pub-content">
-        <div class="pub-title">Publication title — add yours here</div>
-        <div class="pub-journal">Journal Name · Volume, Issue · DOI: 10.xxxx/xxxxx</div>
-      </div>
-      <span class="pub-badge badge-published">Published</span>
-    </div>
-
-    <div class="pub-item">
-      <span class="pub-year">2023</span>
-      <div class="pub-content">
-        <div class="pub-title">Publication title — add yours here</div>
-        <div class="pub-journal">Journal Name · Volume, Issue · DOI: 10.xxxx/xxxxx</div>
-      </div>
-      <span class="pub-badge badge-published">Published</span>
-    </div>
-
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="fade-in">
-    <p class="section-label">04 — Projects</p>
-    <h2 class="section-title">Selected Work</h2>
-  </div>
-  <div class="projects-grid fade-in">
-
-    <div class="project-card">
-      <div class="project-number">P — 01</div>
-      <div class="project-name">Virtual Screening Pipeline</div>
-      <div class="project-desc">
-        SMILES-based compound filtering pipeline integrating PAINS, BRENK, NIH,
-        and ZINC rules via RDKit FilterCatalog, followed by automated docking and
-        post-docking rescoring.
-      </div>
-      <div class="project-stack">
-        <span class="project-tag">Python</span>
-        <span class="project-tag">RDKit</span>
-        <span class="project-tag">AutoDock Vina</span>
-        <span class="project-tag">Bash</span>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-number">P — 02</div>
-      <div class="project-name">Interaction Geometry Knowledge Base</div>
-      <div class="project-desc">
-        Data-driven tool that extracts bonded interaction geometry statistics from
-        PDB crystal structures, building a custom knowledge base analogous to CSD Mogul
-        for validating docking poses.
-      </div>
-      <div class="project-stack">
-        <span class="project-tag">Python</span>
-        <span class="project-tag">Biopython</span>
-        <span class="project-tag">MDAnalysis</span>
-        <span class="project-tag">PDB</span>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-number">P — 03</div>
-      <div class="project-name">LC3B MD Trajectory Analysis</div>
-      <div class="project-desc">
-        Batch GROMACS trajectory analysis computing partial RMSD of a peptide ligand
-        near PHE52 across multiple simulation runs, with automated reporting and
-        visualization.
-      </div>
-      <div class="project-stack">
-        <span class="project-tag">GROMACS</span>
-        <span class="project-tag">MDAnalysis</span>
-        <span class="project-tag">Python</span>
-        <span class="project-tag">Matplotlib</span>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-number">P — 04</div>
-      <div class="project-name">AhR Structure-Based Docking</div>
-      <div class="project-desc">
-        Structure-based virtual screening campaign targeting the Aryl Hydrocarbon
-        Receptor (AhR), including protein preparation, binding site definition,
-        and PLIP-based interaction profiling.
-      </div>
-      <div class="project-stack">
-        <span class="project-tag">AutoDock Vina</span>
-        <span class="project-tag">PLIP</span>
-        <span class="project-tag">PyMOL</span>
-        <span class="project-tag">RDKit</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="fade-in">
-    <p class="section-label">05 — Contact</p>
-    <h2 class="section-title">Let's Connect</h2>
-  </div>
-  <div class="contact-grid fade-in">
-    <div>
-      <p class="contact-desc">
-        Open to research collaborations, discussions on CADD methodology,
-        or any interesting computational chemistry questions.
-        Feel free to reach out.
-      </p>
-      <a href="/cdn-cgi/l/email-protection#3f46504a4d7f5a525e5653115c5052" class="btn btn-ghost" style="color:rgba(255,255,255,0.8); border-color:rgba(255,255,255,0.2);">
-        Send Email ↗
+    <p style="font-size: 0.95rem; color: var(--text-muted); font-weight: 300; line-height: 1.8;">
+      연구 협업, 프로젝트 문의, 또는 CADD 관련 이야기라면 언제든 환영합니다.
+    </p>
+    <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+      <a href="mailto:your@email.com" style="display:inline-flex; align-items:center; gap:0.5rem; background: var(--accent); color: #fff; padding: 0.7rem 1.4rem; border-radius: 8px; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-decoration: none; transition: opacity 0.2s;" onmouseover="this.style.opacity=0.85" onmouseout="this.style.opacity=1">
+        ✉ Email
+      </a>
+      <a href="https://github.com/" target="_blank" style="display:inline-flex; align-items:center; gap:0.5rem; background: var(--surface2); color: var(--text); padding: 0.7rem 1.4rem; border-radius: 8px; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-decoration: none; border: 1px solid var(--border); transition: border-color 0.2s;" onmouseover="this.style.borderColor='var(--border-strong)'" onmouseout="this.style.borderColor='var(--border)'">
+        ↗ GitHub
       </a>
     </div>
-    <div class="contact-links">
-      <a href="https://github.com/yourid" target="_blank" class="contact-link">
-        <div class="contact-link-icon">⌥</div>
-        <div class="contact-link-text">
-          <div class="contact-link-label">GitHub</div>
-          <div class="contact-link-value">github.com/yourid</div>
-        </div>
-      </a>
-      <a href="/cdn-cgi/l/email-protection#dba2b4aea99bbeb6bab2b7f5b8b4b6" class="contact-link">
-        <div class="contact-link-icon">@</div>
-        <div class="contact-link-text">
-          <div class="contact-link-label">Email</div>
-          <div class="contact-link-value"><span class="__cf_email__" data-cfemail="31485e444371545c50585d1f525e5c">[email&#160;protected]</span></div>
-        </div>
-      </a>
-      <a href="https://orcid.org/0000-0000-0000-0000" target="_blank" class="contact-link">
-        <div class="contact-link-icon">○</div>
-        <div class="contact-link-text">
-          <div class="contact-link-label">ORCID</div>
-          <div class="contact-link-value">0000-0000-0000-0000</div>
-        </div>
-      </a>
-      <a href="https://linkedin.com/in/yourid" target="_blank" class="contact-link">
-        <div class="contact-link-icon">in</div>
-        <div class="contact-link-text">
-          <div class="contact-link-label">LinkedIn</div>
-          <div class="contact-link-value">linkedin.com/in/yourid</div>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="contact-note" style="margin-top:3rem;">
-    Built with plain HTML/CSS/JS — no frameworks, no build step.<br>
-    Hosted on GitHub Pages · © 2025 Seongyeon Yu
-  </div>
-</section>
+  </section>
 
-<footer>
-  <span class="footer-copy">© 2025 SEONGYEON YU</span>
-  <span class="footer-copy">CADD RESEARCHER · SEOUL, KR</span>
-</footer>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-name">Seongyeon Kim</div>
+    <div class="footer-meta">CADD Researcher · 2025</div>
+  </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // Accordion toggle
-  function toggleSkill(card) {
-    const isOpen = card.classList.contains('open');
-    document.querySelectorAll('.skill-card').forEach(c => c.classList.remove('open'));
-    if (!isOpen) card.classList.add('open');
+</div>
+
+<script>
+  function toggleDrawer(handle) {
+    const drawer = handle.closest('.skill-drawer');
+    const isOpen = drawer.classList.contains('open');
+
+    // Close all others
+    document.querySelectorAll('.skill-drawer.open').forEach(d => {
+      if (d !== drawer) d.classList.remove('open');
+    });
+
+    // Toggle this one
+    drawer.classList.toggle('open', !isOpen);
   }
 
-  // Scroll fade-in
+  // Staggered entrance for skill drawers
+  document.querySelectorAll('.skill-drawer').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(8px)';
+    el.style.transition = `opacity 0.4s ease ${i * 0.06}s, transform 0.4s ease ${i * 0.06}s`;
+  });
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        // stagger children
-        entry.target.query
+        document.querySelectorAll('.skill-drawer').forEach(el => {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        });
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.1 });
+
+  observer.observe(document.getElementById('skills-grid'));
+</script>
+
+</body>
+</html>
