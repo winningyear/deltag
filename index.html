@@ -8,476 +8,114 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #F5F4F0;
-    --surface: #EDECEA;
-    --surface2: #E4E3DF;
-    --border: #D4D2CE;
-    --border-strong: #B8B6B0;
-    --text: #1A1917;
-    --text-muted: #6B6965;
-    --text-faint: #9B9895;
-    --accent: #2A3D5E;
-    --accent-light: #4A6080;
-    --tag-bg: #D8DDE5;
-    --tag-text: #2A3D5E;
-    --drawer-handle: #C8C6C0;
-    --mono: 'DM Mono', monospace;
-    --serif: 'DM Serif Display', serif;
-    --sans: 'Instrument Sans', sans-serif;
+    --bg: #F5F4F0; --surface: #EDECEA; --surface2: #E4E3DF;
+    --border: #D4D2CE; --border-strong: #B8B6B0;
+    --text: #1A1917; --text-muted: #6B6965; --text-faint: #9B9895;
+    --accent: #2A3D5E; --accent-light: #4A6080;
+    --tag-bg: #D8DDE5; --tag-text: #2A3D5E;
+    --mono: 'DM Mono', monospace; --serif: 'DM Serif Display', serif; --sans: 'Instrument Sans', sans-serif;
   }
-
   html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    line-height: 1.6;
-    min-height: 100vh;
-  }
-
-  /* ── Layout ── */
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; min-height: 100vh; }
   .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
 
-  /* ── Header ── */
-  header {
-    padding: 4rem 0 3rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-inner {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 2rem;
-    flex-wrap: wrap;
-  }
-  .name-block {}
-  .label {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-    margin-bottom: 0.5rem;
-  }
-  h1 {
-    font-family: var(--serif);
-    font-size: clamp(2.4rem, 6vw, 3.8rem);
-    line-height: 1.05;
-    color: var(--text);
-    letter-spacing: -0.01em;
-  }
-  h1 em {
-    font-style: italic;
-    color: var(--accent-light);
-  }
-  .tagline {
-    margin-top: 0.75rem;
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    font-weight: 300;
-    letter-spacing: 0.01em;
-  }
-  .status-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 100px;
-    padding: 0.45rem 1rem;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    letter-spacing: 0.08em;
-    white-space: nowrap;
-  }
-  .status-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: #5A9E6F;
-    animation: pulse 2.5s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
+  header { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .header-inner { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.5rem; }
+  h1 { font-family: var(--serif); font-size: clamp(2.4rem, 6vw, 3.8rem); line-height: 1.05; color: var(--text); letter-spacing: -0.01em; }
+  h1 em { font-style: italic; color: var(--accent-light); }
+  .tagline { margin-top: 0.75rem; font-size: 0.95rem; color: var(--text-muted); font-weight: 300; }
+  .status-badge { display: flex; align-items: center; gap: 0.5rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 100px; padding: 0.45rem 1rem; font-family: var(--mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.08em; white-space: nowrap; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #5A9E6F; animation: pulse 2.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
 
-  /* ── Nav ── */
-  nav {
-    padding: 1.25rem 0;
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    background: rgba(245,244,240,0.9);
-    backdrop-filter: blur(8px);
-    z-index: 100;
-  }
-  .nav-inner {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-  }
-  nav a {
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
+  nav { padding: 1.25rem 0; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(245,244,240,0.9); backdrop-filter: blur(8px); z-index: 100; }
+  .nav-inner { display: flex; gap: 2rem; align-items: center; }
+  nav a { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); text-decoration: none; transition: color 0.2s; }
   nav a:hover { color: var(--text); }
 
-  /* ── Section titles ── */
   .section { padding: 4rem 0; border-bottom: 1px solid var(--border); }
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-    margin-bottom: 2.5rem;
-  }
-  .section-num {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    color: var(--text-faint);
-    letter-spacing: 0.1em;
-  }
-  h2 {
-    font-family: var(--serif);
-    font-size: 1.6rem;
-    font-weight: 400;
-    color: var(--text);
-    letter-spacing: -0.01em;
-  }
+  .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2.5rem; }
+  .section-num { font-family: var(--mono); font-size: 0.65rem; color: var(--text-faint); letter-spacing: 0.1em; }
+  h2 { font-family: var(--serif); font-size: 1.6rem; font-weight: 400; color: var(--text); letter-spacing: -0.01em; }
 
-  /* ── About ── */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 3rem;
-    align-items: start;
-  }
-  .about-text p {
-    font-size: 1rem;
-    color: var(--text-muted);
-    line-height: 1.8;
-    font-weight: 300;
-  }
+  .about-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: start; }
+  .about-text p { font-size: 1rem; color: var(--text-muted); line-height: 1.8; font-weight: 300; }
   .about-text p + p { margin-top: 1rem; }
-  .about-meta { }
-  .meta-item {
-    padding: 1rem 0;
-    border-top: 1px solid var(--border);
-  }
+  .meta-item { padding: 1rem 0; border-top: 1px solid var(--border); }
   .meta-item:last-child { border-bottom: 1px solid var(--border); }
-  .meta-key {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-    margin-bottom: 0.3rem;
-  }
-  .meta-val {
-    font-size: 0.9rem;
-    color: var(--text);
-    font-weight: 400;
-  }
+  .meta-key { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.3rem; }
+  .meta-val { font-size: 0.9rem; color: var(--text); font-weight: 400; }
 
-  /* ── Skills — Drawer System ── */
-  .skills-intro {
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    color: var(--text-faint);
-    letter-spacing: 0.08em;
-    margin-bottom: 1.5rem;
-  }
-  .skills-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .skill-drawer {
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-  }
+  .skills-intro { font-family: var(--mono); font-size: 0.72rem; color: var(--text-faint); letter-spacing: 0.08em; margin-bottom: 1.5rem; }
+  .skills-grid { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .skill-drawer { border-bottom: 1px solid var(--border); background: var(--surface); }
   .skill-drawer:last-child { border-bottom: none; }
-
-  .drawer-handle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.1rem 1.5rem;
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.2s;
-    gap: 1rem;
-  }
+  .drawer-handle { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.5rem; cursor: pointer; user-select: none; transition: background 0.2s; gap: 1rem; }
   .drawer-handle:hover { background: var(--surface2); }
-
-  .handle-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .skill-icon {
-    width: 36px; height: 36px;
-    border-radius: 8px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem;
-    flex-shrink: 0;
-    transition: all 0.3s;
-  }
-  .skill-drawer.open .skill-icon {
-    background: var(--accent);
-    border-color: var(--accent);
-    filter: brightness(1);
-  }
+  .handle-left { display: flex; align-items: center; gap: 1rem; }
+  .skill-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; transition: all 0.3s; }
+  .skill-drawer.open .skill-icon { background: var(--accent); border-color: var(--accent); }
   .skill-drawer.open .skill-icon span { filter: invert(1) brightness(10); }
-
-  .handle-text {}
-  .skill-name {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text);
-    letter-spacing: -0.01em;
-  }
-  .skill-subtitle {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    color: var(--text-faint);
-    letter-spacing: 0.06em;
-    margin-top: 0.1rem;
-  }
-
-  .handle-right {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .proficiency {
-    display: flex;
-    gap: 3px;
-    align-items: center;
-  }
-  .prof-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--border-strong);
-    transition: background 0.3s;
-  }
+  .skill-name { font-size: 0.95rem; font-weight: 500; color: var(--text); letter-spacing: -0.01em; }
+  .skill-subtitle { font-family: var(--mono); font-size: 0.65rem; color: var(--text-faint); letter-spacing: 0.06em; margin-top: 0.1rem; }
+  .handle-right { display: flex; align-items: center; gap: 1rem; }
+  .proficiency { display: flex; gap: 3px; align-items: center; }
+  .prof-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border-strong); }
   .prof-dot.filled { background: var(--accent); }
-
-  .chevron {
-    width: 18px; height: 18px;
-    color: var(--text-faint);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    flex-shrink: 0;
-  }
+  .chevron { width: 18px; height: 18px; color: var(--text-faint); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); flex-shrink: 0; }
   .skill-drawer.open .chevron { transform: rotate(180deg); }
+  .drawer-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1); }
+  .skill-drawer.open .drawer-body { max-height: 600px; }
+  .drawer-content { padding: 0 1.5rem 1.5rem; border-top: 1px solid var(--border); background: var(--bg); }
+  .drawer-top { display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; align-items: start; padding-top: 1.25rem; }
+  .skill-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.75; font-weight: 300; }
+  .skill-level-block { text-align: right; flex-shrink: 0; }
+  .level-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; color: var(--text-faint); text-transform: uppercase; margin-bottom: 0.3rem; }
+  .level-value { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); font-weight: 500; }
+  .tags-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .tag { background: var(--tag-bg); color: var(--tag-text); padding: 0.25rem 0.65rem; border-radius: 100px; font-family: var(--mono); font-size: 0.67rem; letter-spacing: 0.04em; }
+  .experience-bar-row { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 1rem; }
+  .bar-label { font-family: var(--mono); font-size: 0.65rem; color: var(--text-faint); white-space: nowrap; width: 80px; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 3px; background: var(--border); border-radius: 100px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--accent); border-radius: 100px; width: 0%; transition: width 0.6s cubic-bezier(0.4,0,0.2,1) 0.1s; }
+  .skill-drawer.open .bar-fill { width: var(--fill-width); }
+  .bar-pct { font-family: var(--mono); font-size: 0.65rem; color: var(--text-faint); width: 35px; text-align: right; flex-shrink: 0; }
 
-  /* ── Drawer Content ── */
-  .drawer-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .skill-drawer.open .drawer-body {
-    max-height: 600px;
-  }
+  /* ── Graph ── */
+  .graph-wrap { position: relative; width: 100%; height: 480px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  #graph-canvas { display: block; width: 100%; height: 100%; }
+  #graph-tooltip { position: absolute; display: none; background: var(--bg); border: 1px solid var(--border-strong); border-radius: 8px; padding: 8px 12px; font-size: 0.78rem; color: var(--text); pointer-events: none; max-width: 200px; line-height: 1.5; z-index: 10; }
+  .graph-hint { position: absolute; top: 14px; right: 16px; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.06em; color: var(--text-faint); }
+  .graph-legend { position: absolute; bottom: 14px; left: 16px; display: flex; gap: 16px; }
+  .graph-legend span { display: flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 0.62rem; color: var(--text-faint); }
+  .ldot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 
-  .drawer-content {
-    padding: 0 1.5rem 1.5rem;
-    border-top: 1px solid var(--border);
-    background: var(--bg);
-  }
-
-  .drawer-top {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 1.5rem;
-    align-items: start;
-    padding-top: 1.25rem;
-  }
-
-  .skill-desc {
-    font-size: 0.88rem;
-    color: var(--text-muted);
-    line-height: 1.75;
-    font-weight: 300;
-  }
-
-  .skill-level-block {
-    text-align: right;
-    flex-shrink: 0;
-  }
-  .level-label {
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    color: var(--text-faint);
-    text-transform: uppercase;
-    margin-bottom: 0.3rem;
-  }
-  .level-value {
-    font-family: var(--mono);
-    font-size: 0.82rem;
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  .tags-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: 1rem;
-  }
-  .tag {
-    background: var(--tag-bg);
-    color: var(--tag-text);
-    padding: 0.25rem 0.65rem;
-    border-radius: 100px;
-    font-family: var(--mono);
-    font-size: 0.67rem;
-    letter-spacing: 0.04em;
-    font-weight: 400;
-  }
-
-  .experience-bar-row {
-    margin-top: 1.25rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .bar-label {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    color: var(--text-faint);
-    letter-spacing: 0.08em;
-    white-space: nowrap;
-    width: 80px;
-    flex-shrink: 0;
-  }
-  .bar-track {
-    flex: 1;
-    height: 3px;
-    background: var(--border);
-    border-radius: 100px;
-    overflow: hidden;
-  }
-  .bar-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 100px;
-    width: 0%;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
-  }
-  .skill-drawer.open .bar-fill {
-    width: var(--fill-width);
-  }
-  .bar-pct {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    color: var(--text-faint);
-    width: 35px;
-    text-align: right;
-    flex-shrink: 0;
-  }
-
-  /* ── Projects ── */
-  .projects-list { display: flex; flex-direction: column; gap: 1px; }
-
-  .project-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin-bottom: 0.75rem;
-    transition: border-color 0.2s, background 0.2s;
-    opacity: 0;
-    transform: translateY(16px);
-    animation: fadeup 0.5s forwards;
-  }
-  .project-card:nth-child(1) { animation-delay: 0.1s; }
-  .project-card:nth-child(2) { animation-delay: 0.2s; }
-  .project-card:nth-child(3) { animation-delay: 0.3s; }
-  @keyframes fadeup {
-    to { opacity: 1; transform: translateY(0); }
-  }
+  .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 0.75rem; transition: border-color 0.2s, background 0.2s; opacity: 0; transform: translateY(16px); animation: fadeup 0.5s forwards; }
+  .project-card:nth-child(1){animation-delay:0.1s} .project-card:nth-child(2){animation-delay:0.2s} .project-card:nth-child(3){animation-delay:0.3s}
+  @keyframes fadeup { to { opacity:1; transform:translateY(0); } }
   .project-card:hover { border-color: var(--border-strong); background: var(--surface2); }
+  .project-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.6rem; }
+  .project-title { font-size: 1rem; font-weight: 500; color: var(--text); }
+  .project-year { font-family: var(--mono); font-size: 0.68rem; color: var(--text-faint); flex-shrink: 0; }
+  .project-desc { font-size: 0.87rem; color: var(--text-muted); line-height: 1.7; font-weight: 300; margin-bottom: 1rem; }
 
-  .project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 0.6rem;
-  }
-  .project-title {
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--text);
-  }
-  .project-year {
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    color: var(--text-faint);
-    letter-spacing: 0.06em;
-    flex-shrink: 0;
-  }
-  .project-desc {
-    font-size: 0.87rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-    font-weight: 300;
-    margin-bottom: 1rem;
-  }
+  footer { padding: 3rem 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: var(--serif); font-size: 1.1rem; color: var(--text); }
+  .footer-meta { font-family: var(--mono); font-size: 0.65rem; color: var(--text-faint); letter-spacing: 0.08em; }
 
-  /* ── Footer ── */
-  footer {
-    padding: 3rem 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  .footer-name {
-    font-family: var(--serif);
-    font-size: 1.1rem;
-    color: var(--text);
-  }
-  .footer-meta {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    color: var(--text-faint);
-    letter-spacing: 0.08em;
-  }
-
-  /* Responsive */
   @media (max-width: 640px) {
     .about-grid { grid-template-columns: 1fr; }
     .drawer-top { grid-template-columns: 1fr; }
     .skill-level-block { text-align: left; }
+    .graph-wrap { height: 340px; }
   }
 </style>
 </head>
 <body>
-
 <div class="container">
 
-  <!-- Header -->
   <header>
     <div class="header-inner">
       <div class="name-block">
@@ -485,574 +123,364 @@
         <h1>Seongyeon<br><em>Yu</em></h1>
         <p class="tagline">Computer-Aided Drug Design &amp; Molecular Informatics</p>
       </div>
-      <div class="status-badge">
-        <span class="status-dot"></span>
-        Available for collaboration
-      </div>
+      <div class="status-badge"><span class="status-dot"></span>Available for collaboration</div>
     </div>
   </header>
 
-  <!-- Nav -->
   <nav>
     <div class="nav-inner">
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
+      <a href="#workflow">Workflow</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </div>
   </nav>
 
-  <!-- About -->
+  <!-- 01 About -->
   <section class="section" id="about">
-    <div class="section-header">
-      <span class="section-num">01</span>
-      <h2>About</h2>
-    </div>
+    <div class="section-header"><span class="section-num">01</span><h2>About</h2></div>
     <div class="about-grid">
       <div class="about-text">
-        <p>
-          Researcher specializing in <strong>Computer-Aided Drug Design (CADD)</strong>, working at the intersection of structural biology, cheminformatics, and machine learning.
-        </p>
-        <p>
-          My work spans the full CADD pipeline — from hit identification via virtual screening and molecular docking, to lead optimization through MD simulations and free energy calculations. I build automated pipelines that connect wet-lab hypotheses with computational predictions.
-        </p>
-        <p>
-          I'm particularly interested in leveraging deep learning to accelerate early-stage drug discovery, including structure-based approaches and chemical space exploration.
-        </p>
+        <p>Researcher specializing in <strong>Computer-Aided Drug Design (CADD)</strong>, working at the intersection of structural biology, cheminformatics, and machine learning.</p>
+        <p>My work spans the full CADD pipeline — from hit identification via virtual screening and molecular docking, to lead optimization through MD simulations and free energy calculations. I build automated pipelines that connect wet-lab hypotheses with computational predictions.</p>
+        <p>I'm particularly interested in leveraging deep learning to accelerate early-stage drug discovery, including structure-based approaches and chemical space exploration.</p>
       </div>
       <div class="about-meta">
-        <div class="meta-item">
-          <div class="meta-key">Field</div>
-          <div class="meta-val">CADD / Drug Discovery</div>
-        </div>
-        <div class="meta-item">
-          <div class="meta-key">Environment</div>
-          <div class="meta-val">Linux HPC Cluster</div>
-        </div>
-        <div class="meta-item">
-          <div class="meta-key">Languages</div>
-          <div class="meta-val">Python, Bash</div>
-        </div>
-        <div class="meta-item">
-          <div class="meta-key">Location</div>
-          <div class="meta-val">South Korea</div>
-        </div>
+        <div class="meta-item"><div class="meta-key">Field</div><div class="meta-val">CADD / Drug Discovery</div></div>
+        <div class="meta-item"><div class="meta-key">Environment</div><div class="meta-val">Linux HPC Cluster</div></div>
+        <div class="meta-item"><div class="meta-key">Languages</div><div class="meta-val">Python, Bash</div></div>
+        <div class="meta-item"><div class="meta-key">Location</div><div class="meta-val">South Korea</div></div>
       </div>
     </div>
   </section>
 
-  <!-- Skills -->
+  <!-- 02 Skills -->
   <section class="section" id="skills">
-    <div class="section-header">
-      <span class="section-num">02</span>
-      <h2>Skills</h2>
-    </div>
+    <div class="section-header"><span class="section-num">02</span><h2>Skills</h2></div>
     <p class="skills-intro">↓ 클릭해서 각 항목을 열어보세요</p>
-
     <div class="skills-grid" id="skills-grid">
 
-      <!-- Python -->
-      <div class="skill-drawer" data-drawer>
+      <div class="skill-drawer">
         <div class="drawer-handle" onclick="toggleDrawer(this)">
-          <div class="handle-left">
-            <div class="skill-icon"><span>🐍</span></div>
-            <div class="handle-text">
-              <div class="skill-name">Python</div>
-              <div class="skill-subtitle">Core Language</div>
-            </div>
-          </div>
-          <div class="handle-right">
-            <div class="proficiency">
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-            </div>
-            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
-          </div>
+          <div class="handle-left"><div class="skill-icon"><span>🐍</span></div><div class="handle-text"><div class="skill-name">Python</div><div class="skill-subtitle">Core Language</div></div></div>
+          <div class="handle-right"><div class="proficiency"><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div></div><svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
-        <div class="drawer-body">
-          <div class="drawer-content">
-            <div class="drawer-top">
-              <div>
-                <p class="skill-desc">
-                  Scientific computing과 자동화 파이프라인 구축에 주력. NumPy, Pandas, Matplotlib 등 데이터 사이언스 스택과 함께 CADD 도메인 라이브러리들을 결합한 end-to-end 워크플로우를 설계하고 구현합니다.
-                </p>
-                <div class="tags-row">
-                  <span class="tag">NumPy</span>
-                  <span class="tag">Pandas</span>
-                  <span class="tag">Matplotlib</span>
-                  <span class="tag">scikit-learn</span>
-                  <span class="tag">PyTorch</span>
-                  <span class="tag">argparse</span>
-                  <span class="tag">pathlib</span>
-                </div>
-              </div>
-              <div class="skill-level-block">
-                <div class="level-label">Level</div>
-                <div class="level-value">Advanced</div>
-              </div>
-            </div>
-            <div class="experience-bar-row">
-              <div class="bar-label">Proficiency</div>
-              <div class="bar-track"><div class="bar-fill" style="--fill-width: 90%"></div></div>
-              <div class="bar-pct">90%</div>
-            </div>
-          </div>
-        </div>
+        <div class="drawer-body"><div class="drawer-content">
+          <div class="drawer-top"><div><p class="skill-desc">Scientific computing과 자동화 파이프라인 구축에 주력. NumPy, Pandas, Matplotlib 등 데이터 사이언스 스택과 함께 CADD 도메인 라이브러리들을 결합한 end-to-end 워크플로우를 설계하고 구현합니다.</p><div class="tags-row"><span class="tag">NumPy</span><span class="tag">Pandas</span><span class="tag">Matplotlib</span><span class="tag">scikit-learn</span><span class="tag">PyTorch</span><span class="tag">argparse</span><span class="tag">pathlib</span></div></div><div class="skill-level-block"><div class="level-label">Level</div><div class="level-value">Advanced</div></div></div>
+          <div class="experience-bar-row"><div class="bar-label">Proficiency</div><div class="bar-track"><div class="bar-fill" style="--fill-width:90%"></div></div><div class="bar-pct">90%</div></div>
+        </div></div>
       </div>
 
-      <!-- RDKit -->
-      <div class="skill-drawer" data-drawer>
+      <div class="skill-drawer">
         <div class="drawer-handle" onclick="toggleDrawer(this)">
-          <div class="handle-left">
-            <div class="skill-icon"><span>⚗️</span></div>
-            <div class="handle-text">
-              <div class="skill-name">RDKit / Cheminformatics</div>
-              <div class="skill-subtitle">Molecular Informatics</div>
-            </div>
-          </div>
-          <div class="handle-right">
-            <div class="proficiency">
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot"></div>
-            </div>
-            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
-          </div>
+          <div class="handle-left"><div class="skill-icon"><span>⚗️</span></div><div class="handle-text"><div class="skill-name">RDKit / Cheminformatics</div><div class="skill-subtitle">Molecular Informatics</div></div></div>
+          <div class="handle-right"><div class="proficiency"><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot"></div></div><svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
-        <div class="drawer-body">
-          <div class="drawer-content">
-            <div class="drawer-top">
-              <div>
-                <p class="skill-desc">
-                  분자 구조 처리, SMILES 파싱, 분자 기술자 계산, substructure 탐색 등 cheminformatics 전반을 다룹니다. SDF 파일 배치 처리, fingerprint 기반 유사도 계산, ring system 분류 등의 파이프라인을 직접 구현한 경험이 있습니다.
-                </p>
-                <div class="tags-row">
-                  <span class="tag">RDKit</span>
-                  <span class="tag">SMILES</span>
-                  <span class="tag">SDF I/O</span>
-                  <span class="tag">Fingerprints</span>
-                  <span class="tag">Descriptors</span>
-                  <span class="tag">Substructure</span>
-                  <span class="tag">Ring Systems</span>
-                </div>
-              </div>
-              <div class="skill-level-block">
-                <div class="level-label">Level</div>
-                <div class="level-value">Proficient</div>
-              </div>
-            </div>
-            <div class="experience-bar-row">
-              <div class="bar-label">Proficiency</div>
-              <div class="bar-track"><div class="bar-fill" style="--fill-width: 78%"></div></div>
-              <div class="bar-pct">78%</div>
-            </div>
-          </div>
-        </div>
+        <div class="drawer-body"><div class="drawer-content">
+          <div class="drawer-top"><div><p class="skill-desc">분자 구조 처리, SMILES 파싱, 분자 기술자 계산, substructure 탐색 등 cheminformatics 전반을 다룹니다. SDF 파일 배치 처리, fingerprint 기반 유사도 계산, ring system 분류 등의 파이프라인을 직접 구현했습니다.</p><div class="tags-row"><span class="tag">RDKit</span><span class="tag">SMILES</span><span class="tag">SDF I/O</span><span class="tag">Fingerprints</span><span class="tag">Descriptors</span><span class="tag">Substructure</span><span class="tag">Ring Systems</span></div></div><div class="skill-level-block"><div class="level-label">Level</div><div class="level-value">Proficient</div></div></div>
+          <div class="experience-bar-row"><div class="bar-label">Proficiency</div><div class="bar-track"><div class="bar-fill" style="--fill-width:78%"></div></div><div class="bar-pct">78%</div></div>
+        </div></div>
       </div>
 
-      <!-- GROMACS -->
-      <div class="skill-drawer" data-drawer>
+      <div class="skill-drawer">
         <div class="drawer-handle" onclick="toggleDrawer(this)">
-          <div class="handle-left">
-            <div class="skill-icon"><span>🔬</span></div>
-            <div class="handle-text">
-              <div class="skill-name">GROMACS / MD Simulation</div>
-              <div class="skill-subtitle">Molecular Dynamics</div>
-            </div>
-          </div>
-          <div class="handle-right">
-            <div class="proficiency">
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot"></div>
-            </div>
-            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
-          </div>
+          <div class="handle-left"><div class="skill-icon"><span>🔬</span></div><div class="handle-text"><div class="skill-name">GROMACS / MD Simulation</div><div class="skill-subtitle">Molecular Dynamics</div></div></div>
+          <div class="handle-right"><div class="proficiency"><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot"></div></div><svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
-        <div class="drawer-body">
-          <div class="drawer-content">
-            <div class="drawer-top">
-              <div>
-                <p class="skill-desc">
-                  단백질-리간드 복합체의 MD 시뮬레이션 셋업부터 분석까지 전 과정을 다룹니다. 시스템 준비, 에너지 최소화, equilibration, production run 및 trajectory 분석 파이프라인을 Linux HPC 환경에서 운영합니다.
-                </p>
-                <div class="tags-row">
-                  <span class="tag">GROMACS</span>
-                  <span class="tag">Force Fields</span>
-                  <span class="tag">AMBER</span>
-                  <span class="tag">CHARMM</span>
-                  <span class="tag">RMSD/RMSF</span>
-                  <span class="tag">gmx analysis</span>
-                  <span class="tag">MDAnalysis</span>
-                </div>
-              </div>
-              <div class="skill-level-block">
-                <div class="level-label">Level</div>
-                <div class="level-value">Proficient</div>
-              </div>
-            </div>
-            <div class="experience-bar-row">
-              <div class="bar-label">Proficiency</div>
-              <div class="bar-track"><div class="bar-fill" style="--fill-width: 75%"></div></div>
-              <div class="bar-pct">75%</div>
-            </div>
-          </div>
-        </div>
+        <div class="drawer-body"><div class="drawer-content">
+          <div class="drawer-top"><div><p class="skill-desc">단백질-리간드 복합체의 MD 시뮬레이션 셋업부터 분석까지 전 과정을 다룹니다. 시스템 준비, 에너지 최소화, equilibration, production run 및 trajectory 분석 파이프라인을 Linux HPC 환경에서 운영합니다.</p><div class="tags-row"><span class="tag">GROMACS</span><span class="tag">Force Fields</span><span class="tag">AMBER</span><span class="tag">CHARMM</span><span class="tag">RMSD/RMSF</span><span class="tag">gmx analysis</span><span class="tag">MDAnalysis</span></div></div><div class="skill-level-block"><div class="level-label">Level</div><div class="level-value">Proficient</div></div></div>
+          <div class="experience-bar-row"><div class="bar-label">Proficiency</div><div class="bar-track"><div class="bar-fill" style="--fill-width:75%"></div></div><div class="bar-pct">75%</div></div>
+        </div></div>
       </div>
 
-      <!-- Molecular Docking -->
-      <div class="skill-drawer" data-drawer>
+      <div class="skill-drawer">
         <div class="drawer-handle" onclick="toggleDrawer(this)">
-          <div class="handle-left">
-            <div class="skill-icon"><span>🎯</span></div>
-            <div class="handle-text">
-              <div class="skill-name">Molecular Docking</div>
-              <div class="skill-subtitle">Virtual Screening</div>
-            </div>
-          </div>
-          <div class="handle-right">
-            <div class="proficiency">
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot"></div>
-            </div>
-            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
-          </div>
+          <div class="handle-left"><div class="skill-icon"><span>🎯</span></div><div class="handle-text"><div class="skill-name">Molecular Docking</div><div class="skill-subtitle">Virtual Screening</div></div></div>
+          <div class="handle-right"><div class="proficiency"><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot"></div></div><svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
-        <div class="drawer-body">
-          <div class="drawer-content">
-            <div class="drawer-top">
-              <div>
-                <p class="skill-desc">
-                  smina 기반 가상 스크리닝 파이프라인을 구축하고, 도킹 결과물(SDF) 배치 처리 및 클러스터링을 자동화했습니다. 융합 고리 시스템 기반 히트 필터링 스크립트를 직접 개발한 경험이 있습니다.
-                </p>
-                <div class="tags-row">
-                  <span class="tag">smina</span>
-                  <span class="tag">AutoDock Vina</span>
-                  <span class="tag">Hit Filtering</span>
-                  <span class="tag">Pose Analysis</span>
-                  <span class="tag">Binding Score</span>
-                  <span class="tag">SDF Parsing</span>
-                  <span class="tag">Clustering</span>
-                </div>
-              </div>
-              <div class="skill-level-block">
-                <div class="level-label">Level</div>
-                <div class="level-value">Proficient</div>
-              </div>
-            </div>
-            <div class="experience-bar-row">
-              <div class="bar-label">Proficiency</div>
-              <div class="bar-track"><div class="bar-fill" style="--fill-width: 80%"></div></div>
-              <div class="bar-pct">80%</div>
-            </div>
-          </div>
-        </div>
+        <div class="drawer-body"><div class="drawer-content">
+          <div class="drawer-top"><div><p class="skill-desc">smina 기반 가상 스크리닝 파이프라인을 구축하고, 도킹 결과물(SDF) 배치 처리 및 클러스터링을 자동화했습니다. 융합 고리 시스템 기반 히트 필터링 스크립트를 직접 개발한 경험이 있습니다.</p><div class="tags-row"><span class="tag">smina</span><span class="tag">AutoDock Vina</span><span class="tag">Hit Filtering</span><span class="tag">Pose Analysis</span><span class="tag">Binding Score</span><span class="tag">SDF Parsing</span><span class="tag">Clustering</span></div></div><div class="skill-level-block"><div class="level-label">Level</div><div class="level-value">Proficient</div></div></div>
+          <div class="experience-bar-row"><div class="bar-label">Proficiency</div><div class="bar-track"><div class="bar-fill" style="--fill-width:80%"></div></div><div class="bar-pct">80%</div></div>
+        </div></div>
       </div>
 
-      <!-- ML / DL -->
-      <div class="skill-drawer" data-drawer>
+      <div class="skill-drawer">
         <div class="drawer-handle" onclick="toggleDrawer(this)">
-          <div class="handle-left">
-            <div class="skill-icon"><span>🧠</span></div>
-            <div class="handle-text">
-              <div class="skill-name">Machine Learning / Deep Learning</div>
-              <div class="skill-subtitle">Applied AI for Drug Discovery</div>
-            </div>
-          </div>
-          <div class="handle-right">
-            <div class="proficiency">
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot"></div>
-              <div class="prof-dot"></div>
-            </div>
-            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
-          </div>
+          <div class="handle-left"><div class="skill-icon"><span>🧠</span></div><div class="handle-text"><div class="skill-name">Machine Learning / Deep Learning</div><div class="skill-subtitle">Applied AI for Drug Discovery</div></div></div>
+          <div class="handle-right"><div class="proficiency"><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot"></div><div class="prof-dot"></div></div><svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
-        <div class="drawer-body">
-          <div class="drawer-content">
-            <div class="drawer-top">
-              <div>
-                <p class="skill-desc">
-                  EfficientNet 기반 이미지 분류 모델을 PyTorch + timm으로 직접 학습시킨 경험이 있으며, 화학 구조 이미지 파이프라인(DECIMER-Seg → MolScribe)에 binary classifier를 통합했습니다. 실무 적용 중심의 ML 역량을 지속적으로 확장하고 있습니다.
-                </p>
-                <div class="tags-row">
-                  <span class="tag">PyTorch</span>
-                  <span class="tag">timm</span>
-                  <span class="tag">EfficientNet</span>
-                  <span class="tag">scikit-learn</span>
-                  <span class="tag">DECIMER</span>
-                  <span class="tag">MolScribe</span>
-                  <span class="tag">Image Classification</span>
-                </div>
-              </div>
-              <div class="skill-level-block">
-                <div class="level-label">Level</div>
-                <div class="level-value">Intermediate</div>
-              </div>
-            </div>
-            <div class="experience-bar-row">
-              <div class="bar-label">Proficiency</div>
-              <div class="bar-track"><div class="bar-fill" style="--fill-width: 62%"></div></div>
-              <div class="bar-pct">62%</div>
-            </div>
-          </div>
-        </div>
+        <div class="drawer-body"><div class="drawer-content">
+          <div class="drawer-top"><div><p class="skill-desc">EfficientNet 기반 이미지 분류 모델을 PyTorch + timm으로 직접 학습시킨 경험이 있으며, 화학 구조 이미지 파이프라인(DECIMER-Seg → MolScribe)에 binary classifier를 통합했습니다.</p><div class="tags-row"><span class="tag">PyTorch</span><span class="tag">timm</span><span class="tag">EfficientNet</span><span class="tag">scikit-learn</span><span class="tag">DECIMER</span><span class="tag">MolScribe</span><span class="tag">Image Classification</span></div></div><div class="skill-level-block"><div class="level-label">Level</div><div class="level-value">Intermediate</div></div></div>
+          <div class="experience-bar-row"><div class="bar-label">Proficiency</div><div class="bar-track"><div class="bar-fill" style="--fill-width:62%"></div></div><div class="bar-pct">62%</div></div>
+        </div></div>
       </div>
 
-      <!-- Linux / Bash -->
-      <div class="skill-drawer" data-drawer>
+      <div class="skill-drawer">
         <div class="drawer-handle" onclick="toggleDrawer(this)">
-          <div class="handle-left">
-            <div class="skill-icon"><span>🖥️</span></div>
-            <div class="handle-text">
-              <div class="skill-name">Linux / Bash</div>
-              <div class="skill-subtitle">HPC & Server Environment</div>
-            </div>
-          </div>
-          <div class="handle-right">
-            <div class="proficiency">
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot"></div>
-            </div>
-            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
-          </div>
+          <div class="handle-left"><div class="skill-icon"><span>🖥️</span></div><div class="handle-text"><div class="skill-name">Linux / Bash</div><div class="skill-subtitle">HPC &amp; Server Environment</div></div></div>
+          <div class="handle-right"><div class="proficiency"><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot"></div></div><svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
-        <div class="drawer-body">
-          <div class="drawer-content">
-            <div class="drawer-top">
-              <div>
-                <p class="skill-desc">
-                  Linux 서버 환경에서 일상적으로 작업합니다. Conda 환경 관리, SSH 설정, 배치 작업 자동화, 파이프라인 스크립팅을 주로 담당하며, 멀티 유저 HPC 환경에서의 리소스 관리 경험이 있습니다.
-                </p>
-                <div class="tags-row">
-                  <span class="tag">Ubuntu</span>
-                  <span class="tag">Bash scripting</span>
-                  <span class="tag">Conda</span>
-                  <span class="tag">SSH</span>
-                  <span class="tag">tmux</span>
-                  <span class="tag">cron</span>
-                  <span class="tag">HPC</span>
-                </div>
-              </div>
-              <div class="skill-level-block">
-                <div class="level-label">Level</div>
-                <div class="level-value">Proficient</div>
-              </div>
-            </div>
-            <div class="experience-bar-row">
-              <div class="bar-label">Proficiency</div>
-              <div class="bar-track"><div class="bar-fill" style="--fill-width: 76%"></div></div>
-              <div class="bar-pct">76%</div>
-            </div>
-          </div>
-        </div>
+        <div class="drawer-body"><div class="drawer-content">
+          <div class="drawer-top"><div><p class="skill-desc">Linux 서버 환경에서 일상적으로 작업합니다. Conda 환경 관리, SSH 설정, 배치 작업 자동화, 파이프라인 스크립팅을 주로 담당하며, 멀티 유저 HPC 환경에서의 리소스 관리 경험이 있습니다.</p><div class="tags-row"><span class="tag">Ubuntu</span><span class="tag">Bash scripting</span><span class="tag">Conda</span><span class="tag">SSH</span><span class="tag">tmux</span><span class="tag">cron</span><span class="tag">HPC</span></div></div><div class="skill-level-block"><div class="level-label">Level</div><div class="level-value">Proficient</div></div></div>
+          <div class="experience-bar-row"><div class="bar-label">Proficiency</div><div class="bar-track"><div class="bar-fill" style="--fill-width:76%"></div></div><div class="bar-pct">76%</div></div>
+        </div></div>
       </div>
 
-      <!-- CADD 전반 -->
-      <div class="skill-drawer" data-drawer>
+      <div class="skill-drawer">
         <div class="drawer-handle" onclick="toggleDrawer(this)">
-          <div class="handle-left">
-            <div class="skill-icon"><span>💊</span></div>
-            <div class="handle-text">
-              <div class="skill-name">CADD 전반</div>
-              <div class="skill-subtitle">Drug Discovery Pipeline</div>
-            </div>
-          </div>
-          <div class="handle-right">
-            <div class="proficiency">
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot filled"></div>
-              <div class="prof-dot"></div>
-            </div>
-            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
-          </div>
+          <div class="handle-left"><div class="skill-icon"><span>💊</span></div><div class="handle-text"><div class="skill-name">CADD 전반</div><div class="skill-subtitle">Drug Discovery Pipeline</div></div></div>
+          <div class="handle-right"><div class="proficiency"><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot filled"></div><div class="prof-dot"></div></div><svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="6 9 12 15 18 9"/></svg></div>
         </div>
-        <div class="drawer-body">
-          <div class="drawer-content">
-            <div class="drawer-top">
-              <div>
-                <p class="skill-desc">
-                  Target identification부터 hit-to-lead까지 CADD 전체 파이프라인에 대한 이해와 실무 경험을 보유합니다. Structure-based drug design과 ligand-based approach를 상황에 맞게 조합하고, 계산 결과를 실험팀과 소통하는 역할도 담당합니다.
-                </p>
-                <div class="tags-row">
-                  <span class="tag">SBDD</span>
-                  <span class="tag">LBDD</span>
-                  <span class="tag">Virtual Screening</span>
-                  <span class="tag">Hit-to-Lead</span>
-                  <span class="tag">ADMET</span>
-                  <span class="tag">Pharmacophore</span>
-                  <span class="tag">Protein-Ligand</span>
-                </div>
-              </div>
-              <div class="skill-level-block">
-                <div class="level-label">Level</div>
-                <div class="level-value">Proficient</div>
-              </div>
-            </div>
-            <div class="experience-bar-row">
-              <div class="bar-label">Proficiency</div>
-              <div class="bar-track"><div class="bar-fill" style="--fill-width: 82%"></div></div>
-              <div class="bar-pct">82%</div>
-            </div>
-          </div>
-        </div>
+        <div class="drawer-body"><div class="drawer-content">
+          <div class="drawer-top"><div><p class="skill-desc">Target identification부터 hit-to-lead까지 CADD 전체 파이프라인에 대한 이해와 실무 경험을 보유합니다. Structure-based drug design과 ligand-based approach를 상황에 맞게 조합하고, 계산 결과를 실험팀과 소통하는 역할도 담당합니다.</p><div class="tags-row"><span class="tag">SBDD</span><span class="tag">LBDD</span><span class="tag">Virtual Screening</span><span class="tag">Hit-to-Lead</span><span class="tag">ADMET</span><span class="tag">Pharmacophore</span><span class="tag">Protein-Ligand</span></div></div><div class="skill-level-block"><div class="level-label">Level</div><div class="level-value">Proficient</div></div></div>
+          <div class="experience-bar-row"><div class="bar-label">Proficiency</div><div class="bar-track"><div class="bar-fill" style="--fill-width:82%"></div></div><div class="bar-pct">82%</div></div>
+        </div></div>
       </div>
 
     </div>
   </section>
 
-  <!-- Projects -->
+  <!-- 03 Workflow Graph -->
+  <section class="section" id="workflow">
+    <div class="section-header"><span class="section-num">03</span><h2>Workflow</h2></div>
+    <p class="skills-intro" style="margin-bottom:1.25rem;">↓ 보라색 프로젝트 노드를 클릭하면 파이프라인 순서가 펼쳐집니다</p>
+    <div class="graph-wrap">
+      <canvas id="graph-canvas"></canvas>
+      <div id="graph-tooltip"></div>
+      <div class="graph-hint">click project node → expand workflow</div>
+      <div class="graph-legend">
+        <span><span class="ldot" style="background:#2A3D5E;"></span>project</span>
+        <span><span class="ldot" style="background:#B8B6B0;"></span>pipeline step</span>
+        <span><span class="ldot" style="background:#D4D2CE;"></span>tool</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 Projects -->
   <section class="section" id="projects">
-    <div class="section-header">
-      <span class="section-num">03</span>
-      <h2>Projects</h2>
-    </div>
+    <div class="section-header"><span class="section-num">04</span><h2>Projects</h2></div>
     <div class="projects-list">
-
       <div class="project-card">
-        <div class="project-header">
-          <div class="project-title">Chemical Structure Image Classifier</div>
-          <div class="project-year">2024</div>
-        </div>
-        <p class="project-desc">
-          PDF에서 추출된 화학 구조 이미지를 자동 필터링하는 EfficientNetB0 기반 binary classifier. DECIMER-Seg / MolScribe 파이프라인에 통합하여 그래프·rat 이미지 등 노이즈 데이터를 제거합니다.
-        </p>
-        <div class="tags-row">
-          <span class="tag">PyTorch</span>
-          <span class="tag">timm</span>
-          <span class="tag">EfficientNet</span>
-          <span class="tag">DECIMER-Seg</span>
-        </div>
+        <div class="project-header"><div class="project-title">Chemical Structure Image Classifier</div><div class="project-year">2024</div></div>
+        <p class="project-desc">PDF에서 추출된 화학 구조 이미지를 자동 필터링하는 EfficientNetB0 기반 binary classifier. DECIMER-Seg / MolScribe 파이프라인에 통합하여 그래프·rat 이미지 등 노이즈 데이터를 제거합니다.</p>
+        <div class="tags-row"><span class="tag">PyTorch</span><span class="tag">timm</span><span class="tag">EfficientNet</span><span class="tag">DECIMER-Seg</span></div>
       </div>
-
       <div class="project-card">
-        <div class="project-header">
-          <div class="project-title">Docking Hit Filtering Pipeline</div>
-          <div class="project-year">2024</div>
-        </div>
-        <p class="project-desc">
-          smina 도킹 결과물 SDF 파일을 융합 고리 시스템 크기 기준으로 자동 분류하는 배치 처리 파이프라인. RDKit Union-Find 기반으로 fused ring 탐지 알고리즘을 직접 구현했습니다.
-        </p>
-        <div class="tags-row">
-          <span class="tag">RDKit</span>
-          <span class="tag">smina</span>
-          <span class="tag">SDF</span>
-          <span class="tag">Union-Find</span>
-        </div>
+        <div class="project-header"><div class="project-title">Docking Hit Filtering Pipeline</div><div class="project-year">2024</div></div>
+        <p class="project-desc">smina 도킹 결과물 SDF 파일을 융합 고리 시스템 크기 기준으로 자동 분류하는 배치 처리 파이프라인. RDKit Union-Find 기반으로 fused ring 탐지 알고리즘을 직접 구현했습니다.</p>
+        <div class="tags-row"><span class="tag">RDKit</span><span class="tag">smina</span><span class="tag">SDF</span><span class="tag">Union-Find</span></div>
       </div>
-
       <div class="project-card">
-        <div class="project-header">
-          <div class="project-title">MD System Preparation API (molcube)</div>
-          <div class="project-year">2024–</div>
-        </div>
-        <p class="project-desc">
-          GROMACS 기반 MD 시뮬레이션 시스템 준비를 자동화하는 Python 패키지 API 서버. Django 기반으로 구축 중이며, 사내 연구팀의 워크플로우 자동화를 목표로 합니다.
-        </p>
-        <div class="tags-row">
-          <span class="tag">Django</span>
-          <span class="tag">GROMACS</span>
-          <span class="tag">REST API</span>
-          <span class="tag">Python</span>
-        </div>
+        <div class="project-header"><div class="project-title">MD System Preparation API (molcube)</div><div class="project-year">2024–</div></div>
+        <p class="project-desc">GROMACS 기반 MD 시뮬레이션 시스템 준비를 자동화하는 Python 패키지 API 서버. Django 기반으로 구축 중이며, 사내 연구팀의 워크플로우 자동화를 목표로 합니다.</p>
+        <div class="tags-row"><span class="tag">Django</span><span class="tag">GROMACS</span><span class="tag">REST API</span><span class="tag">Python</span></div>
       </div>
-
     </div>
   </section>
 
-  <!-- Contact -->
-  <section class="section" id="contact" style="border-bottom: none;">
-    <div class="section-header">
-      <span class="section-num">04</span>
-      <h2>Contact</h2>
-    </div>
-    <p style="font-size: 0.95rem; color: var(--text-muted); font-weight: 300; line-height: 1.8;">
-      연구 협업, 프로젝트 문의, 또는 CADD 관련 이야기라면 언제든 환영합니다.
-    </p>
-    <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-      <a href="mailto:your@email.com" style="display:inline-flex; align-items:center; gap:0.5rem; background: var(--accent); color: #fff; padding: 0.7rem 1.4rem; border-radius: 8px; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-decoration: none; transition: opacity 0.2s;" onmouseover="this.style.opacity=0.85" onmouseout="this.style.opacity=1">
-        ✉ Email
-      </a>
-      <a href="https://github.com/" target="_blank" style="display:inline-flex; align-items:center; gap:0.5rem; background: var(--surface2); color: var(--text); padding: 0.7rem 1.4rem; border-radius: 8px; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-decoration: none; border: 1px solid var(--border); transition: border-color 0.2s;" onmouseover="this.style.borderColor='var(--border-strong)'" onmouseout="this.style.borderColor='var(--border)'">
-        ↗ GitHub
-      </a>
+  <!-- 05 Contact -->
+  <section class="section" id="contact" style="border-bottom:none;">
+    <div class="section-header"><span class="section-num">05</span><h2>Contact</h2></div>
+    <p style="font-size:0.95rem;color:var(--text-muted);font-weight:300;line-height:1.8;">연구 협업, 프로젝트 문의, 또는 CADD 관련 이야기라면 언제든 환영합니다.</p>
+    <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="mailto:your@email.com" style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--accent);color:#fff;padding:0.7rem 1.4rem;border-radius:8px;font-family:var(--mono);font-size:0.75rem;letter-spacing:0.06em;text-decoration:none;" onmouseover="this.style.opacity=0.85" onmouseout="this.style.opacity=1">✉ Email</a>
+      <a href="https://github.com/" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--surface2);color:var(--text);padding:0.7rem 1.4rem;border-radius:8px;font-family:var(--mono);font-size:0.75rem;letter-spacing:0.06em;text-decoration:none;border:1px solid var(--border);" onmouseover="this.style.borderColor='var(--border-strong)'" onmouseout="this.style.borderColor='var(--border)'">↗ GitHub</a>
     </div>
   </section>
 
-  <!-- Footer -->
   <footer>
     <div class="footer-name">Seongyeon Yu</div>
     <div class="footer-meta">CADD Researcher · 2025</div>
   </footer>
-
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script>
-  function toggleDrawer(handle) {
-    const drawer = handle.closest('.skill-drawer');
-    const isOpen = drawer.classList.contains('open');
+/* ── Skill Drawers ── */
+function toggleDrawer(handle) {
+  const drawer = handle.closest('.skill-drawer');
+  const isOpen = drawer.classList.contains('open');
+  document.querySelectorAll('.skill-drawer.open').forEach(d => { if (d !== drawer) d.classList.remove('open'); });
+  drawer.classList.toggle('open', !isOpen);
+}
+document.querySelectorAll('.skill-drawer').forEach((el, i) => {
+  el.style.opacity = '0'; el.style.transform = 'translateY(8px)';
+  el.style.transition = `opacity 0.4s ease ${i*0.06}s, transform 0.4s ease ${i*0.06}s`;
+});
+const skillObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { document.querySelectorAll('.skill-drawer').forEach(el => { el.style.opacity='1'; el.style.transform='translateY(0)'; }); skillObs.disconnect(); } });
+}, { threshold: 0.1 });
+skillObs.observe(document.getElementById('skills-grid'));
 
-    // Close all others
-    document.querySelectorAll('.skill-drawer.open').forEach(d => {
-      if (d !== drawer) d.classList.remove('open');
-    });
+/* ── Workflow Graph ── */
+(function(){
+  const wrap = document.querySelector('.graph-wrap');
+  const canvas = document.getElementById('graph-canvas');
+  const tooltip = document.getElementById('graph-tooltip');
+  const dpr = window.devicePixelRatio || 1;
 
-    // Toggle this one
-    drawer.classList.toggle('open', !isOpen);
+  function W(){ return wrap.clientWidth; }
+  function H(){ return wrap.clientHeight; }
+
+  function resize(){
+    canvas.width = W() * dpr; canvas.height = H() * dpr;
+    canvas.style.width = W()+'px'; canvas.style.height = H()+'px';
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); alpha=1; });
+
+  const ctx = canvas.getContext('2d');
+
+  const C = { proj:'#2A3D5E', projS:'#1A2E48', projT:'#ffffff',
+               step:'#E4E3DF', stepS:'#B8B6B0', stepT:'#4A4845',
+               sat:'#EDECEA',  satS:'#D4D2CE',  satT:'#6B6965',
+               edge:'rgba(180,178,169,0.3)', edgeAct:'#4A6080', arrow:'#2A3D5E', wfLabel:'#4A6080' };
+
+  const project = { id:'proj', label:'Docking\nHit Filtering', type:'project', r:30, desc:'클릭하면 워크플로우를 펼칩니다' };
+  const steps = [
+    { id:'qsar',  label:'QSAR',          type:'step', r:22, order:0, desc:'Activity 예측 모델 구축\nCompound 스크리닝 우선순위화' },
+    { id:'pharm', label:'Pharmacophore', type:'step', r:22, order:1, desc:'결합 필수 특성 정의\nPharmacopore 모델 생성' },
+    { id:'dock',  label:'Docking',       type:'step', r:22, order:2, desc:'smina 기반 분자 도킹\nBinding pose 및 score 예측' },
+    { id:'md',    label:'MD',            type:'step', r:22, order:3, desc:'GROMACS MD 시뮬레이션\n복합체 안정성 검증' },
+  ];
+  const sats = [
+    { id:'s1', label:'Compound DB', type:'sat', r:13, parentId:'qsar',  desc:'화합물 데이터베이스' },
+    { id:'s2', label:'RDKit',       type:'sat', r:13, parentId:'qsar',  desc:'분자 기술자 계산' },
+    { id:'s3', label:'smina',       type:'sat', r:13, parentId:'dock',  desc:'도킹 소프트웨어' },
+    { id:'s4', label:'SDF parse',   type:'sat', r:13, parentId:'dock',  desc:'결과 파일 파싱' },
+    { id:'s5', label:'GROMACS',     type:'sat', r:13, parentId:'md',    desc:'MD 엔진' },
+    { id:'s6', label:'RMSD/RMSF',   type:'sat', r:13, parentId:'md',    desc:'트라젝토리 분석' },
+  ];
+
+  const nodes = [project, ...steps, ...sats];
+  const links = [];
+  steps.forEach(s => links.push({ source:'proj', target:s.id, type:'main' }));
+  sats.forEach(s => links.push({ source:s.parentId, target:s.id, type:'sat' }));
+
+  nodes.forEach(n => { n.x=W()/2+(Math.random()-.5)*260; n.y=H()/2+(Math.random()-.5)*200; n.vx=0; n.vy=0; });
+
+  let expanded = false, alpha = 1;
+
+  function gn(id){ return nodes.find(n=>n.id===id); }
+
+  function tx(n){
+    if(!expanded) return W()/2;
+    if(n.type==='project') return W()/2;
+    if(n.type==='step') return 72 + n.order*((W()-104)/3.3);
+    const p=gn(n.parentId); return p?tx(p):W()/2;
+  }
+  function ty(n){
+    if(!expanded) return H()/2;
+    if(n.type==='project') return H()*0.17;
+    if(n.type==='step') return H()*0.5;
+    return H()*0.8;
   }
 
-  // Staggered entrance for skill drawers
-  document.querySelectorAll('.skill-drawer').forEach((el, i) => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(8px)';
-    el.style.transition = `opacity 0.4s ease ${i * 0.06}s, transform 0.4s ease ${i * 0.06}s`;
+  function tick(){
+    const w=W(), h=H(), rep=expanded?52:75;
+    nodes.forEach(a=>{
+      nodes.forEach(b=>{
+        if(a===b) return;
+        const dx=a.x-b.x, dy=a.y-b.y, d=Math.sqrt(dx*dx+dy*dy)||1;
+        const md=a.r+b.r+rep;
+        if(d<md){ const f=(md-d)/d*.2*alpha; a.vx+=dx*f; a.vy+=dy*f; b.vx-=dx*f; b.vy-=dy*f; }
+      });
+      const str=expanded?(a.type==='project'?.22:.16):.013;
+      a.vx+=(tx(a)-a.x)*str*alpha; a.vy+=(ty(a)-a.y)*str*alpha;
+    });
+    links.forEach(l=>{
+      const s=gn(l.source), t=gn(l.target); if(!s||!t) return;
+      const dx=t.x-s.x, dy=t.y-s.y, d=Math.sqrt(dx*dx+dy*dy)||1;
+      const tg=l.type==='sat'?62:(expanded?0:110);
+      const f=(d-tg)/d*.1*alpha;
+      s.vx+=dx*f; s.vy+=dy*f; t.vx-=dx*f; t.vy-=dy*f;
+    });
+    nodes.forEach(n=>{
+      n.vx*=.72; n.vy*=.72; n.x+=n.vx; n.y+=n.vy;
+      n.x=Math.max(n.r+6,Math.min(w-n.r-6,n.x)); n.y=Math.max(n.r+6,Math.min(h-n.r-6,n.y));
+    });
+    alpha=Math.max(.006,alpha*.993);
+    draw();
+    requestAnimationFrame(tick);
+  }
+
+  function drawArrow(x1,y1,x2,y2){
+    const ang=Math.atan2(y2-y1,x2-x1), mx=(x1+x2)/2, my=(y1+y2)/2;
+    ctx.save(); ctx.translate(mx,my); ctx.rotate(ang);
+    ctx.beginPath(); ctx.moveTo(-7,-4); ctx.lineTo(7,0); ctx.lineTo(-7,4);
+    ctx.fillStyle=C.arrow; ctx.fill(); ctx.restore();
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.save(); ctx.scale(dpr,dpr);
+
+    links.forEach(l=>{
+      const s=gn(l.source), t=gn(l.target); if(!s||!t) return;
+      ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(t.x,t.y);
+      if(expanded&&l.type==='main'){ ctx.strokeStyle=C.edgeAct; ctx.lineWidth=1.5; ctx.setLineDash([]); }
+      else { ctx.strokeStyle=C.edge; ctx.lineWidth=l.type==='sat'?.8:1.1; ctx.setLineDash(l.type==='sat'?[3,3]:[]); }
+      ctx.stroke(); ctx.setLineDash([]);
+    });
+
+    if(expanded){
+      const ord=steps.slice().sort((a,b)=>a.order-b.order);
+      for(let i=0;i<ord.length-1;i++){
+        const a=gn(ord[i].id), b=gn(ord[i+1].id); if(!a||!b) continue;
+        const sx=a.x+a.r, sy=a.y, ex=b.x-b.r, ey=b.y;
+        ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(ex,ey);
+        ctx.strokeStyle=C.arrow; ctx.lineWidth=2.5; ctx.setLineDash([]); ctx.stroke();
+        drawArrow(sx,sy,ex,ey);
+      }
+      const wfLabels=['① QSAR','② Pharmacophore','③ Docking','④ MD'];
+      ord.forEach((s,i)=>{
+        const n=gn(s.id);
+        ctx.font='500 10px "DM Mono",monospace'; ctx.fillStyle=C.wfLabel;
+        ctx.textAlign='center'; ctx.textBaseline='bottom';
+        ctx.fillText(wfLabels[i], n.x, n.y-n.r-7);
+      });
+    }
+
+    nodes.forEach(n=>{
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      if(n.type==='project'){ ctx.fillStyle=C.proj; ctx.strokeStyle=C.projS; ctx.lineWidth=2; }
+      else if(n.type==='step'){ ctx.fillStyle=C.step; ctx.strokeStyle=C.stepS; ctx.lineWidth=1.2; }
+      else { ctx.fillStyle=C.sat; ctx.strokeStyle=C.satS; ctx.lineWidth=0.8; }
+      ctx.fill(); ctx.stroke();
+      const tc=n.type==='project'?C.projT:(n.type==='step'?C.stepT:C.satT);
+      ctx.fillStyle=tc;
+      const fs=n.type==='project'?11.5:(n.type==='step'?10:8.5);
+      ctx.font=`${n.type==='project'?'500':'400'} ${fs}px "Instrument Sans",sans-serif`;
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      const lines=n.label.split('\n');
+      lines.forEach((line,li)=>{ ctx.fillText(line,n.x,n.y+(li-(lines.length-1)/2)*13); });
+    });
+
+    ctx.restore();
+  }
+
+  canvas.addEventListener('click', e=>{
+    const r=canvas.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top;
+    const p=gn('proj'), dx=mx-p.x, dy=my-p.y;
+    if(Math.sqrt(dx*dx+dy*dy)<p.r+10){ expanded=!expanded; alpha=1; }
   });
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        document.querySelectorAll('.skill-drawer').forEach(el => {
-          el.style.opacity = '1';
-          el.style.transform = 'translateY(0)';
-        });
-        observer.disconnect();
-      }
-    });
-  }, { threshold: 0.1 });
+  canvas.addEventListener('mousemove', e=>{
+    const r=canvas.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top;
+    let hit=null;
+    nodes.forEach(n=>{ const dx=mx-n.x, dy=my-n.y; if(Math.sqrt(dx*dx+dy*dy)<n.r+4) hit=n; });
+    if(hit){
+      canvas.style.cursor=hit.type==='project'?'pointer':'default';
+      tooltip.style.display='block';
+      tooltip.style.left=(mx+14)+'px'; tooltip.style.top=(my-10)+'px';
+      tooltip.innerHTML=`<strong style="color:var(--text)">${hit.label.replace('\n',' ')}</strong><br><span style="color:var(--text-muted);font-size:0.72rem;">${hit.desc.replace('\n','<br>')}</span>`;
+    } else { canvas.style.cursor='default'; tooltip.style.display='none'; }
+  });
+  canvas.addEventListener('mouseleave',()=>{ tooltip.style.display='none'; });
 
-  observer.observe(document.getElementById('skills-grid'));
+  tick();
+})();
 </script>
-
 </body>
 </html>
