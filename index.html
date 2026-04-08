@@ -67,7 +67,7 @@
   .chevron { width: 18px; height: 18px; color: var(--text-faint); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); flex-shrink: 0; }
   .skill-drawer.open .chevron { transform: rotate(180deg); }
   .drawer-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1); }
-  .skill-drawer.open .drawer-body { max-height: 600px; }
+  .skill-drawer.open .drawer-body { max-height: 700px; }
   .drawer-content { padding: 0 1.5rem 1.5rem; border-top: 1px solid var(--border); background: var(--bg); }
   .drawer-top { display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; align-items: start; padding-top: 1.25rem; }
   .skill-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.75; font-weight: 300; }
@@ -82,6 +82,12 @@
   .bar-fill { height: 100%; background: var(--accent); border-radius: 100px; width: 0%; transition: width 0.6s cubic-bezier(0.4,0,0.2,1) 0.1s; }
   .skill-drawer.open .bar-fill { width: var(--fill-width); }
   .bar-pct { font-family: var(--mono); font-size: 0.65rem; color: var(--text-faint); width: 35px; text-align: right; flex-shrink: 0; }
+
+  /* ── Detail Page Link ── */
+  .detail-link-row { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .detail-link { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; color: var(--accent); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid var(--accent); border-radius: 6px; transition: background 0.2s, color 0.2s; }
+  .detail-link:hover { background: var(--accent); color: #fff; }
+  .detail-link svg { width: 13px; height: 13px; }
 
   /* ── Graph ── */
   .graph-wrap { position: relative; width: 100%; height: 480px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
@@ -161,6 +167,7 @@
     <p class="skills-intro">↓ 클릭해서 각 항목을 열어보세요</p>
     <div class="skills-grid" id="skills-grid">
 
+      <!-- Python — with detail link -->
       <div class="skill-drawer">
         <div class="drawer-handle" onclick="toggleDrawer(this)">
           <div class="handle-left"><div class="skill-icon"><span>🐍</span></div><div class="handle-text"><div class="skill-name">Python</div><div class="skill-subtitle">Core Language</div></div></div>
@@ -169,6 +176,12 @@
         <div class="drawer-body"><div class="drawer-content">
           <div class="drawer-top"><div><p class="skill-desc">Scientific computing과 자동화 파이프라인 구축에 주력. NumPy, Pandas, Matplotlib 등 데이터 사이언스 스택과 함께 CADD 도메인 라이브러리들을 결합한 end-to-end 워크플로우를 설계하고 구현합니다.</p><div class="tags-row"><span class="tag">NumPy</span><span class="tag">Pandas</span><span class="tag">Matplotlib</span><span class="tag">scikit-learn</span><span class="tag">PyTorch</span><span class="tag">argparse</span><span class="tag">pathlib</span></div></div><div class="skill-level-block"><div class="level-label">Level</div><div class="level-value">Advanced</div></div></div>
           <div class="experience-bar-row"><div class="bar-label">Proficiency</div><div class="bar-track"><div class="bar-fill" style="--fill-width:90%"></div></div><div class="bar-pct">90%</div></div>
+          <div class="detail-link-row">
+            <a href="skill_python.html" class="detail-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              Python 상세 페이지 보기
+            </a>
+          </div>
         </div></div>
       </div>
 
@@ -297,7 +310,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script>
-/* ── Skill Drawers ── */
 function toggleDrawer(handle) {
   const drawer = handle.closest('.skill-drawer');
   const isOpen = drawer.classList.contains('open');
@@ -313,30 +325,17 @@ const skillObs = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 skillObs.observe(document.getElementById('skills-grid'));
 
-/* ── Workflow Graph ── */
 (function(){
   const wrap = document.querySelector('.graph-wrap');
   const canvas = document.getElementById('graph-canvas');
   const tooltip = document.getElementById('graph-tooltip');
   const dpr = window.devicePixelRatio || 1;
-
   function W(){ return wrap.clientWidth; }
   function H(){ return wrap.clientHeight; }
-
-  function resize(){
-    canvas.width = W() * dpr; canvas.height = H() * dpr;
-    canvas.style.width = W()+'px'; canvas.style.height = H()+'px';
-  }
-  resize();
-  window.addEventListener('resize', () => { resize(); alpha=1; });
-
+  function resize(){ canvas.width = W() * dpr; canvas.height = H() * dpr; canvas.style.width = W()+'px'; canvas.style.height = H()+'px'; }
+  resize(); window.addEventListener('resize', () => { resize(); alpha=1; });
   const ctx = canvas.getContext('2d');
-
-  const C = { proj:'#2A3D5E', projS:'#1A2E48', projT:'#ffffff',
-               step:'#E4E3DF', stepS:'#B8B6B0', stepT:'#4A4845',
-               sat:'#EDECEA',  satS:'#D4D2CE',  satT:'#6B6965',
-               edge:'rgba(180,178,169,0.3)', edgeAct:'#4A6080', arrow:'#2A3D5E', wfLabel:'#4A6080' };
-
+  const C = { proj:'#2A3D5E', projS:'#1A2E48', projT:'#ffffff', step:'#E4E3DF', stepS:'#B8B6B0', stepT:'#4A4845', sat:'#EDECEA', satS:'#D4D2CE', satT:'#6B6965', edge:'rgba(180,178,169,0.3)', edgeAct:'#4A6080', arrow:'#2A3D5E', wfLabel:'#4A6080' };
   const project = { id:'proj', label:'Docking\nHit Filtering', type:'project', r:30, desc:'클릭하면 워크플로우를 펼칩니다' };
   const steps = [
     { id:'qsar',  label:'QSAR',          type:'step', r:22, order:0, desc:'Activity 예측 모델 구축\nCompound 스크리닝 우선순위화' },
@@ -352,133 +351,33 @@ skillObs.observe(document.getElementById('skills-grid'));
     { id:'s5', label:'GROMACS',     type:'sat', r:13, parentId:'md',    desc:'MD 엔진' },
     { id:'s6', label:'RMSD/RMSF',   type:'sat', r:13, parentId:'md',    desc:'트라젝토리 분석' },
   ];
-
   const nodes = [project, ...steps, ...sats];
   const links = [];
   steps.forEach(s => links.push({ source:'proj', target:s.id, type:'main' }));
   sats.forEach(s => links.push({ source:s.parentId, target:s.id, type:'sat' }));
-
   nodes.forEach(n => { n.x=W()/2+(Math.random()-.5)*260; n.y=H()/2+(Math.random()-.5)*200; n.vx=0; n.vy=0; });
-
   let expanded = false, alpha = 1;
-
   function gn(id){ return nodes.find(n=>n.id===id); }
-
-  function tx(n){
-    if(!expanded) return W()/2;
-    if(n.type==='project') return W()/2;
-    if(n.type==='step') return 72 + n.order*((W()-104)/3.3);
-    const p=gn(n.parentId); return p?tx(p):W()/2;
-  }
-  function ty(n){
-    if(!expanded) return H()/2;
-    if(n.type==='project') return H()*0.17;
-    if(n.type==='step') return H()*0.5;
-    return H()*0.8;
-  }
-
+  function tx(n){ if(!expanded) return W()/2; if(n.type==='project') return W()/2; if(n.type==='step') return 72 + n.order*((W()-104)/3.3); const p=gn(n.parentId); return p?tx(p):W()/2; }
+  function ty(n){ if(!expanded) return H()/2; if(n.type==='project') return H()*0.17; if(n.type==='step') return H()*0.5; return H()*0.8; }
   function tick(){
     const w=W(), h=H(), rep=expanded?52:75;
-    nodes.forEach(a=>{
-      nodes.forEach(b=>{
-        if(a===b) return;
-        const dx=a.x-b.x, dy=a.y-b.y, d=Math.sqrt(dx*dx+dy*dy)||1;
-        const md=a.r+b.r+rep;
-        if(d<md){ const f=(md-d)/d*.2*alpha; a.vx+=dx*f; a.vy+=dy*f; b.vx-=dx*f; b.vy-=dy*f; }
-      });
-      const str=expanded?(a.type==='project'?.22:.16):.013;
-      a.vx+=(tx(a)-a.x)*str*alpha; a.vy+=(ty(a)-a.y)*str*alpha;
-    });
-    links.forEach(l=>{
-      const s=gn(l.source), t=gn(l.target); if(!s||!t) return;
-      const dx=t.x-s.x, dy=t.y-s.y, d=Math.sqrt(dx*dx+dy*dy)||1;
-      const tg=l.type==='sat'?62:(expanded?0:110);
-      const f=(d-tg)/d*.1*alpha;
-      s.vx+=dx*f; s.vy+=dy*f; t.vx-=dx*f; t.vy-=dy*f;
-    });
-    nodes.forEach(n=>{
-      n.vx*=.72; n.vy*=.72; n.x+=n.vx; n.y+=n.vy;
-      n.x=Math.max(n.r+6,Math.min(w-n.r-6,n.x)); n.y=Math.max(n.r+6,Math.min(h-n.r-6,n.y));
-    });
-    alpha=Math.max(.006,alpha*.993);
-    draw();
-    requestAnimationFrame(tick);
+    nodes.forEach(a=>{ nodes.forEach(b=>{ if(a===b) return; const dx=a.x-b.x, dy=a.y-b.y, d=Math.sqrt(dx*dx+dy*dy)||1; const md=a.r+b.r+rep; if(d<md){ const f=(md-d)/d*.2*alpha; a.vx+=dx*f; a.vy+=dy*f; b.vx-=dx*f; b.vy-=dy*f; } }); const str=expanded?(a.type==='project'?.22:.16):.013; a.vx+=(tx(a)-a.x)*str*alpha; a.vy+=(ty(a)-a.y)*str*alpha; });
+    links.forEach(l=>{ const s=gn(l.source), t=gn(l.target); if(!s||!t) return; const dx=t.x-s.x, dy=t.y-s.y, d=Math.sqrt(dx*dx+dy*dy)||1; const tg=l.type==='sat'?62:(expanded?0:110); const f=(d-tg)/d*.1*alpha; s.vx+=dx*f; s.vy+=dy*f; t.vx-=dx*f; t.vy-=dy*f; });
+    nodes.forEach(n=>{ n.vx*=.72; n.vy*=.72; n.x+=n.vx; n.y+=n.vy; n.x=Math.max(n.r+6,Math.min(w-n.r-6,n.x)); n.y=Math.max(n.r+6,Math.min(h-n.r-6,n.y)); });
+    alpha=Math.max(.006,alpha*.993); draw(); requestAnimationFrame(tick);
   }
-
-  function drawArrow(x1,y1,x2,y2){
-    const ang=Math.atan2(y2-y1,x2-x1), mx=(x1+x2)/2, my=(y1+y2)/2;
-    ctx.save(); ctx.translate(mx,my); ctx.rotate(ang);
-    ctx.beginPath(); ctx.moveTo(-7,-4); ctx.lineTo(7,0); ctx.lineTo(-7,4);
-    ctx.fillStyle=C.arrow; ctx.fill(); ctx.restore();
-  }
-
+  function drawArrow(x1,y1,x2,y2){ const ang=Math.atan2(y2-y1,x2-x1), mx=(x1+x2)/2, my=(y1+y2)/2; ctx.save(); ctx.translate(mx,my); ctx.rotate(ang); ctx.beginPath(); ctx.moveTo(-7,-4); ctx.lineTo(7,0); ctx.lineTo(-7,4); ctx.fillStyle=C.arrow; ctx.fill(); ctx.restore(); }
   function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.save(); ctx.scale(dpr,dpr);
-
-    links.forEach(l=>{
-      const s=gn(l.source), t=gn(l.target); if(!s||!t) return;
-      ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(t.x,t.y);
-      if(expanded&&l.type==='main'){ ctx.strokeStyle=C.edgeAct; ctx.lineWidth=1.5; ctx.setLineDash([]); }
-      else { ctx.strokeStyle=C.edge; ctx.lineWidth=l.type==='sat'?.8:1.1; ctx.setLineDash(l.type==='sat'?[3,3]:[]); }
-      ctx.stroke(); ctx.setLineDash([]);
-    });
-
-    if(expanded){
-      const ord=steps.slice().sort((a,b)=>a.order-b.order);
-      for(let i=0;i<ord.length-1;i++){
-        const a=gn(ord[i].id), b=gn(ord[i+1].id); if(!a||!b) continue;
-        const sx=a.x+a.r, sy=a.y, ex=b.x-b.r, ey=b.y;
-        ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(ex,ey);
-        ctx.strokeStyle=C.arrow; ctx.lineWidth=2.5; ctx.setLineDash([]); ctx.stroke();
-        drawArrow(sx,sy,ex,ey);
-      }
-      const wfLabels=['① QSAR','② Pharmacophore','③ Docking','④ MD'];
-      ord.forEach((s,i)=>{
-        const n=gn(s.id);
-        ctx.font='500 10px "DM Mono",monospace'; ctx.fillStyle=C.wfLabel;
-        ctx.textAlign='center'; ctx.textBaseline='bottom';
-        ctx.fillText(wfLabels[i], n.x, n.y-n.r-7);
-      });
-    }
-
-    nodes.forEach(n=>{
-      ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
-      if(n.type==='project'){ ctx.fillStyle=C.proj; ctx.strokeStyle=C.projS; ctx.lineWidth=2; }
-      else if(n.type==='step'){ ctx.fillStyle=C.step; ctx.strokeStyle=C.stepS; ctx.lineWidth=1.2; }
-      else { ctx.fillStyle=C.sat; ctx.strokeStyle=C.satS; ctx.lineWidth=0.8; }
-      ctx.fill(); ctx.stroke();
-      const tc=n.type==='project'?C.projT:(n.type==='step'?C.stepT:C.satT);
-      ctx.fillStyle=tc;
-      const fs=n.type==='project'?11.5:(n.type==='step'?10:8.5);
-      ctx.font=`${n.type==='project'?'500':'400'} ${fs}px "Instrument Sans",sans-serif`;
-      ctx.textAlign='center'; ctx.textBaseline='middle';
-      const lines=n.label.split('\n');
-      lines.forEach((line,li)=>{ ctx.fillText(line,n.x,n.y+(li-(lines.length-1)/2)*13); });
-    });
-
+    ctx.clearRect(0,0,canvas.width,canvas.height); ctx.save(); ctx.scale(dpr,dpr);
+    links.forEach(l=>{ const s=gn(l.source), t=gn(l.target); if(!s||!t) return; ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(t.x,t.y); if(expanded&&l.type==='main'){ ctx.strokeStyle=C.edgeAct; ctx.lineWidth=1.5; ctx.setLineDash([]); } else { ctx.strokeStyle=C.edge; ctx.lineWidth=l.type==='sat'?.8:1.1; ctx.setLineDash(l.type==='sat'?[3,3]:[]); } ctx.stroke(); ctx.setLineDash([]); });
+    if(expanded){ const ord=steps.slice().sort((a,b)=>a.order-b.order); for(let i=0;i<ord.length-1;i++){ const a=gn(ord[i].id), b=gn(ord[i+1].id); if(!a||!b) continue; const sx=a.x+a.r, sy=a.y, ex=b.x-b.r, ey=b.y; ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(ex,ey); ctx.strokeStyle=C.arrow; ctx.lineWidth=2.5; ctx.setLineDash([]); ctx.stroke(); drawArrow(sx,sy,ex,ey); } const wfLabels=['① QSAR','② Pharmacophore','③ Docking','④ MD']; ord.forEach((s,i)=>{ const n=gn(s.id); ctx.font='500 10px "DM Mono",monospace'; ctx.fillStyle=C.wfLabel; ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillText(wfLabels[i], n.x, n.y-n.r-7); }); }
+    nodes.forEach(n=>{ ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2); if(n.type==='project'){ ctx.fillStyle=C.proj; ctx.strokeStyle=C.projS; ctx.lineWidth=2; } else if(n.type==='step'){ ctx.fillStyle=C.step; ctx.strokeStyle=C.stepS; ctx.lineWidth=1.2; } else { ctx.fillStyle=C.sat; ctx.strokeStyle=C.satS; ctx.lineWidth=0.8; } ctx.fill(); ctx.stroke(); const tc=n.type==='project'?C.projT:(n.type==='step'?C.stepT:C.satT); ctx.fillStyle=tc; const fs=n.type==='project'?11.5:(n.type==='step'?10:8.5); ctx.font=`${n.type==='project'?'500':'400'} ${fs}px "Instrument Sans",sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; const lines=n.label.split('\n'); lines.forEach((line,li)=>{ ctx.fillText(line,n.x,n.y+(li-(lines.length-1)/2)*13); }); });
     ctx.restore();
   }
-
-  canvas.addEventListener('click', e=>{
-    const r=canvas.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top;
-    const p=gn('proj'), dx=mx-p.x, dy=my-p.y;
-    if(Math.sqrt(dx*dx+dy*dy)<p.r+10){ expanded=!expanded; alpha=1; }
-  });
-
-  canvas.addEventListener('mousemove', e=>{
-    const r=canvas.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top;
-    let hit=null;
-    nodes.forEach(n=>{ const dx=mx-n.x, dy=my-n.y; if(Math.sqrt(dx*dx+dy*dy)<n.r+4) hit=n; });
-    if(hit){
-      canvas.style.cursor=hit.type==='project'?'pointer':'default';
-      tooltip.style.display='block';
-      tooltip.style.left=(mx+14)+'px'; tooltip.style.top=(my-10)+'px';
-      tooltip.innerHTML=`<strong style="color:var(--text)">${hit.label.replace('\n',' ')}</strong><br><span style="color:var(--text-muted);font-size:0.72rem;">${hit.desc.replace('\n','<br>')}</span>`;
-    } else { canvas.style.cursor='default'; tooltip.style.display='none'; }
-  });
+  canvas.addEventListener('click', e=>{ const r=canvas.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top; const p=gn('proj'), dx=mx-p.x, dy=my-p.y; if(Math.sqrt(dx*dx+dy*dy)<p.r+10){ expanded=!expanded; alpha=1; } });
+  canvas.addEventListener('mousemove', e=>{ const r=canvas.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top; let hit=null; nodes.forEach(n=>{ const dx=mx-n.x, dy=my-n.y; if(Math.sqrt(dx*dx+dy*dy)<n.r+4) hit=n; }); if(hit){ canvas.style.cursor=hit.type==='project'?'pointer':'default'; tooltip.style.display='block'; tooltip.style.left=(mx+14)+'px'; tooltip.style.top=(my-10)+'px'; tooltip.innerHTML=`<strong style="color:var(--text)">${hit.label.replace('\n',' ')}</strong><br><span style="color:var(--text-muted);font-size:0.72rem;">${hit.desc.replace('\n','<br>')}</span>`; } else { canvas.style.cursor='default'; tooltip.style.display='none'; } });
   canvas.addEventListener('mouseleave',()=>{ tooltip.style.display='none'; });
-
   tick();
 })();
 </script>
