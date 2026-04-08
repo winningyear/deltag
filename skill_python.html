@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python — Seongyeon Yu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F5F4F0; --surface: #EDECEA; --surface2: #E4E3DF;
+    --border: #D4D2CE; --border-strong: #B8B6B0;
+    --text: #1A1917; --text-muted: #6B6965; --text-faint: #9B9895;
+    --accent: #2A3D5E; --accent-light: #4A6080;
+    --tag-bg: #D8DDE5; --tag-text: #2A3D5E;
+    --py-yellow: #F7C948; --py-blue: #3670A0;
+    --mono: 'DM Mono', monospace; --serif: 'DM Serif Display', serif; --sans: 'Instrument Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; min-height: 100vh; }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ── Back nav ── */
+  .back-bar { padding: 1.5rem 0; border-bottom: 1px solid var(--border); }
+  .back-link { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); text-decoration: none; transition: color 0.2s; }
+  .back-link:hover { color: var(--accent); }
+  .back-link svg { width: 14px; height: 14px; }
+
+  /* ── Hero ── */
+  header { padding: 3.5rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .hero-grid { display: grid; grid-template-columns: auto 1fr auto; gap: 2rem; align-items: center; }
+  .py-logo { width: 72px; height: 72px; border-radius: 16px; background: linear-gradient(135deg, var(--py-blue) 0%, #2a5580 50%, #1e3f60 100%); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 20px rgba(42,61,94,0.2); flex-shrink: 0; position: relative; overflow: hidden; }
+  .py-logo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(247,201,72,0.15) 0%, transparent 60%); }
+  .hero-text .label { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.4rem; }
+  .hero-text h1 { font-family: var(--serif); font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; color: var(--text); letter-spacing: -0.01em; }
+  .hero-text h1 em { font-style: italic; color: var(--accent-light); }
+  .hero-text .tagline { margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted); font-weight: 300; }
+  .hero-badge { text-align: right; }
+  .level-chip { display: inline-block; background: var(--accent); color: #fff; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; padding: 0.4rem 0.9rem; border-radius: 100px; margin-bottom: 0.75rem; }
+  .prof-bar-wrap { display: flex; align-items: center; gap: 0.75rem; justify-content: flex-end; }
+  .prof-num { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); font-weight: 500; }
+  .prof-track { width: 100px; height: 3px; background: var(--border); border-radius: 100px; overflow: hidden; }
+  .prof-fill { height: 100%; background: var(--accent); border-radius: 100px; width: 0%; transition: width 0.8s cubic-bezier(0.4,0,0.2,1) 0.3s; }
+
+  /* ── Section ── */
+  .section { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
+  .section:last-of-type { border-bottom: none; }
+  .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem; }
+  .section-num { font-family: var(--mono); font-size: 0.65rem; color: var(--text-faint); letter-spacing: 0.1em; }
+  h2 { font-family: var(--serif); font-size: 1.45rem; font-weight: 400; color: var(--text); }
+
+  /* ── Stack grid ── */
+  .stack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .stack-card { background: var(--surface); padding: 1.25rem 1.4rem; transition: background 0.2s; }
+  .stack-card:hover { background: var(--surface2); }
+  .stack-card-icon { font-size: 1.4rem; margin-bottom: 0.6rem; }
+  .stack-card-name { font-size: 0.9rem; font-weight: 500; color: var(--text); margin-bottom: 0.25rem; }
+  .stack-card-desc { font-size: 0.78rem; color: var(--text-muted); font-weight: 300; line-height: 1.55; }
+  .stack-card-tag { display: inline-block; margin-top: 0.6rem; background: var(--tag-bg); color: var(--tag-text); padding: 0.15rem 0.55rem; border-radius: 100px; font-family: var(--mono); font-size: 0.62rem; }
+
+  /* ── Category tabs ── */
+  .tab-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.75rem; }
+  .tab-btn { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; padding: 0.4rem 0.9rem; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+  .tab-btn:hover { border-color: var(--border-strong); color: var(--text); }
+  .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 6px; bottom: 0; width: 1px; background: var(--border); }
+  .tl-item { position: relative; margin-bottom: 2rem; }
+  .tl-item:last-child { margin-bottom: 0; }
+  .tl-dot { position: absolute; left: -2.375rem; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--accent); }
+  .tl-year { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; color: var(--text-faint); margin-bottom: 0.3rem; }
+  .tl-title { font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.4rem; }
+  .tl-desc { font-size: 0.86rem; color: var(--text-muted); line-height: 1.7; font-weight: 300; }
+  .tl-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.6rem; }
+  .tag { background: var(--tag-bg); color: var(--tag-text); padding: 0.2rem 0.6rem; border-radius: 100px; font-family: var(--mono); font-size: 0.65rem; }
+
+  /* ── Code snippet ── */
+  .code-block { background: #1A1917; border-radius: 10px; overflow: hidden; margin-top: 1.5rem; border: 1px solid #2A2926; }
+  .code-header { display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 1rem; border-bottom: 1px solid #2A2926; }
+  .code-dots { display: flex; gap: 5px; }
+  .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+  .code-dots span:nth-child(1){ background: #FF5F56; }
+  .code-dots span:nth-child(2){ background: #FFBD2E; }
+  .code-dots span:nth-child(3){ background: #27C93F; }
+  .code-filename { font-family: var(--mono); font-size: 0.65rem; color: #6B6965; letter-spacing: 0.06em; }
+  pre { padding: 1.25rem 1.25rem; overflow-x: auto; }
+  code { font-family: var(--mono); font-size: 0.78rem; line-height: 1.7; color: #E4E3DF; }
+  .c-kw  { color: #C792EA; }
+  .c-fn  { color: #82AAFF; }
+  .c-str { color: #C3E88D; }
+  .c-cm  { color: #546E7A; font-style: italic; }
+  .c-num { color: #F78C6C; }
+  .c-cls { color: #FFCB6B; }
+  .c-dec { color: #F07178; }
+
+  /* ── Approach cards ── */
+  .approach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .approach-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; transition: border-color 0.2s; }
+  .approach-card:hover { border-color: var(--border-strong); }
+  .approach-icon { font-size: 1.5rem; margin-bottom: 0.7rem; }
+  .approach-title { font-size: 0.92rem; font-weight: 500; color: var(--text); margin-bottom: 0.5rem; }
+  .approach-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.65; font-weight: 300; }
+
+  footer { padding: 3rem 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: var(--serif); font-size: 1.1rem; color: var(--text); }
+  .footer-meta { font-family: var(--mono); font-size: 0.65rem; color: var(--text-faint); letter-spacing: 0.08em; }
+
+  @media (max-width: 640px) {
+    .hero-grid { grid-template-columns: auto 1fr; grid-template-rows: auto auto; }
+    .hero-badge { grid-column: 1/-1; text-align: left; }
+    .prof-bar-wrap { justify-content: flex-start; }
+    .approach-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Back -->
+  <div class="back-bar">
+    <a href="portfolio_main.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to Portfolio
+    </a>
+  </div>
+
+  <!-- Hero -->
+  <header>
+    <div class="hero-grid">
+      <div class="py-logo">🐍</div>
+      <div class="hero-text">
+        <div class="label">Skill Detail · Core Language</div>
+        <h1>Python<em>.</em></h1>
+        <p class="tagline">Scientific computing & automated pipeline design for drug discovery</p>
+      </div>
+      <div class="hero-badge">
+        <div class="level-chip">Advanced</div>
+        <div class="prof-bar-wrap">
+          <div class="prof-track"><div class="prof-fill" id="hero-bar" style="--target:90%"></div></div>
+          <div class="prof-num">90%</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 01 Overview -->
+  <section class="section">
+    <div class="section-header"><span class="section-num">01</span><h2>Overview</h2></div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:2.5rem;align-items:start;">
+      <div>
+        <p style="font-size:0.95rem;color:var(--text-muted);line-height:1.85;font-weight:300;">
+          Python은 CADD 파이프라인 전반에서 접착제 역할을 합니다. 단순한 스크립트 작성을 넘어, 분자 도킹, MD 시뮬레이션, ADMET 예측, 생성 AI까지 이어지는 end-to-end 자동화 워크플로우를 Python으로 설계하고 구현합니다.
+        </p>
+        <p style="font-size:0.95rem;color:var(--text-muted);line-height:1.85;font-weight:300;margin-top:1rem;">
+          RDKit, GROMACS Python API, PyTorch 같은 도메인 라이브러리와 일반적인 데이터 사이언스 스택을 자유롭게 결합하고, SLURM HPC 클러스터 환경에서 대규모 배치 작업을 운용하는 데 익숙합니다.
+        </p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <div style="padding:0.9rem 0;border-top:1px solid var(--border);">
+          <div style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:0.25rem;">Experience</div>
+          <div style="font-size:0.9rem;font-weight:500;">5+ years</div>
+        </div>
+        <div style="padding:0.9rem 0;border-top:1px solid var(--border);">
+          <div style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:0.25rem;">Primary Use</div>
+          <div style="font-size:0.9rem;font-weight:500;">CADD Pipeline</div>
+        </div>
+        <div style="padding:0.9rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+          <div style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:0.25rem;">Version</div>
+          <div style="font-size:0.9rem;font-weight:500;">3.9 — 3.12</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 Library Stack -->
+  <section class="section">
+    <div class="section-header"><span class="section-num">02</span><h2>Library Stack</h2></div>
+    <div class="tab-bar" id="tab-bar">
+      <button class="tab-btn active" data-tab="all">All</button>
+      <button class="tab-btn" data-tab="chem">Cheminformatics</button>
+      <button class="tab-btn" data-tab="ml">ML / DL</button>
+      <button class="tab-btn" data-tab="data">Data Science</button>
+      <button class="tab-btn" data-tab="infra">Infra / Automation</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-all" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+      <!-- Cheminformatics -->
+      <div class="stack-card" data-cat="chem"><div class="stack-card-icon">⚗️</div><div class="stack-card-name">RDKit</div><div class="stack-card-desc">분자 구조 처리, fingerprint, 기술자 계산, SDF I/O 전반</div><span class="stack-card-tag">cheminformatics</span></div>
+      <div class="stack-card" data-cat="chem"><div class="stack-card-icon">🔍</div><div class="stack-card-name">Mordred</div><div class="stack-card-desc">2D/3D 분자 기술자 대규모 계산 자동화</div><span class="stack-card-tag">cheminformatics</span></div>
+      <div class="stack-card" data-cat="chem"><div class="stack-card-icon">🧬</div><div class="stack-card-name">MDAnalysis</div><div class="stack-card-desc">GROMACS trajectory 분석, 잔기 레벨 분석</div><span class="stack-card-tag">cheminformatics</span></div>
+      <div class="stack-card" data-cat="chem"><div class="stack-card-icon">🎯</div><div class="stack-card-name">PLIP</div><div class="stack-card-desc">단백질-리간드 상호작용 자동 프로파일링</div><span class="stack-card-tag">cheminformatics</span></div>
+      <!-- ML/DL -->
+      <div class="stack-card" data-cat="ml"><div class="stack-card-icon">🔥</div><div class="stack-card-name">PyTorch</div><div class="stack-card-desc">EfficientNet 기반 분류 모델 학습 및 추론</div><span class="stack-card-tag">deep learning</span></div>
+      <div class="stack-card" data-cat="ml"><div class="stack-card-icon">🖼️</div><div class="stack-card-name">timm</div><div class="stack-card-desc">사전학습 모델 로드 및 fine-tuning 인터페이스</div><span class="stack-card-tag">deep learning</span></div>
+      <div class="stack-card" data-cat="ml"><div class="stack-card-icon">🤖</div><div class="stack-card-name">scikit-learn</div><div class="stack-card-desc">QSAR 모델, 전처리, 교차검증 파이프라인</div><span class="stack-card-tag">machine learning</span></div>
+      <div class="stack-card" data-cat="ml"><div class="stack-card-icon">💊</div><div class="stack-card-name">ADMET-AI</div><div class="stack-card-desc">화합물 ADMET 특성 예측 배치 처리</div><span class="stack-card-tag">machine learning</span></div>
+      <!-- Data Science -->
+      <div class="stack-card" data-cat="data"><div class="stack-card-icon">🐼</div><div class="stack-card-name">Pandas</div><div class="stack-card-desc">결과 데이터 집계, 필터링, 파이프라인 중간 저장</div><span class="stack-card-tag">data science</span></div>
+      <div class="stack-card" data-cat="data"><div class="stack-card-icon">🔢</div><div class="stack-card-name">NumPy</div><div class="stack-card-desc">좌표 변환, 수치 계산, 배열 기반 처리</div><span class="stack-card-tag">data science</span></div>
+      <div class="stack-card" data-cat="data"><div class="stack-card-icon">📊</div><div class="stack-card-name">Matplotlib / Seaborn</div><div class="stack-card-desc">도킹 score 분포, MD trajectory 시각화</div><span class="stack-card-tag">data science</span></div>
+      <div class="stack-card" data-cat="data"><div class="stack-card-icon">📄</div><div class="stack-card-name">PyMuPDF / OpenCV</div><div class="stack-card-desc">PDF 그림 추출, 이미지 전처리 파이프라인</div><span class="stack-card-tag">data science</span></div>
+      <!-- Infra -->
+      <div class="stack-card" data-cat="infra"><div class="stack-card-icon">⚙️</div><div class="stack-card-name">argparse / pathlib</div><div class="stack-card-desc">CLI 도구 설계 및 파일시스템 추상화</div><span class="stack-card-tag">infra</span></div>
+      <div class="stack-card" data-cat="infra"><div class="stack-card-icon">🔄</div><div class="stack-card-name">subprocess</div><div class="stack-card-desc">GROMACS, smina 등 외부 도구 래핑 자동화</div><span class="stack-card-tag">infra</span></div>
+      <div class="stack-card" data-cat="infra"><div class="stack-card-icon">🌐</div><div class="stack-card-name">requests / httpx</div><div class="stack-card-desc">molcube API, PDB 데이터 등 외부 서비스 연동</div><span class="stack-card-tag">infra</span></div>
+      <div class="stack-card" data-cat="infra"><div class="stack-card-icon">📦</div><div class="stack-card-name">TOML / YAML / JSON</div><div class="stack-card-desc">파이프라인 설정 파일 파싱 및 직렬화</div><span class="stack-card-tag">infra</span></div>
+    </div>
+  </section>
+
+  <!-- 03 Code Snippet -->
+  <section class="section">
+    <div class="section-header"><span class="section-num">03</span><h2>Code Pattern</h2></div>
+    <p style="font-size:0.88rem;color:var(--text-muted);font-weight:300;line-height:1.75;">CADD 파이프라인에서 자주 쓰는 패턴 — smina 도킹 결과 SDF를 파싱하고 fused ring system 기준으로 히트를 분류하는 예시입니다.</p>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots"><span></span><span></span><span></span></div>
+        <div class="code-filename">hit_filter.py</div>
+      </div>
+      <pre><code><span class="c-kw">from</span> pathlib <span class="c-kw">import</span> Path
+<span class="c-kw">from</span> rdkit <span class="c-kw">import</span> Chem
+<span class="c-kw">from</span> rdkit.Chem <span class="c-kw">import</span> rdMolDescriptors
+<span class="c-kw">import</span> pandas <span class="c-kw">as</span> pd
+
+<span class="c-cm"># Union-Find로 fused ring system 크기 탐지</span>
+<span class="c-kw">def</span> <span class="c-fn">get_max_fused_ring_size</span>(mol: Chem.Mol) -> <span class="c-cls">int</span>:
+    ri = mol.GetRingInfo()
+    atom_rings = ri.AtomRings()
+    <span class="c-kw">if not</span> atom_rings:
+        <span class="c-kw">return</span> <span class="c-num">0</span>
+
+    parent = {a: a <span class="c-kw">for</span> ring <span class="c-kw">in</span> atom_rings <span class="c-kw">for</span> a <span class="c-kw">in</span> ring}
+
+    <span class="c-kw">def</span> <span class="c-fn">find</span>(x):
+        <span class="c-kw">while</span> parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        <span class="c-kw">return</span> x
+
+    <span class="c-kw">for</span> r1 <span class="c-kw">in</span> atom_rings:
+        <span class="c-kw">for</span> r2 <span class="c-kw">in</span> atom_rings:
+            <span class="c-kw">if</span> <span class="c-cls">set</span>(r1) & <span class="c-cls">set</span>(r2):
+                parent[find(r1[<span class="c-num">0</span>])] = find(r2[<span class="c-num">0</span>])
+
+    groups: <span class="c-cls">dict</span> = {}
+    <span class="c-kw">for</span> ring <span class="c-kw">in</span> atom_rings:
+        root = find(ring[<span class="c-num">0</span>])
+        groups.setdefault(root, <span class="c-cls">set</span>()).add(<span class="c-cls">id</span>(ring))
+
+    <span class="c-kw">return</span> <span class="c-cls">max</span>(<span class="c-cls">len</span>(v) <span class="c-kw">for</span> v <span class="c-kw">in</span> groups.values())
+
+
+<span class="c-kw">def</span> <span class="c-fn">filter_hits</span>(sdf_path: Path, threshold: <span class="c-cls">int</span> = <span class="c-num">3</span>) -> pd.DataFrame:
+    <span class="c-str">"""SDF에서 fused ring ≥ threshold인 히트만 추출."""</span>
+    records = []
+    supplier = Chem.SDMolSupplier(<span class="c-cls">str</span>(sdf_path), removeHs=<span class="c-kw">False</span>)
+
+    <span class="c-kw">for</span> mol <span class="c-kw">in</span> supplier:
+        <span class="c-kw">if</span> mol <span class="c-kw">is None</span>:
+            <span class="c-kw">continue</span>
+        score = <span class="c-cls">float</span>(mol.GetProp(<span class="c-str">"minimizedAffinity"</span>))
+        fused  = get_max_fused_ring_size(mol)
+        <span class="c-kw">if</span> fused >= threshold:
+            records.append({
+                <span class="c-str">"name"</span>:  mol.GetProp(<span class="c-str">"_Name"</span>),
+                <span class="c-str">"score"</span>: score,
+                <span class="c-str">"fused_rings"</span>: fused,
+                <span class="c-str">"smiles"</span>: Chem.MolToSmiles(mol),
+            })
+
+    <span class="c-kw">return</span> pd.DataFrame(records).sort_values(<span class="c-str">"score"</span>)
+</code></pre>
+    </div>
+  </section>
+
+  <!-- 04 Use in Pipeline -->
+  <section class="section">
+    <div class="section-header"><span class="section-num">04</span><h2>Pipeline Use Cases</h2></div>
+    <div class="approach-grid">
+      <div class="approach-card">
+        <div class="approach-icon">🔗</div>
+        <div class="approach-title">Tool Orchestration</div>
+        <div class="approach-desc">GROMACS, smina, AiZynthFinder 등 외부 실행 파일을 subprocess로 래핑하고, SLURM 잡 스크립트를 동적으로 생성·제출합니다. 각 단계 결과물을 자동으로 파싱해 다음 단계 입력으로 연결합니다.</div>
+      </div>
+      <div class="approach-card">
+        <div class="approach-icon">🧮</div>
+        <div class="approach-title">Generative AI Integration</div>
+        <div class="approach-desc">REINVENT4 LibINVENT 기반 scaffold-fixed R-group 생성, ADMET-AI 필터링, retrosynthesis 분석까지 하나의 Python 파이프라인으로 연결한 fg_optimizer를 설계·구현했습니다.</div>
+      </div>
+      <div class="approach-card">
+        <div class="approach-icon">🖼️</div>
+        <div class="approach-title">Image Pipeline</div>
+        <div class="approach-desc">PyMuPDF + OpenCV로 논문 PDF에서 도형을 추출하고, EfficientNetB0 분류기로 화학 구조 이미지를 선별한 뒤 MolScribe로 SMILES를 복원하는 멀티스테이지 파이프라인을 운영합니다.</div>
+      </div>
+      <div class="approach-card">
+        <div class="approach-icon">📊</div>
+        <div class="approach-title">Data & QSAR</div>
+        <div class="approach-desc">ChEMBL 데이터 전처리, RDKit/Mordred 기술자 계산, scikit-learn 기반 QSAR 모델 구축 및 교차검증. 결과를 Pandas DataFrame으로 집계해 실험팀과 공유합니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 Learning Path -->
+  <section class="section">
+    <div class="section-header"><span class="section-num">05</span><h2>Growth Timeline</h2></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2019 — 2020</div>
+        <div class="tl-title">Python 입문 &amp; 데이터 사이언스 기초</div>
+        <div class="tl-desc">NumPy, Pandas, Matplotlib을 중심으로 데이터 분석 기초를 학습했습니다. 화학 관련 데이터를 다루기 위해 RDKit을 처음 접했습니다.</div>
+        <div class="tl-tags"><span class="tag">NumPy</span><span class="tag">Pandas</span><span class="tag">RDKit</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2021 — 2022</div>
+        <div class="tl-title">CADD 파이프라인 자동화</div>
+        <div class="tl-desc">smina 도킹 결과물 배치 처리, GROMACS subprocess 래핑, SLURM 잡 스크립트 자동 생성 등 HPC 환경에서의 자동화 경험을 쌓았습니다.</div>
+        <div class="tl-tags"><span class="tag">subprocess</span><span class="tag">SLURM</span><span class="tag">argparse</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2023</div>
+        <div class="tl-title">딥러닝 적용 — 이미지 분류 모델</div>
+        <div class="tl-desc">PyTorch + timm으로 EfficientNetB0 기반 화학 구조 이미지 분류기를 직접 학습했습니다. 데이터 augmentation, 클래스 불균형 처리, 모델 통합까지 full cycle을 경험했습니다.</div>
+        <div class="tl-tags"><span class="tag">PyTorch</span><span class="tag">timm</span><span class="tag">EfficientNet</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2024 — 현재</div>
+        <div class="tl-title">생성 AI 파이프라인 설계</div>
+        <div class="tl-desc">REINVENT4, ADMET-AI, AiZynthFinder, rxnfp를 Python으로 연결한 fg_optimizer 파이프라인을 설계·구현했습니다. config.toml 기반 구성 관리와 모듈형 설계에 집중했습니다.</div>
+        <div class="tl-tags"><span class="tag">REINVENT4</span><span class="tag">ADMET-AI</span><span class="tag">AiZynthFinder</span><span class="tag">TOML</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-name">Seongyeon Yu</div>
+    <div class="footer-meta">CADD Researcher · Python · 2025</div>
+  </footer>
+</div>
+
+<script>
+// Animate proficiency bar on load
+window.addEventListener('load', () => {
+  const bar = document.getElementById('hero-bar');
+  if (bar) bar.style.width = '90%';
+});
+
+// Tab switching
+const tabBar = document.getElementById('tab-bar');
+const allCards = document.querySelectorAll('.stack-card[data-cat]');
+const tabPanel = document.getElementById('tab-all');
+
+tabBar.addEventListener('click', e => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const tab = btn.dataset.tab;
+  allCards.forEach(card => {
+    if (tab === 'all' || card.dataset.cat === tab) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+});
+
+// Entrance animations
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.stack-card, .approach-card, .tl-item').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  el.style.transition = `opacity 0.4s ease ${i * 0.04}s, transform 0.4s ease ${i * 0.04}s`;
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
