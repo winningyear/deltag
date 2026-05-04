@@ -12,21 +12,18 @@
     min-height: 100vh;
     background: #fff;
     font-family: 'Noto Sans KR', sans-serif;
-    overflow: visible;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-bottom: 200px;
   }
 
   .ripple-origin {
     position: fixed;
-    top: 50%;
-    left: 50%;
+    top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 0;
-    height: 0;
+    width: 0; height: 0;
     border-radius: 50%;
     background: #5ba4f5;
     z-index: 0;
@@ -79,11 +76,12 @@
 
   .search-box.dropdown-open {
     border-radius: 20px 20px 0 0;
-    box-shadow: 0 -2px 16px rgba(91,164,245,0.12);
   }
 
   .search-box:hover { box-shadow: 0 4px 20px rgba(91,164,245,0.22); }
-  .search-box.dropdown-open:hover { box-shadow: 0 -2px 16px rgba(91,164,245,0.12); }
+  .search-box:focus-within { box-shadow: 0 4px 24px rgba(91,164,245,0.3); }
+  .search-box.dropdown-open:hover,
+  .search-box.dropdown-open:focus-within { box-shadow: none; }
 
   .search-input {
     flex: 1;
@@ -108,17 +106,10 @@
   }
 
   .icon-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 200px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    color: #999;
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 50%; border: none;
+    background: transparent; cursor: pointer; color: #999;
     transition: background 0.2s, color 0.2s, transform 0.15s;
   }
   .icon-btn:hover { background: #eef5fe; color: #5ba4f5; transform: scale(1.08); }
@@ -126,34 +117,24 @@
   .divider { width: 1px; height: 20px; background: #ddd; margin: 0 4px; }
 
   .search-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 200px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    color: #5ba4f5;
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 50%; border: none;
+    background: transparent; cursor: pointer; color: #5ba4f5;
     transition: background 0.2s, transform 0.15s;
   }
   .search-btn:hover { background: #eef5fe; transform: scale(1.1) rotate(8deg); }
   .search-btn:active { transform: scale(0.95); }
 
-  /* ── 드롭다운 ── */
+  /* 드롭다운 — fixed로 body overflow 완전 탈출 */
   .dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    position: fixed;
     background: #fff;
     border: 2px solid #5ba4f5;
     border-top: 1px solid #ddeeff;
     border-radius: 0 0 20px 20px;
-    z-index: 1;
-    overflow: visible;
+    z-index: 9999;
+    overflow: hidden;
     max-height: 0;
     opacity: 0;
     transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease;
@@ -176,9 +157,7 @@
   }
 
   .dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    display: flex; align-items: center; gap: 12px;
     padding: 10px 20px;
     cursor: pointer;
     transition: background 0.15s;
@@ -186,28 +165,22 @@
   .dropdown-item:hover { background: #eef5fe; }
 
   .dropdown-icon {
-    width: 28px;
-    height: 28px;
+    width: 28px; height: 28px;
     border-radius: 8px;
     background: #eef5fe;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 200px;
+    display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
     color: #5ba4f5;
   }
 
   .dropdown-item-text { flex: 1; min-width: 0; }
-  .dropdown-item-main { font-size: 14px; color: #222; font-weight: 400; white-space: nowrap; overflow: visible; text-overflow: ellipsis; }
-  .dropdown-item-sub { font-size: 11px; color: #999; margin-top: 1px; white-space: nowrap; overflow: visible; text-overflow: ellipsis; }
+  .dropdown-item-main { font-size: 14px; color: #222; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dropdown-item-sub { font-size: 11px; color: #999; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   .dropdown-item-tag {
-    font-size: 10px;
-    padding: 2px 8px;
+    font-size: 10px; padding: 2px 8px;
     border-radius: 10px;
-    background: #eef5fe;
-    color: #5ba4f5;
+    background: #eef5fe; color: #5ba4f5;
     border: 1px solid #b8d8fb;
     flex-shrink: 0;
   }
@@ -216,8 +189,7 @@
 
   body::before {
     content: '';
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background-image:
       linear-gradient(rgba(91,164,245,0.04) 1px, transparent 1px),
       linear-gradient(90deg, rgba(91,164,245,0.04) 1px, transparent 1px);
@@ -232,7 +204,7 @@
 <div class="ripple-origin"></div>
 
 <div class="container">
-  <div class="search-wrapper">
+  <div class="search-wrapper" id="searchWrapper">
     <div class="search-box" id="searchBox">
       <input class="search-input" id="searchInput" type="text" placeholder="유승연을 입력하세요" autocomplete="off"
         oninput="handleInput()"
@@ -254,7 +226,7 @@
           </svg>
         </button>
         <div class="divider"></div>
-        <button class="search-btn" title="search" onclick="doSearch()">
+        <button class="search-btn" onclick="doSearch()">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/>
             <line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -262,69 +234,69 @@
         </button>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="dropdown" id="dropdown">
-      <div class="dropdown-section">
-        <div class="dropdown-label">연관 검색</div>
+<!-- 드롭다운은 body 직속 — fixed 포지션 -->
+<div class="dropdown" id="dropdown">
+  <div class="dropdown-section">
+    <div class="dropdown-label">연관 검색</div>
 
-        <div class="dropdown-item" onclick="goPortfolio()">
-          <div class="dropdown-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3"/></svg>
-          </div>
-          <div class="dropdown-item-text">
-            <div class="dropdown-item-main">MD Simulation</div>
-            <div class="dropdown-item-sub">GROMACS · AMBER · SLURM HPC</div>
-          </div>
-          <span class="dropdown-item-tag">MD</span>
-        </div>
-
-        <div class="dropdown-item" onclick="goPortfolio()">
-          <div class="dropdown-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          </div>
-          <div class="dropdown-item-text">
-            <div class="dropdown-item-main">QSAR · ADMET Prediction</div>
-            <div class="dropdown-item-sub">RDKit · Mordred · XGBoost · PyTorch</div>
-          </div>
-          <span class="dropdown-item-tag">ML</span>
-        </div>
-
-        <div class="dropdown-item" onclick="goPortfolio()">
-          <div class="dropdown-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-          </div>
-          <div class="dropdown-item-text">
-            <div class="dropdown-item-main">Molecular Docking</div>
-            <div class="dropdown-item-sub">smina · GNINA · Virtual Screening</div>
-          </div>
-          <span class="dropdown-item-tag">Docking</span>
-        </div>
-
-        <div class="dropdown-item" onclick="goPortfolio()">
-          <div class="dropdown-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          </div>
-          <div class="dropdown-item-text">
-            <div class="dropdown-item-main">Generative Molecular Design</div>
-            <div class="dropdown-item-sub">REINVENT4 · LibINVENT · AiZynthFinder</div>
-          </div>
-          <span class="dropdown-item-tag">GenAI</span>
-        </div>
-
-        <div class="dropdown-divider"></div>
-
-        <div class="dropdown-item" onclick="goPortfolio()">
-          <div class="dropdown-icon" style="background:#5ba4f5;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-          </div>
-          <div class="dropdown-item-text">
-            <div class="dropdown-item-main" style="color:#5ba4f5;font-weight:500;">포트폴리오 바로가기</div>
-            <div class="dropdown-item-sub">winningyear.github.io/deltag</div>
-          </div>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5ba4f5" stroke-width="2" style="flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
-
+    <div class="dropdown-item" onclick="goPortfolio()">
+      <div class="dropdown-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3"/></svg>
       </div>
+      <div class="dropdown-item-text">
+        <div class="dropdown-item-main">MD Simulation</div>
+        <div class="dropdown-item-sub">GROMACS · AMBER · SLURM HPC</div>
+      </div>
+      <span class="dropdown-item-tag">MD</span>
+    </div>
+
+    <div class="dropdown-item" onclick="goPortfolio()">
+      <div class="dropdown-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="dropdown-item-text">
+        <div class="dropdown-item-main">QSAR · ADMET Prediction</div>
+        <div class="dropdown-item-sub">RDKit · Mordred · XGBoost · PyTorch</div>
+      </div>
+      <span class="dropdown-item-tag">ML</span>
+    </div>
+
+    <div class="dropdown-item" onclick="goPortfolio()">
+      <div class="dropdown-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      </div>
+      <div class="dropdown-item-text">
+        <div class="dropdown-item-main">Molecular Docking</div>
+        <div class="dropdown-item-sub">smina · GNINA · Virtual Screening</div>
+      </div>
+      <span class="dropdown-item-tag">Docking</span>
+    </div>
+
+    <div class="dropdown-item" onclick="goPortfolio()">
+      <div class="dropdown-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="dropdown-item-text">
+        <div class="dropdown-item-main">Generative Molecular Design</div>
+        <div class="dropdown-item-sub">REINVENT4 · LibINVENT · AiZynthFinder</div>
+      </div>
+      <span class="dropdown-item-tag">GenAI</span>
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <div class="dropdown-item" onclick="goPortfolio()">
+      <div class="dropdown-icon" style="background:#5ba4f5;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      </div>
+      <div class="dropdown-item-text">
+        <div class="dropdown-item-main" style="color:#5ba4f5;font-weight:500;">포트폴리오 바로가기</div>
+        <div class="dropdown-item-sub">winningyear.github.io/deltag</div>
+      </div>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5ba4f5" stroke-width="2" style="flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
     </div>
   </div>
 </div>
@@ -334,16 +306,24 @@
 
   const NAME_KEYWORDS = [
     '유승연', '승연', 'seongyeon', 'yu seongyeon', 'seongyeon yu',
-    'seonyeon', 'yu seonyeon', 'yoo seungyeon', 'seungyeon',
-    'yu', 'yoo', '유'
+    'seonyeon', 'yu seonyeon', 'yoo seungyeon', 'seungyeon', 'yu', 'yoo', '유'
   ];
 
   function isNameQuery(q) {
-    const s = q.trim().toLowerCase().replace(/\s+/g, ' ');
-    return NAME_KEYWORDS.some(kw => s.includes(kw));
+    return NAME_KEYWORDS.some(kw => q.trim().toLowerCase().replace(/\s+/g,' ').includes(kw));
+  }
+
+  function positionDropdown() {
+    const box = document.getElementById('searchBox');
+    const rect = box.getBoundingClientRect();
+    const dd = document.getElementById('dropdown');
+    dd.style.left = rect.left + 'px';
+    dd.style.top = rect.bottom + 'px';
+    dd.style.width = rect.width + 'px';
   }
 
   function openDropdown() {
+    positionDropdown();
     document.getElementById('dropdown').classList.add('open');
     document.getElementById('searchBox').classList.add('dropdown-open');
   }
@@ -354,21 +334,15 @@
   }
 
   function handleInput() {
-    if (isNameQuery(document.getElementById('searchInput').value)) {
-      openDropdown();
-    } else {
-      closeDropdown();
-    }
+    if (isNameQuery(document.getElementById('searchInput').value)) openDropdown();
+    else closeDropdown();
   }
 
-  function goPortfolio() {
-    window.location.href = PORTFOLIO_URL;
-  }
+  function goPortfolio() { window.location.href = PORTFOLIO_URL; }
 
   function doSearch() {
     const val = document.getElementById('searchInput').value;
-    if (!val.trim()) return;
-    if (isNameQuery(val)) goPortfolio();
+    if (val.trim() && isNameQuery(val)) goPortfolio();
   }
 
   function handleKey(e) {
@@ -376,10 +350,14 @@
     if (e.key === 'Escape') closeDropdown();
   }
 
+  window.addEventListener('resize', () => {
+    if (document.getElementById('dropdown').classList.contains('open')) positionDropdown();
+  });
+
   document.addEventListener('click', e => {
-    if (!document.querySelector('.search-wrapper').contains(e.target)) {
-      closeDropdown();
-    }
+    const wrapper = document.getElementById('searchWrapper');
+    const dd = document.getElementById('dropdown');
+    if (!wrapper.contains(e.target) && !dd.contains(e.target)) closeDropdown();
   });
 </script>
 
