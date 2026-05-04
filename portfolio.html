@@ -118,6 +118,7 @@
     justify-content: center;
   }
   .modal-overlay.open { display: flex; }
+  .modal-overlay *, .modal-card * { cursor: auto; }
 
   .modal-card {
     background: #fff;
@@ -973,12 +974,16 @@
       document.getElementById('urlHint').textContent = '저장된 URL: ' + saved;
     }
     document.getElementById('monitorModal').classList.add('open');
+    document.body.style.cursor = 'auto';
+    document.getElementById('cursor').style.display = 'none';
     setTimeout(() => document.getElementById('modalId').focus(), 100);
   }
 
   function closeMonitorModal() {
     document.getElementById('monitorModal').classList.remove('open');
     document.getElementById('modalError').textContent = '';
+    document.body.style.cursor = 'none';
+    document.getElementById('cursor').style.display = 'block';
   }
 
   function saveUrl() {
