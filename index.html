@@ -46,6 +46,7 @@
     animation: fadeIn 0.5s ease 0.6s forwards;
     width: 100%;
     padding: 0 24px;
+    transition: margin-top 0.3s cubic-bezier(0.4,0,0.2,1);
   }
 
   @keyframes fadeIn { to { opacity: 1; } }
@@ -74,36 +75,24 @@
     z-index: 2;
   }
 
-  .search-box.dropdown-open {
-    border-radius: 20px 20px 0 0;
-  }
-
+  .search-box.dropdown-open { border-radius: 20px 20px 0 0; }
   .search-box:hover { box-shadow: 0 4px 20px rgba(91,164,245,0.22); }
   .search-box:focus-within { box-shadow: 0 4px 24px rgba(91,164,245,0.3); }
   .search-box.dropdown-open:hover,
   .search-box.dropdown-open:focus-within { box-shadow: none; }
 
   .search-input {
-    flex: 1;
-    border: none;
-    outline: none;
+    flex: 1; border: none; outline: none;
     font-size: 16px;
     font-family: 'Noto Sans KR', sans-serif;
-    color: #222;
-    background: transparent;
+    color: #222; background: transparent;
     letter-spacing: -0.3px;
     caret-color: #5ba4f5;
     min-width: 0;
   }
-
   .search-input::placeholder { color: #aaa; font-weight: 300; }
 
-  .search-right {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    flex-shrink: 0;
-  }
+  .search-right { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
 
   .icon-btn {
     display: flex; align-items: center; justify-content: center;
@@ -126,7 +115,6 @@
   .search-btn:hover { background: #eef5fe; transform: scale(1.1) rotate(8deg); }
   .search-btn:active { transform: scale(0.95); }
 
-  /* 드롭다운 — fixed로 body overflow 완전 탈출 */
   .dropdown {
     position: fixed;
     background: #fff;
@@ -140,37 +128,28 @@
     transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease;
     box-shadow: 0 12px 28px rgba(91,164,245,0.13);
   }
-
-  .dropdown.open {
-    max-height: 400px;
-    opacity: 1;
-  }
+  .dropdown.open { max-height: 400px; opacity: 1; }
 
   .dropdown-section { padding: 8px 0 10px; }
 
   .dropdown-label {
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #b0c8f0;
+    font-size: 10px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #b0c8f0;
     padding: 0 20px 6px;
   }
 
   .dropdown-item {
     display: flex; align-items: center; gap: 12px;
-    padding: 10px 20px;
-    cursor: pointer;
+    padding: 10px 20px; cursor: pointer;
     transition: background 0.15s;
   }
   .dropdown-item:hover { background: #eef5fe; }
 
   .dropdown-icon {
-    width: 28px; height: 28px;
-    border-radius: 8px;
+    width: 28px; height: 28px; border-radius: 8px;
     background: #eef5fe;
     display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    color: #5ba4f5;
+    flex-shrink: 0; color: #5ba4f5;
   }
 
   .dropdown-item-text { flex: 1; min-width: 0; }
@@ -178,11 +157,9 @@
   .dropdown-item-sub { font-size: 11px; color: #999; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   .dropdown-item-tag {
-    font-size: 10px; padding: 2px 8px;
-    border-radius: 10px;
+    font-size: 10px; padding: 2px 8px; border-radius: 10px;
     background: #eef5fe; color: #5ba4f5;
-    border: 1px solid #b8d8fb;
-    flex-shrink: 0;
+    border: 1px solid #b8d8fb; flex-shrink: 0;
   }
 
   .dropdown-divider { height: 1px; background: #f0f5ff; margin: 4px 0; }
@@ -194,8 +171,7 @@
       linear-gradient(rgba(91,164,245,0.04) 1px, transparent 1px),
       linear-gradient(90deg, rgba(91,164,245,0.04) 1px, transparent 1px);
     background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 1;
+    pointer-events: none; z-index: 1;
   }
 </style>
 </head>
@@ -203,7 +179,7 @@
 
 <div class="ripple-origin"></div>
 
-<div class="container">
+<div class="container" id="container">
   <div class="search-wrapper" id="searchWrapper">
     <div class="search-box" id="searchBox">
       <input class="search-input" id="searchInput" type="text" placeholder="유승연을 입력하세요" autocomplete="off"
@@ -237,7 +213,6 @@
   </div>
 </div>
 
-<!-- 드롭다운은 body 직속 — fixed 포지션 -->
 <div class="dropdown" id="dropdown">
   <div class="dropdown-section">
     <div class="dropdown-label">연관 검색</div>
@@ -303,32 +278,65 @@
 
 <script>
   const PORTFOLIO_URL = 'https://winningyear.github.io/deltag/portfolio.html';
-
   const NAME_KEYWORDS = [
-    '유승연', '승연', 'seongyeon', 'yu seongyeon', 'seongyeon yu',
-    'seonyeon', 'yu seonyeon', 'yoo seungyeon', 'seungyeon', 'yu', 'yoo', '유'
+    '유승연','승연','seongyeon','yu seongyeon','seongyeon yu',
+    'seonyeon','yu seonyeon','yoo seungyeon','seungyeon','yu','yoo','유'
   ];
 
   function isNameQuery(q) {
     return NAME_KEYWORDS.some(kw => q.trim().toLowerCase().replace(/\s+/g,' ').includes(kw));
   }
 
-  function positionDropdown() {
-    const box = document.getElementById('searchBox');
-    const rect = box.getBoundingClientRect();
+  // 드롭다운 실제 높이 측정 (hidden 상태에서)
+  function getDropdownHeight() {
     const dd = document.getElementById('dropdown');
-    dd.style.left = rect.left + 'px';
-    dd.style.top = rect.bottom + 'px';
-    dd.style.width = rect.width + 'px';
+    dd.style.visibility = 'hidden';
+    dd.style.maxHeight = '400px';
+    dd.style.opacity = '1';
+    const h = dd.scrollHeight;
+    dd.style.visibility = '';
+    dd.style.maxHeight = '';
+    dd.style.opacity = '';
+    return h;
+  }
+
+  function positionAll() {
+    const BOX_H = 52;
+    const ddH = getDropdownHeight();
+    const totalH = BOX_H + ddH;
+    const vh = window.innerHeight;
+
+    // 전체 묶음의 top이 화면 중앙에 오려면
+    const targetTop = (vh - totalH) / 2;
+
+    // container margin-top 조정
+    const container = document.getElementById('container');
+    const wrapper = document.getElementById('searchWrapper');
+    container.style.marginTop = '0px'; // 리셋 후 측정
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const currentTop = wrapperRect.top;
+    const diff = targetTop - currentTop;
+    container.style.marginTop = diff + 'px';
+
+    // 드롭다운 fixed 위치
+    requestAnimationFrame(() => {
+      const rect = document.getElementById('searchBox').getBoundingClientRect();
+      const dd = document.getElementById('dropdown');
+      dd.style.left = rect.left + 'px';
+      dd.style.top  = rect.bottom + 'px';
+      dd.style.width = rect.width + 'px';
+    });
   }
 
   function openDropdown() {
-    positionDropdown();
+    positionAll();
     document.getElementById('dropdown').classList.add('open');
     document.getElementById('searchBox').classList.add('dropdown-open');
   }
 
   function closeDropdown() {
+    // 검색창을 다시 정중앙으로
+    document.getElementById('container').style.marginTop = '0px';
     document.getElementById('dropdown').classList.remove('open');
     document.getElementById('searchBox').classList.remove('dropdown-open');
   }
@@ -351,7 +359,7 @@
   }
 
   window.addEventListener('resize', () => {
-    if (document.getElementById('dropdown').classList.contains('open')) positionDropdown();
+    if (document.getElementById('dropdown').classList.contains('open')) positionAll();
   });
 
   document.addEventListener('click', e => {
