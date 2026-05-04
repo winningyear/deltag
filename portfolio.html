@@ -84,6 +84,144 @@
   }
   .nav-links a:hover { color: var(--blue); }
 
+  .monitor-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: var(--blue);
+    background: var(--blue-light);
+    border: 1.5px solid var(--blue-mid);
+    border-radius: 20px;
+    cursor: none;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    letter-spacing: 0.2px;
+  }
+  .monitor-btn:hover {
+    background: #daeeff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(91,164,245,0.2);
+  }
+
+  /* 모달 */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 36px;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .modal-header h3 {
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.3px;
+  }
+  .modal-close {
+    background: none;
+    border: none;
+    cursor: none;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .modal-close:hover { background: #f5f5f5; }
+
+  .modal-desc { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+
+  .modal-form-group { margin-bottom: 14px; }
+  .modal-form-group label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .modal-form-group input {
+    width: 100%;
+    height: 40px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0 12px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .modal-form-group input:focus { border-color: var(--blue); }
+
+  .url-row { display: flex; gap: 8px; }
+  .url-row input { flex: 1; }
+  .url-save-btn {
+    height: 40px;
+    padding: 0 14px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    background: var(--blue-light);
+    color: var(--blue);
+    border: 1.5px solid var(--blue-mid);
+    border-radius: 8px;
+    cursor: none;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .url-save-btn:hover { background: #daeeff; }
+
+  .url-hint { font-size: 11px; color: var(--blue); margin-top: 4px; display: block; }
+
+  .modal-submit {
+    width: 100%;
+    height: 42px;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: none;
+    margin-top: 8px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .modal-submit:hover { background: #3d8ef0; transform: translateY(-1px); }
+
+  .modal-error {
+    font-size: 12px;
+    color: #ef4444;
+    margin-top: 10px;
+    text-align: center;
+    min-height: 18px;
+  }
+
   /* sections */
   section {
     padding: 120px 60px;
@@ -509,7 +647,44 @@
     <li><a href="#projects">Projects</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="monitor-btn" onclick="openMonitorModal()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    System Monitor
+  </button>
 </nav>
+
+<!-- 모니터 로그인 모달 -->
+<div class="modal-overlay" id="monitorModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>System Monitor</h3>
+      <button class="modal-close" onclick="closeMonitorModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <p class="modal-desc">로컬 서버에 연결합니다.</p>
+
+    <div id="urlGroup" class="modal-form-group">
+      <label>ngrok URL</label>
+      <div class="url-row">
+        <input type="text" id="modalUrl" placeholder="https://xxxx.ngrok-free.app" />
+        <button class="url-save-btn" onclick="saveUrl()">저장</button>
+      </div>
+      <span class="url-hint" id="urlHint"></span>
+    </div>
+
+    <div class="modal-form-group">
+      <label>ID</label>
+      <input type="text" id="modalId" placeholder="seong" />
+    </div>
+    <div class="modal-form-group">
+      <label>Password</label>
+      <input type="password" id="modalPw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doMonitorLogin()" />
+    </div>
+    <button class="modal-submit" onclick="doMonitorLogin()">연결</button>
+    <div class="modal-error" id="modalError"></div>
+  </div>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -789,6 +964,68 @@
     });
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
+
+  // ── System Monitor ──
+  function openMonitorModal() {
+    const saved = localStorage.getItem('ngrok_url');
+    if (saved) {
+      document.getElementById('modalUrl').value = saved;
+      document.getElementById('urlHint').textContent = '저장된 URL: ' + saved;
+    }
+    document.getElementById('monitorModal').classList.add('open');
+    setTimeout(() => document.getElementById('modalId').focus(), 100);
+  }
+
+  function closeMonitorModal() {
+    document.getElementById('monitorModal').classList.remove('open');
+    document.getElementById('modalError').textContent = '';
+  }
+
+  function saveUrl() {
+    const url = document.getElementById('modalUrl').value.trim().replace(/\/$/, '');
+    if (!url) return;
+    localStorage.setItem('ngrok_url', url);
+    document.getElementById('urlHint').textContent = '저장됨: ' + url;
+  }
+
+  function doMonitorLogin() {
+    const url = document.getElementById('modalUrl').value.trim().replace(/\/$/, '')
+                || localStorage.getItem('ngrok_url') || '';
+    const id  = document.getElementById('modalId').value.trim();
+    const pw  = document.getElementById('modalPw').value;
+
+    if (!url) { document.getElementById('modalError').textContent = 'ngrok URL을 입력하세요.'; return; }
+    if (!id || !pw) { document.getElementById('modalError').textContent = 'ID와 비밀번호를 입력하세요.'; return; }
+
+    localStorage.setItem('ngrok_url', url);
+    document.getElementById('modalError').textContent = '연결 중...';
+
+    fetch(url + '/api/ping/', {
+      headers: {
+        'Authorization': 'Basic ' + btoa(id + ':' + pw),
+        'ngrok-skip-browser-warning': '1',
+      }
+    })
+    .then(r => {
+      if (r.status === 401) throw new Error('ID 또는 비밀번호가 틀렸습니다.');
+      if (!r.ok) throw new Error('서버 오류');
+      return r.json();
+    })
+    .then(() => {
+      // 대시보드로 이동 (인증 정보 URL에 담아서 전달)
+      const encoded = btoa(id + ':' + pw);
+      window.open(url + '/api/dashboard/?auth=' + encodeURIComponent(encoded), '_blank');
+      closeMonitorModal();
+    })
+    .catch(e => {
+      document.getElementById('modalError').textContent = e.message;
+    });
+  }
+
+  // 모달 배경 클릭 시 닫기
+  document.getElementById('monitorModal').addEventListener('click', function(e) {
+    if (e.target === this) closeMonitorModal();
+  });
 </script>
 
 </body>
