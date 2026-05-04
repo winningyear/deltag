@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seongyeon Yu — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #5ba4f5;
+    --blue-light: #eef5fe;
+    --blue-mid: #b8d8fb;
+    --text: #1a1a1a;
+    --muted: #888;
+    --border: #e8e8e8;
+    --bg: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    cursor: none;
+  }
+
+  /* custom cursor */
+  .cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--blue);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, background 0.2s;
+  }
+  .cursor.expand {
+    width: 32px; height: 32px;
+    background: rgba(91,164,245,0.15);
+  }
+
+  /* nav */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 60px;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+  nav.scrolled { border-color: var(--border); }
+
+  .nav-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    letter-spacing: -0.3px;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--blue); }
+
+  /* sections */
+  section {
+    padding: 120px 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 160px;
+    padding-bottom: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-tag {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(52px, 7vw, 88px);
+    line-height: 1.05;
+    letter-spacing: -2px;
+    color: var(--text);
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.35s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--blue);
+  }
+
+  .hero-sub {
+    margin-top: 32px;
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.5s forwards;
+  }
+
+  .hero-cta {
+    margin-top: 52px;
+    display: flex;
+    gap: 16px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.65s forwards;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    border-radius: 40px;
+    text-decoration: none;
+    transition: all 0.22s ease;
+    cursor: none;
+  }
+
+  .btn-primary {
+    background: var(--blue);
+    color: #fff;
+    border: 1.5px solid var(--blue);
+  }
+  .btn-primary:hover {
+    background: #3d8ef0;
+    border-color: #3d8ef0;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(91,164,245,0.3);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1.5px solid var(--border);
+  }
+  .btn-outline:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+    transform: translateY(-2px);
+  }
+
+  /* decorative circles */
+  .deco {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .deco-1 {
+    width: 480px; height: 480px;
+    right: -80px; top: 50%;
+    transform: translateY(-50%);
+    border: 1px solid var(--blue-mid);
+    opacity: 0.4;
+    animation: rotate 30s linear infinite;
+  }
+  .deco-2 {
+    width: 320px; height: 320px;
+    right: 60px; top: 50%;
+    transform: translateY(-50%);
+    border: 1px solid var(--blue);
+    opacity: 0.15;
+    animation: rotate 20s linear infinite reverse;
+  }
+  .deco-dot {
+    width: 6px; height: 6px;
+    background: var(--blue);
+    right: 220px; top: calc(50% - 160px);
+    opacity: 0.6;
+  }
+
+  @keyframes rotate {
+    to { transform: translateY(-50%) rotate(360deg); }
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 40px;
+    background: var(--blue-mid);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-text h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    line-height: 1.25;
+    letter-spacing: -1px;
+    margin-bottom: 24px;
+  }
+
+  .about-text p {
+    color: #555;
+    font-size: 15px;
+    line-height: 1.85;
+    margin-bottom: 16px;
+  }
+
+  .about-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 8px;
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .info-row:first-child { border-top: 1px solid var(--border); }
+  .info-label { color: var(--muted); font-size: 12px; letter-spacing: 0.5px; }
+  .info-value { font-weight: 500; }
+
+  /* ── SKILLS ── */
+  #skills { border-top: 1px solid var(--border); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 8px;
+  }
+
+  .skill-card {
+    background: #fafafa;
+    padding: 32px 28px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .skill-card:hover {
+    background: var(--blue-light);
+    transform: translateY(-3px);
+  }
+
+  .skill-card-icon {
+    width: 36px; height: 36px;
+    background: var(--blue-light);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .skill-card-icon svg { color: var(--blue); }
+
+  .skill-card h3 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    letter-spacing: -0.2px;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid var(--border);
+    color: #666;
+    letter-spacing: 0.2px;
+  }
+  .skill-card:hover .tag {
+    border-color: var(--blue-mid);
+    color: var(--blue);
+  }
+
+  /* ── PROJECTS ── */
+  #projects { border-top: 1px solid var(--border); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-top: 8px;
+  }
+
+  .project-card {
+    background: #fafafa;
+    padding: 40px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.25s;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 3px;
+    width: 0;
+    background: var(--blue);
+    transition: width 0.35s ease;
+  }
+  .project-card:hover::before { width: 100%; }
+  .project-card:hover { background: var(--blue-light); }
+
+  .project-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  .project-year {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  .project-badge {
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #f0f0f0;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .project-badge.conf {
+    background: var(--blue-light);
+    color: var(--blue);
+  }
+
+  .project-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+
+  .project-card p {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.75;
+    flex: 1;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 24px;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  #contact h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    letter-spacing: -2px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  #contact h2 em { color: var(--blue); font-style: italic; }
+
+  #contact p {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 44px;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #f5f5f5; }
+  ::-webkit-scrollbar-thumb { background: var(--blue-mid); border-radius: 2px; }
+
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    section { padding: 80px 24px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    footer { padding: 24px; flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-name">Seongyeon Yu</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="deco deco-1"></div>
+  <div class="deco deco-2"></div>
+  <div class="deco deco-dot"></div>
+
+  <p class="hero-tag">Computational Drug Discovery</p>
+  <h1 class="hero-title">Seongyeon<br><em>Yu</em></h1>
+  <p class="hero-sub">
+    CADD Researcher at Molcube — bridging molecular simulation,
+    generative AI, and cheminformatics to accelerate drug discovery.
+  </p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="#contact" class="btn btn-outline">Get in Touch</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label reveal">About</div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <h2>Researcher &amp;<br>Engineer</h2>
+      <p>
+        I work at the intersection of computational chemistry and machine learning,
+        building pipelines that span the full CADD stack — from
+        generative molecular design to ADMET prediction, molecular docking,
+        and MD simulation.
+      </p>
+      <p>
+        At Molcube, I design and implement production-grade tools
+        that make computational drug discovery more accessible and reproducible.
+      </p>
+    </div>
+    <div class="about-info reveal">
+      <div class="info-row">
+        <span class="info-label">Role</span>
+        <span class="info-value">CADD Researcher</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Company</span>
+        <span class="info-value">Molcube (몰큐브)</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Location</span>
+        <span class="info-value">Seoul, Korea</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Focus</span>
+        <span class="info-value">Drug Discovery · ML · Simulation</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Languages</span>
+        <span class="info-value">Python · Bash · Django</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label reveal">Skills</div>
+  <div class="skills-grid">
+
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+      </div>
+      <h3>Molecular Simulation</h3>
+      <p style="font-size:13px;color:#666;line-height:1.7;">MD simulations, free energy calculations, and post-processing pipelines on HPC clusters.</p>
+      <div class="skill-tags">
+        <span class="tag">GROMACS</span>
+        <span class="tag">AMBER</span>
+        <span class="tag">SLURM</span>
+        <span class="tag">FEP</span>
+      </div>
+    </div>
+
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+      </div>
+      <h3>Cheminformatics &amp; ML</h3>
+      <p style="font-size:13px;color:#666;line-height:1.7;">QSAR modeling, descriptor calculation, and deep learning for molecular property prediction.</p>
+      <div class="skill-tags">
+        <span class="tag">RDKit</span>
+        <span class="tag">Mordred</span>
+        <span class="tag">XGBoost</span>
+        <span class="tag">PyTorch</span>
+      </div>
+    </div>
+
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h3>Generative Design</h3>
+      <p style="font-size:13px;color:#666;line-height:1.7;">Scaffold-based molecular generation and multi-objective optimization with ADMET filtering.</p>
+      <div class="skill-tags">
+        <span class="tag">REINVENT4</span>
+        <span class="tag">ADMET-AI</span>
+        <span class="tag">AiZynthFinder</span>
+      </div>
+    </div>
+
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      </div>
+      <h3>Molecular Docking</h3>
+      <p style="font-size:13px;color:#666;line-height:1.7;">Structure-based virtual screening, binding pose analysis, and interaction profiling.</p>
+      <div class="skill-tags">
+        <span class="tag">smina</span>
+        <span class="tag">GNINA</span>
+        <span class="tag">PLIP</span>
+      </div>
+    </div>
+
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      </div>
+      <h3>Platform Engineering</h3>
+      <p style="font-size:13px;color:#666;line-height:1.7;">Full-stack CADD web platform development integrating computational tools end-to-end.</p>
+      <div class="skill-tags">
+        <span class="tag">Django</span>
+        <span class="tag">Python</span>
+        <span class="tag">REST API</span>
+      </div>
+    </div>
+
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      </div>
+      <h3>Research</h3>
+      <p style="font-size:13px;color:#666;line-height:1.7;">Academic poster and paper preparation, SAR analysis, and retrospective validation of computational workflows.</p>
+      <div class="skill-tags">
+        <span class="tag">ADMET</span>
+        <span class="tag">SAR</span>
+        <span class="tag">PK Modeling</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label reveal">Projects</div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div>
+        <div class="project-meta">
+          <span class="project-year">2024 – 2025</span>
+          <span class="project-badge conf">Confidential</span>
+        </div>
+        <h3>fg_optimizer Pipeline</h3>
+        <p>Integrated generative molecular design workflow combining scaffold-fixed R-group generation, multi-parameter ADMET filtering, and retrosynthetic accessibility scoring. Validated retrospectively against published SAR data.</p>
+      </div>
+      <div class="project-stack">
+        <span class="tag">REINVENT4</span>
+        <span class="tag">ADMET-AI</span>
+        <span class="tag">AiZynthFinder</span>
+        <span class="tag">Python</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div>
+        <div class="project-meta">
+          <span class="project-year">2024 – 2025</span>
+          <span class="project-badge conf">Confidential</span>
+        </div>
+        <h3>MolCube CADD Platform</h3>
+        <p>Production Django-based web platform integrating docking, QSAR modeling, scaffold hopping, ADMET prediction, MD simulation management, and cheminformatics tooling into a unified interface.</p>
+      </div>
+      <div class="project-stack">
+        <span class="tag">Django</span>
+        <span class="tag">RDKit</span>
+        <span class="tag">GROMACS</span>
+        <span class="tag">smina</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div>
+        <div class="project-meta">
+          <span class="project-year">2025</span>
+          <span class="project-badge conf">Confidential</span>
+        </div>
+        <h3>QSAR Modeling Module</h3>
+        <p>End-to-end QSAR pipeline: ChEMBL curation, multi-descriptor calculation, feature selection, and multi-model training with automated hyperparameter optimization via Optuna TPE.</p>
+      </div>
+      <div class="project-stack">
+        <span class="tag">Mordred</span>
+        <span class="tag">ChemBERTa</span>
+        <span class="tag">XGBoost</span>
+        <span class="tag">Optuna</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div>
+        <div class="project-meta">
+          <span class="project-year">2025</span>
+          <span class="project-badge conf">Confidential</span>
+        </div>
+        <h3>MD Simulation Pipeline</h3>
+        <p>Automated GROMACS MD setup and post-processing pipeline for protein–ligand complexes. Includes RMSD/RMSF analysis, SLURM array job management, and cross-system comparison tooling on HPC clusters.</p>
+      </div>
+      <div class="project-stack">
+        <span class="tag">GROMACS</span>
+        <span class="tag">SLURM</span>
+        <span class="tag">Python</span>
+        <span class="tag">HPC</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label reveal" style="justify-content:center;">Contact</div>
+  <h2 class="reveal">Let's <em>connect</em></h2>
+  <p class="reveal">Open to collaborations, research discussions, and new opportunities.</p>
+  <div class="contact-links reveal">
+    <a href="mailto:winningyear@gmail.com" class="btn btn-primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Email
+    </a>
+    <a href="https://github.com/winningyear" target="_blank" class="btn btn-outline">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      GitHub
+    </a>
+    <a href="https://www.linkedin.com/in/seongyeon-yu" target="_blank" class="btn btn-outline">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Seongyeon Yu</span>
+  <span>CADD Researcher · Seoul, Korea</span>
+</footer>
+
+<script>
+  // cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .project-card, .skill-card').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+  });
+
+  // nav scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
