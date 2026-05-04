@@ -48,9 +48,7 @@
     animation: fadeIn 0.5s ease 0.6s forwards;
   }
 
-  @keyframes fadeIn {
-    to { opacity: 1; }
-  }
+  @keyframes fadeIn { to { opacity: 1; } }
 
   .search-wrapper {
     position: relative;
@@ -60,9 +58,7 @@
     animation: stretchIn 0.7s cubic-bezier(0.34, 1.3, 0.64, 1) 0.55s forwards;
   }
 
-  @keyframes stretchIn {
-    to { transform: scaleX(1); }
-  }
+  @keyframes stretchIn { to { transform: scaleX(1); } }
 
   .search-box {
     display: flex;
@@ -73,16 +69,22 @@
     border-radius: 26px;
     padding: 0 16px 0 22px;
     background: #fff;
-    transition: box-shadow 0.25s ease, border-color 0.25s ease;
-    overflow: hidden;
+    transition: box-shadow 0.25s ease, border-radius 0.2s ease;
+    overflow: visible;
+    position: relative;
+    z-index: 2;
   }
 
-  .search-box:hover {
-    box-shadow: 0 4px 20px rgba(91, 164, 245, 0.22);
+  .search-box.dropdown-open {
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 4px 24px rgba(91, 164, 245, 0.18);
   }
 
-  .search-box:focus-within {
-    box-shadow: 0 4px 24px rgba(91, 164, 245, 0.3);
+  .search-box:hover { box-shadow: 0 4px 20px rgba(91, 164, 245, 0.22); }
+  .search-box:focus-within { box-shadow: 0 4px 24px rgba(91, 164, 245, 0.3); }
+  .search-box.dropdown-open:hover,
+  .search-box.dropdown-open:focus-within {
+    box-shadow: 0 4px 24px rgba(91, 164, 245, 0.18);
   }
 
   .search-input {
@@ -95,17 +97,16 @@
     background: transparent;
     letter-spacing: -0.3px;
     caret-color: #5ba4f5;
+    min-width: 0;
   }
 
-  .search-input::placeholder {
-    color: #aaa;
-    font-weight: 300;
-  }
+  .search-input::placeholder { color: #aaa; font-weight: 300; }
 
   .search-right {
     display: flex;
     align-items: center;
     gap: 2px;
+    flex-shrink: 0;
   }
 
   .icon-btn {
@@ -122,18 +123,9 @@
     transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
   }
 
-  .icon-btn:hover {
-    background: #eef5fe;
-    color: #5ba4f5;
-    transform: scale(1.08);
-  }
+  .icon-btn:hover { background: #eef5fe; color: #5ba4f5; transform: scale(1.08); }
 
-  .divider {
-    width: 1px;
-    height: 20px;
-    background: #ddd;
-    margin: 0 4px;
-  }
+  .divider { width: 1px; height: 20px; background: #ddd; margin: 0 4px; }
 
   .search-btn {
     display: flex;
@@ -149,13 +141,90 @@
     transition: background 0.2s ease, transform 0.15s ease;
   }
 
-  .search-btn:hover {
-    background: #eef5fe;
-    transform: scale(1.1) rotate(8deg);
+  .search-btn:hover { background: #eef5fe; transform: scale(1.1) rotate(8deg); }
+  .search-btn:active { transform: scale(0.95); }
+
+  /* ── 드롭다운 ── */
+  .dropdown {
+    position: absolute;
+    top: calc(100% - 2px);
+    left: -2px;
+    right: -2px;
+    background: #fff;
+    border: 2px solid #5ba4f5;
+    border-top: 1px solid #ddeeff;
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+    z-index: 1;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.28s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease;
+    box-shadow: 0 12px 28px rgba(91,164,245,0.13);
   }
 
-  .search-btn:active {
-    transform: scale(0.95);
+  .dropdown.open {
+    max-height: 320px;
+    opacity: 1;
+  }
+
+  .dropdown-section {
+    padding: 10px 0 6px;
+  }
+
+  .dropdown-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #b0c8f0;
+    padding: 0 22px;
+    margin-bottom: 4px;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 22px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .dropdown-item:hover { background: #eef5fe; }
+
+  .dropdown-item.active { background: #eef5fe; }
+
+  .dropdown-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: #eef5fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #5ba4f5;
+  }
+
+  .dropdown-item-text { flex: 1; }
+  .dropdown-item-main { font-size: 14px; color: #222; font-weight: 400; }
+  .dropdown-item-sub { font-size: 11px; color: #999; margin-top: 1px; }
+
+  .dropdown-item-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #eef5fe;
+    color: #5ba4f5;
+    border: 1px solid #b8d8fb;
+    flex-shrink: 0;
+  }
+
+  .dropdown-divider {
+    height: 1px;
+    background: #f0f5ff;
+    margin: 4px 0;
   }
 
   body::before {
@@ -177,8 +246,11 @@
 
 <div class="container">
   <div class="search-wrapper">
-    <div class="search-box">
-      <input class="search-input" id="searchInput" type="text" placeholder="유승연을 입력하세요" autocomplete="off" onkeydown="handleKey(event)" />
+    <div class="search-box" id="searchBox">
+      <input class="search-input" id="searchInput" type="text" placeholder="유승연을 입력하세요" autocomplete="off"
+        oninput="handleInput()"
+        onkeydown="handleKey(event)"
+        onfocus="handleInput()" />
       <div class="search-right">
         <button class="icon-btn" title="keyboard">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -203,6 +275,71 @@
         </button>
       </div>
     </div>
+
+    <!-- 드롭다운 -->
+    <div class="dropdown" id="dropdown">
+      <div class="dropdown-section">
+        <div class="dropdown-label">연관 검색</div>
+
+        <div class="dropdown-item" onclick="selectItem('유승연 CADD 연구자')">
+          <div class="dropdown-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div class="dropdown-item-text">
+            <div class="dropdown-item-main">유승연 CADD 연구자</div>
+            <div class="dropdown-item-sub">Molcube · Computational Drug Discovery</div>
+          </div>
+          <span class="dropdown-item-tag">연구자</span>
+        </div>
+
+        <div class="dropdown-item" onclick="selectItem('유승연 분자 시뮬레이션')">
+          <div class="dropdown-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3"/></svg>
+          </div>
+          <div class="dropdown-item-text">
+            <div class="dropdown-item-main">유승연 분자 시뮬레이션</div>
+            <div class="dropdown-item-sub">GROMACS · AMBER · MD Simulation</div>
+          </div>
+          <span class="dropdown-item-tag">MD</span>
+        </div>
+
+        <div class="dropdown-item" onclick="selectItem('유승연 머신러닝 신약개발')">
+          <div class="dropdown-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="dropdown-item-text">
+            <div class="dropdown-item-main">유승연 머신러닝 신약개발</div>
+            <div class="dropdown-item-sub">QSAR · ADMET · Generative AI</div>
+          </div>
+          <span class="dropdown-item-tag">ML</span>
+        </div>
+
+        <div class="dropdown-item" onclick="selectItem('유승연 분자 도킹')">
+          <div class="dropdown-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <div class="dropdown-item-text">
+            <div class="dropdown-item-main">유승연 분자 도킹</div>
+            <div class="dropdown-item-sub">smina · GNINA · Virtual Screening</div>
+          </div>
+          <span class="dropdown-item-tag">Docking</span>
+        </div>
+
+        <div class="dropdown-divider"></div>
+
+        <div class="dropdown-item" onclick="goPortfolio()">
+          <div class="dropdown-icon" style="background:#5ba4f5;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+          <div class="dropdown-item-text">
+            <div class="dropdown-item-main" style="color:#5ba4f5;font-weight:500;">유승연 포트폴리오 바로가기</div>
+            <div class="dropdown-item-sub">winningyear.github.io/deltag</div>
+          </div>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5ba4f5" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+
+      </div>
+    </div>
   </div>
 </div>
 
@@ -215,22 +352,56 @@
     'yu', 'yoo', '유'
   ];
 
-  function isNameQuery(query) {
-    const q = query.trim().toLowerCase().replace(/\s+/g, ' ');
-    return NAME_KEYWORDS.some(kw => q.includes(kw));
+  function isNameQuery(q) {
+    const s = q.trim().toLowerCase().replace(/\s+/g, ' ');
+    return NAME_KEYWORDS.some(kw => s.includes(kw));
+  }
+
+  function openDropdown() {
+    document.getElementById('dropdown').classList.add('open');
+    document.getElementById('searchBox').classList.add('dropdown-open');
+  }
+
+  function closeDropdown() {
+    document.getElementById('dropdown').classList.remove('open');
+    document.getElementById('searchBox').classList.remove('dropdown-open');
+  }
+
+  function handleInput() {
+    const val = document.getElementById('searchInput').value;
+    if (isNameQuery(val)) {
+      openDropdown();
+    } else {
+      closeDropdown();
+    }
+  }
+
+  function selectItem(text) {
+    document.getElementById('searchInput').value = text;
+    closeDropdown();
+    goPortfolio();
+  }
+
+  function goPortfolio() {
+    window.location.href = PORTFOLIO_URL;
   }
 
   function doSearch() {
-    const query = document.getElementById('searchInput').value;
-    if (!query.trim()) return;
-    if (isNameQuery(query)) {
-      window.location.href = PORTFOLIO_URL;
-    }
+    const val = document.getElementById('searchInput').value;
+    if (!val.trim()) return;
+    if (isNameQuery(val)) goPortfolio();
   }
 
   function handleKey(e) {
     if (e.key === 'Enter') doSearch();
+    if (e.key === 'Escape') closeDropdown();
   }
+
+  document.addEventListener('click', e => {
+    if (!document.querySelector('.search-wrapper').contains(e.target)) {
+      closeDropdown();
+    }
+  });
 </script>
 
 </body>
