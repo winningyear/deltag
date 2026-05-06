@@ -35,34 +35,41 @@
     100% { width: 300vmax; height: 300vmax; opacity: 0; }
   }
 
-  .search-wrapper {
+  /* 전체를 하나의 컨테이너로 */
+  .search-container {
     position: relative;
-    width: min(580px, calc(100vw - 48px));
     z-index: 10;
+    width: min(580px, calc(100vw - 48px));
+    border: 2px solid #5ba4f5;
+    border-radius: 26px;
+    background: #fff;
+    overflow: hidden;
     opacity: 0;
+    transform: scaleX(0.2);
     animation: fadeIn 0.5s ease 0.6s forwards,
                stretchIn 0.7s cubic-bezier(0.34, 1.3, 0.64, 1) 0.55s forwards;
-    transform: scaleX(0.2);
+    transition: box-shadow 0.25s ease, border-radius 0.2s ease;
+  }
+
+  .search-container.open {
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(91,164,245,0.18);
+  }
+
+  .search-container:not(.open):hover {
+    box-shadow: 0 4px 20px rgba(91,164,245,0.22);
   }
 
   @keyframes fadeIn { to { opacity: 1; } }
   @keyframes stretchIn { to { transform: scaleX(1); } }
 
-  .search-box {
+  /* 검색창 행 */
+  .search-row {
     display: flex;
     align-items: center;
-    width: 100%;
     height: 52px;
-    border: 2px solid #5ba4f5;
-    border-radius: 24px;
     padding: 0 16px 0 22px;
-    background: #fff;
-    transition: box-shadow 0.25s ease, border-radius 0.2s ease;
   }
-
-  .search-box:hover { box-shadow: 0 4px 20px rgba(91,164,245,0.22); }
-  .search-box:focus-within { box-shadow: 0 4px 24px rgba(91,164,245,0.3); }
-  .search-box.open { border-radius: 24px 24px 0 0; box-shadow: none !important; border-bottom-color: transparent; }
 
   .search-input {
     flex: 1; border: none; outline: none;
@@ -98,22 +105,23 @@
   .search-btn:hover { background: #eef5fe; transform: scale(1.1) rotate(8deg); }
   .search-btn:active { transform: scale(0.95); }
 
-  .dropdown {
-    position: absolute;
-    top: 100%;
-    left: -2px; right: -2px;
-    background: #fff;
-    border: 2px solid #5ba4f5;
-    border-top: none;
-    border-radius: 0 0 20px 20px;
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease;
-    box-shadow: 0 12px 28px rgba(91,164,245,0.13);
-    z-index: 100;
+  /* 구분선 */
+  .search-divider {
+    height: 0;
+    border: none;
+    border-top: 1px solid #ddeeff;
+    margin: 0;
+    display: none;
   }
-  .dropdown.open { max-height: 300px; opacity: 1; }
+  .search-container.open .search-divider { display: block; }
+
+  /* 드롭다운 — 컨테이너 안에 있어서 border 공유 */
+  .dropdown {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  .search-container.open .dropdown { max-height: 300px; }
 
   .dropdown-section { padding: 8px 0 10px; }
 
@@ -162,8 +170,9 @@
 
 <div class="ripple-origin"></div>
 
-<div class="search-wrapper" id="searchWrapper">
-  <div class="search-box" id="searchBox">
+<div class="search-container" id="searchContainer">
+  <!-- 검색창 행 -->
+  <div class="search-row">
     <input class="search-input" id="searchInput" type="text"
       placeholder="유승연을 입력하세요" autocomplete="off"
       oninput="handleInput()"
@@ -194,7 +203,11 @@
     </div>
   </div>
 
-  <div class="dropdown" id="dropdown">
+  <!-- 구분선 -->
+  <hr class="search-divider" />
+
+  <!-- 드롭다운 -->
+  <div class="dropdown">
     <div class="dropdown-section">
       <div class="dropdown-label">연관 검색</div>
 
@@ -247,13 +260,11 @@
   }
 
   function openDropdown() {
-    document.getElementById('dropdown').classList.add('open');
-    document.getElementById('searchBox').classList.add('open');
+    document.getElementById('searchContainer').classList.add('open');
   }
 
   function closeDropdown() {
-    document.getElementById('dropdown').classList.remove('open');
-    document.getElementById('searchBox').classList.remove('open');
+    document.getElementById('searchContainer').classList.remove('open');
   }
 
   function handleInput() {
@@ -274,7 +285,7 @@
   }
 
   document.addEventListener('click', e => {
-    if (!document.getElementById('searchWrapper').contains(e.target)) closeDropdown();
+    if (!document.getElementById('searchContainer').contains(e.target)) closeDropdown();
   });
 </script>
 
